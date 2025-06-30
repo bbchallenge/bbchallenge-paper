@@ -24,15 +24,17 @@
 
 \subsubsection{Algorithm}
 
-The Repeated Word List (RepWL) technique, introduced by mxdys in \CoqBB, is based on the following simple idea: if a word (or \textit{block}) of length $l > 0$ appears consecutively on the tape more than $T > 0$ times (with $l, T \in \mathbb{N}$ fixed) then, we assume it may repeat an unbounded number of times in the future. In practice, it means we represent configurations as regular expressions. For instance, consider the following configuration:
+The Repeated Word List (RepWL) technique, introduced by mxdys in \CoqBB, is based on the following simple idea: if a word (or \textit{block}) of length $l > 0$ appears consecutively on the tape more than $T > 0$ times (with $l, T \in \mathbb{N}$ fixed) then we assume it may repeat an unbounded number of times in the future. In practice, it means we represent configurations as regular expressions.
+
+Consider the following configuration in \textit{directional head notation}, where the head lives in between cells and points either right or left. This framework is equivalent to the Turing machines setup used elsewhere in this work, see Section~\ref{sec:TMs}.
 
 $$ \texttt{0}^\infty \; \texttt{11100 A> 11110101010111111111} \; \texttt{0}^\infty$$
 
-Using $l=2$ and $T = 3$, we represent it as:
+\noindent Using $l=2$ and $T = 3$, we can represent the configuration as
 
 $$ \texttt{0}^\infty \; (\texttt{01}) \; (\texttt{11}) \; (\texttt{00}) \; \texttt{A>} \; (\texttt{11})^2 \; (\texttt{01})^{3+} \; (\texttt{11})^{3+} \; \texttt{0}^\infty $$
 
-Where blocks are constructed from the head outwards, and pumping symbols \szero out of $0^\infty$ if the number of symbols on either part of the tape is not a multiple of $l$. Any repetition of more than $T$ times the same word $w \in \{\szero,\sone\}^l$ is replaced by the regular expression $(w)^{T+}$ meaning that word $w$ is repeated at least $T$ times, hence the only exponents to ever be used in this representation are $\{1,2,\dots,T-1\}$ and $T+$. We call $T$ the block-repeat threshold. Note that here, we use \textit{directional head notation} for Turing machines, where the head lives in between cells and points either right or left. This framework is equivalent to the Turing machines setup used elsewhere in this work, see Section~\ref{sec:TMs}.
+\noindent where blocks are constructed from the head outwards, with symbols \szero drawn from $0^\infty$ if the number of symbols on either side of the head is not a multiple of $l$. Any repetition of more than $T$ times the same word $w \in \{\szero,\sone\}^l$ is replaced by the regular expression $(w)^{T+}$ meaning that word $w$ is repeated at least $T$ times. We call $T$ the block-repeat threshold. 
 
 \paragraph{RepWL graph.} Using the rules explained below (\textit{block simulation} and \textit{regex branching}), {\sc decider-RepWL} (Algorithm~\ref{alg:RepWL}) simulates Turing machines directly on these regex configurations starting from the initial configuration (\ie $\texttt{0}^\infty \; \texttt{A>} \; \texttt{0}^\infty$), as to create a graph of such regex configurations to explore. If this graph is eventually closed (Algorithm~\ref{alg:RepWL}~l.\ref{alg:RepWL:closed}) and contains no halting configuration then we know that the machine will never halt (Theorem~\ref{th:repwl}) since we have constructed a set of configurations bigger than the one it will visit and that does not contain any halting transition. Because there is no guarantee the graph is closed, we also need an additional gas parameter (named $N$ in Algorithm~\ref{alg:RepWL}) indicating how many distinct nodes we're willing to visit at most. Figure~\ref{fig:repWL} gives the RepWL graph of a simple machine.
 
