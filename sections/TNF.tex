@@ -89,15 +89,23 @@
 
         \end{tikzpicture}
     }
-    \caption{First-level children of the Tree Normal Form (TNF) enumeration of 5-state 2-symbol Turing machines: each node is a Turing machine, nonhalting machines are leaves of the tree. Internal nodes are halting machines, \ie machines eventually reaching an undefined transition (highlighted in magenta) and their children correspond to all the ways to define this undefined transition. By symmetry, at the first level of the TNF tree, we can ignore machines taking a left move. The two halting machines at the first-level of the tree have 12 children each corresponding to all the choices in $\{\szero,\sone\}\times\{\text{R},\text{L}\}\times\{\text{\stateA},\text{\stateB},\text{\stateC}\}$ for defining the magenta transition. Note that, in this case, the choice of states is reduced from $\{\text{\stateA},\text{\stateB},\text{\stateC},\text{\stateD},\text{\stateE}\}$ to $\{\text{\stateA},\text{\stateB},\text{\stateC}\}$ in order to prevent constructing machines that are only a permutation of one-another.}\label{fig:TNF}
+    \caption{First-level children of the Tree Normal Form (TNF) enumeration of 5-state 2-symbol Turing machines: each node is a Turing machine, nonhalting machines are leaves of the tree. Internal nodes are halting machines, \ie machines eventually reaching an undefined transition (highlighted in magenta) and their children correspond to all the ways to define this undefined transition.\protect\footnotemark By symmetry, at the first level of the TNF tree, we can ignore machines taking a left move. The two halting machines at the first-level of the tree have 12 children each corresponding to all the choices in $\{\szero,\sone\}\times\{\text{R},\text{L}\}\times\{\text{\stateA},\text{\stateB},\text{\stateC}\}$ for defining the magenta transition. Note that, in this case, the choice of states is reduced from $\{\text{\stateA},\text{\stateB},\text{\stateC},\text{\stateD},\text{\stateE}\}$ to $\{\text{\stateA},\text{\stateB},\text{\stateC}\}$ in order to prevent constructing machines that are only a permutation of one-another.}\label{fig:TNF}
 \end{figure}
-
+% XXX: footnotes in figure captions are weird: if you try inserting one
+% the normal way, you get a weird error about unmatched curly braces.
+% I found this workaround, but as a result, this footnote might show up on
+% the wrong page depending on how the layout ends up. The \footnotetext can
+% be put later in the text to correct for this, but no other \footnote may
+% separate the \footnotemark from the \footnotetext
+%
+% c.f. https://tex.stackexchange.com/a/10185/116100
+\footnotetext{In practice, we do not enumerate machines with all transitions defined, as they have no way of halting. This means that, in our implementation, halting machines with only one transition can also look like leaves, although morally they are still internal nodes.}
 
 
 Syntactically, as defined in Section~\ref{sec:TMs}, there are $(2ns + 1)^{ns}$ Turing machines with $n$ states and $s$ symbols. This gives $21^{10} \simeq 1.67\times10^{13} \simeq 16 \text{ trillion}$ possible 5-state 2-symbol Turing machines. However, naively counting Turing machines that way does not account for two phenomenons:
 \begin{itemize}
     \item \textbf{Unreachable transitions.} Take the 5-state 2-symbol machine where only the first transition is defined as \texttt{0RA} -- leftmost machine in Figure~\ref{fig:TNF}. This machine is the archetypal Turing machine equivalent of a ``while True'' infinite loop: the machine will never leave the transition, indefinitely drifting to the right of the tape. Hence, none of the $21^9$ machines obtained by defining the other 9 transitions are relevant since these transitions are never reached.
-    \item \textbf{State/symbol permutations.} Permuting non-\stateA states and non-zero symbols (\stateA and 0 are special because the initial configuration is all-0 tape in state \stateA) creates identical machines up to renaming, hence studying the halting of only one of them is enough. State/symbol permutation divides the syntactic space size by a factor $(n-1)! (s-1)!$.
+    \item \textbf{State/symbol permutations.} Permuting non-\stateA states and non-zero symbols (\stateA and 0 are special because the initial configuration is all-0 tape in state \stateA) creates identical machines up to renaming, hence studying the halting of only one of them is enough. State/symbol permutation divides the syntactic space size by a factor of approximately\footnote{Due to overcounting, calculating this factor precisely would require techniques such as Burnside's lemma.} $(n-1)! (s-1)!$.
 \end{itemize}
 
 Tree Normal Form (TNF) enumeration, introduced by Brady in 1963 in his PhD thesis \cite{Brady64} and illustrated in Figure~\ref{fig:TNF} solves both of these problems: Turing machines are recursively \textit{discovered} starting from the machine with no transitions defined (TNF root). Each enumerated machine is processed by a \textit{pipeline of deciders} (see Section~\ref{sec:deciders}) which will either output \HALT, \NONHALT or \UNKNOWN for each machine:
