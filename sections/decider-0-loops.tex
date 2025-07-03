@@ -52,7 +52,7 @@ We prove that Algorithm~\ref{alg:loops} is correct in Theorem~\ref{th:loops}.
         \State \Return HALT \label{alg:loops:halt}
         \EndIf
         \State \For{$l$ \textbf{in} $[1,+\infty[$ } \Comment{$l$ is the length of the potential loop}
-        \State \If{$2l > L$} \Comment{The history does not contain two transcript repetitions of size $l$}
+        \State \If{$2l > L$} \Comment{The history is too short to contain two transcript repetitions of size $l$}
         \State \Return UNKNOWN \label{alg:loops:terminate}
         \State \EndIf
         \State $K = L-l-1$
