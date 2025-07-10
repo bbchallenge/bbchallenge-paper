@@ -355,7 +355,7 @@ The method was initially developed by Iijil as a decider \cite{iijil1_2025_14914
 
 \subsubsection{WFAR theorem}
 
-WFAR is CTL technique -- see Section~\ref{sec:deciders-overview}: a WFAR automaton for a given Turing machine is meant to recognise a language of configurations $\mathcal{L}$ that includes the initial all-0 configuration, closed under Turing machine steps and that does not contain any halting configuration. Hence, we get the following CTL formalism, plus leading/trailing zeros conditions similarly to FAR:
+WFAR is a CTL technique -- see Section~\ref{sec:deciders-overview}: a WFAR automaton for a given Turing machine is meant to recognise a language of configurations $\mathcal{L}$ that includes the initial all-0 configuration, closed under Turing machine steps and that does not contain any halting configuration. Hence, we get the following CTL formalism, plus leading/trailing zeros conditions similarly to FAR:
 \begin{align}
     u \in \mathcal{L}                               & \iff 0u \in \mathcal{L}               &  & \text{(leading zeros ignored)}
     \tag{\ref{eq:lzignore}}

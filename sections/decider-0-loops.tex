@@ -55,11 +55,10 @@ We prove that Algorithm~\ref{alg:loops} is correct in Theorem~\ref{th:loops}.
         \State \If{$2l > L$} \Comment{The history does not contain two transcript repetitions of size $l$}
         \State \Return UNKNOWN \label{alg:loops:terminate}
         \State \EndIf
-        \State $K = L-l-1$
+        \State $K = L-l$
         \State $o = 0$ \Comment{Offset in case we need to keep looking for local-extremum}
-        \State $\text{allequal} = \text{true}$
-        \State \For{$i$ \textbf{in} $[0,l+o[$ }
-        \If{$K-i < 0$}
+        \State \For{$i$ \textbf{in} $[0,l+o[$ } \Comment{Note: $o$, and therefore also the loop bounds, vary between iterations}
+        \If{$K-i < 0$} \Comment{If we have reached the beginning of the transcript, try another $l$}
         \State \textbf{break}
         \State \EndIf
         \State $s,m,d = T_{L-i}$
