@@ -1,27 +1,30 @@
 % !TeX root = bbchallenge-paper.tex
 
+\newcommand{\authorstrut}{\vphantom{$^{*\alpha\dagger}$}} % tall enough for any mark
+\newcommand{\A}[1]{\authorstrut #1}
+
 \title{Determination of the fifth Busy Beaver value}
 \author{
 The bbchallenge Collaboration\thanks{\url{https://bbchallenge.org}}\and 
-Justin Blanchard$^{\alpha}$\and  
-Daniel Briggs\and  
-Konrad Deka\and  
-Nathan Fenner\and 
-Yannick Forster\and 
-Georgi Georgiev (Skelet)\and 
-Matthew L. House\and 
-Rachel Hunter\and 
-Iijil\and 
-Maja Kądziołka\and  
-Pavel Kropitz\and 
-Shawn Ligocki\and 
-mxdys\and
-Mateusz Na\'{s}ciszewski\and  
-savask\and  
-Tristan Stérin\thanks{Corresponding author: \texttt{tristan@prgm.dev}.}\and
-Chris Xu\and 
-Jason Yuen\and 
-Théo Zimmermann
+\A{Justin Blanchard}$^{\alpha}$\and  
+\A{Daniel Briggs}\and  
+\A{Konrad Deka}\and  
+\A{Nathan Fenner}\and 
+\A{Yannick Forster}\and 
+\A{Georgi Georgiev (Skelet)}\and 
+\A{Matthew L. House}\and 
+\A{Rachel Hunter}\and 
+\A{Iijil}\and 
+\A{Maja Kądziołka}\and  
+\A{Pavel Kropitz}\and 
+\A{Shawn Ligocki}\and 
+\A{mxdys}\and
+\A{Mateusz Na\'{s}ciszewski}\and  
+\A{savask}\and  
+\A{Tristan Stérin}\thanks{Corresponding author: \texttt{tristan@prgm.dev}.}\and
+\A{Chris Xu}\and 
+\A{Jason Yuen}\and 
+\A{Théo Zimmermann}
 }
 
 
@@ -218,19 +221,9 @@ Théo Zimmermann
 \endgroup
 \date{}
 
-% --- Make footnote marks zero-height for the title page only ---
-\makeatletter
-\let\orig@makefnmark\@makefnmark
-\renewcommand\@makefnmark{\hbox{\smash{\@textsuperscript{\normalfont\@thefnmark}}}}
-\makeatother
-
 \maketitle
 
-% --- Restore normal footnote marks for the rest of the document ---
-\makeatletter
-\let\@makefnmark\orig@makefnmark
-\makeatother
-
+\vspace{-1em}
 \begin{abstract}
     We prove that $S(5) = 47,176,870$ using the Coq proof assistant. The Busy Beaver value $S(n)$ is the maximum~number of steps that an n-state 2-symbol Turing machine can perform from the all-zero tape before halting, and $S$ was historically introduced by \radofull in 1962 as one of the simplest examples of an uncomputable function.  The proof enumerates 181,385,789 Turing machines with 5 states and, for each machine, decides whether it halts or not.
     Our result marks the first determination of a new Busy Beaver value in over 40 years and the first Busy Beaver value ever to be formally verified, attesting to the effectiveness of massively collaborative online research (\url{bbchallenge.org}).
