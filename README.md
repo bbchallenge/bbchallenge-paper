@@ -7,7 +7,7 @@ We prove that $S(5) = 47,176,870$ using the Coq proof assistant. The Busy Beaver
 
 ## Pre-Preprint (v0.99)
 
-- **August 12, 2025**: [version 0.99](https://github.com/bbchallenge/bbchallenge-paper/releases/tag/pre-preprint-v0.99) of the preprint released (integrating feedback received after v0.9 release); final opportunity to give feedback before arxiv upload on ~~September 1st~~September 9th, 2025. Give feedback [here](https://github.com/bbchallenge/bbchallenge-paper/issues/40).
+- **August 12, 2025**: [version 0.99](https://github.com/bbchallenge/bbchallenge-paper/releases/tag/pre-preprint-v0.99) of the preprint released (integrating feedback received after v0.9 release); final opportunity to give feedback before arxiv upload on ~~September 1st~~ ~~September 9th~~ September 15th, 2025. Give feedback [here](https://github.com/bbchallenge/bbchallenge-paper/issues/40).
 - **May 12, 2025**: [version 0.9](https://github.com/bbchallenge/bbchallenge-paper/releases/tag/pre-preprint-v0.9) of the preprint released; open feedback period until June 30, 2025.
 
 📎 [Pre-Preprint v0.99 Release, PDF Link](https://github.com/bbchallenge/bbchallenge-paper/releases/download/pre-preprint-v0.99/bb5-pre-preprint-v0.99.pdf)  
