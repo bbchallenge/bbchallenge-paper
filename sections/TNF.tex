@@ -94,7 +94,7 @@
 
 
 
-Syntactically, as defined in Section~\ref{sec:TMs}, there are $(2ns + 1)^{ns}$ Turing machines with $n$ states and $s$ symbols. This gives $21^{10} \simeq 1.67\times10^{13} \simeq 16 \text{ trillion}$ possible 5-state 2-symbol Turing machines. However, naively counting Turing machines this way does not account for two phenomena:
+Syntactically, as defined in Section~\ref{sec:TMs}, there are $(2ns + 1)^{ns}$ Turing machines with $n$ states and $s$ symbols. This gives $21^{10} \simeq 1.67\times10^{13} \simeq 16.7 \text{ trillion}$ possible 5-state 2-symbol Turing machines. However, naively counting Turing machines this way does not account for two phenomena:
 \begin{enumerate}
     \item \textbf{Unreachable transitions.} Take the 5-state 2-symbol machine where only the first transition is defined as \texttt{0RA} -- the leftmost machine in Figure~\ref{fig:TNF}. This machine is the archetypal Turing machine equivalent of a ``while True'' infinite loop: the machine will never leave the transition, indefinitely drifting to the right of the tape. Hence, none of the $21^9$ machines obtained by defining the other 9 transitions are relevant since these transitions are never reached.
     \item \textbf{State/symbol permutations.} Permuting non-\stateA states and non-zero symbols (\stateA and 0 are special because the initial configuration is the all-0 tape in state \stateA) creates identical machines up to renaming, hence studying the halting of only one of them is enough. State/symbol permutation divides the syntactic space size by a factor of $(n-1)! (s-1)!$.

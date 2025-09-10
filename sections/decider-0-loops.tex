@@ -26,7 +26,7 @@ Here, we develop a completely different algorithm (Algorithm~\ref{alg:loops}) fo
 
 
 
-Let us call the \textit{transcript} of a machine the list of successive \ssps visited by the machine from the all-zero tape. For instance, the transcript of the \cycler in Figure~\ref{fig:loops}~(left) starts with \texttt{A0 B0 C0 D0 B1 E0 C0 D0 B0 C1 A0} and the transcript of the \TC in Figure~\ref{fig:loops}~(right) starts with \texttt{A0 B0 B1 C0 D1 E1 E1 E0 A0 B1 C1}. Surprisingly, it turns out that in order to detect loops, we only have to track when a transcript repeats the same sequence twice back-to-back, for instance, in the case of the Cycler in Figure~\ref{fig:loops}: \texttt{A0 B0 C0 D0 B1 E0 C0 D0 B0 C1 A0 B0 C1 A0 B0 C1 A0 B0 C0 D0 \textbf{\underline{B1 E1 C0 D1}} \textbf{\underline{B1 E1 C0 D1}}}. When such a repetition occurs, we use the extra information of \headpos to conclude:
+Let us call the \textit{transcript} of a machine the list of successive \ssps visited by the machine from the all-0 tape. For instance, the transcript of the \cycler in Figure~\ref{fig:loops}~(left) starts with \texttt{A0 B0 C0 D0 B1 E0 C0 D0 B0 C1 A0} and the transcript of the \TC in Figure~\ref{fig:loops}~(right) starts with \texttt{A0 B0 B1 C0 D1 E1 E1 E0 A0 B1 C1}. Surprisingly, it turns out that in order to detect loops, we only have to track when a transcript repeats the same sequence twice back-to-back, for instance, in the case of the Cycler in Figure~\ref{fig:loops}: \texttt{A0 B0 C0 D0 B1 E0 C0 D0 B0 C1 A0 B0 C1 A0 B0 C1 A0 B0 C0 D0 \textbf{\underline{B1 E1 C0 D1}} \textbf{\underline{B1 E1 C0 D1}}}. When such a repetition occurs, we use the extra information of \headpos to conclude:
 
 \begin{enumerate}
     \item If when entering the second repetition the head is at the same position it was at the beginning of the first repetition, then we have detected a \cycler, \eg for the \cycler in Figure~\ref{fig:loops}~(left), here is the end of the transcript with extra head-position information given after each \ssp: \texttt{\underline{\textbf{B1(-2)} E1(-3) C0(-2) D1(-3)} \underline{\textbf{B1(-2)} E1(-3) C0(-2) D1(-3)}}.
@@ -422,12 +422,12 @@ Transcripts as defined in Section~\ref{sec:loops:algo} correspond to sequences o
 \begin{theorem}[Coq-BB5: \texttt{Lemma loop1\_decider\_WF}]\label{th:loops}
     Let $\mathcal{M}$ be a Turing machine and $L \in \N^+$ a step-limit. \textsc{decider-loops}($\mathcal{M}$, $L$) terminates and its result is correct -- see Algorithm~\ref{alg:loops}:
     \begin{itemize}
-        \item If the result is \texttt{HALT} then $\mathcal{M}$ halts from the all-zero tape.
-        \item If the result is \texttt{NONHALT} then $\mathcal{M}$ does not halt from the all-zero tape.
+        \item If the result is \texttt{HALT} then $\mathcal{M}$ halts from the all-0 tape.
+        \item If the result is \texttt{NONHALT} then $\mathcal{M}$ does not halt from the all-0 tape.
     \end{itemize}
 \end{theorem}
 \begin{proof}
-    The call to \textsc{decider-loops}($\mathcal{M}$, $L$) terminates as all loops are bounded. The call returns \texttt{HALT} if and only if $\mathcal{M}$ halts within $L$ steps from the all-zero tape, see Algorithm~\ref{alg:loops}, l.\ref{alg:loops:halt}, hence if the call returns \texttt{HALT} we know that the machine halts. The interesting case is the loop-detection leading to \texttt{NONHALT}.
+    The call to \textsc{decider-loops}($\mathcal{M}$, $L$) terminates as all loops are bounded. The call returns \texttt{HALT} if and only if $\mathcal{M}$ halts within $L$ steps from the all-0 tape, see Algorithm~\ref{alg:loops}, l.\ref{alg:loops:halt}, hence if the call returns \texttt{HALT} we know that the machine halts. The interesting case is the loop-detection leading to \texttt{NONHALT}.
 
     Algorithm~\ref{alg:loops} finds $t_0$ and $l$ satisfying the hypotheses of Theorem~\ref{th:loops:theory}: $t_0 = K-l-1-o$
     and where $F_\mathcal{M}(p_i)   = F_\mathcal{M}(p'_i)$ is guaranteed thanks to Algorithm~l.\ref{alg:loops:testeq}. Theorem~\ref{th:loops:theory} Cases~1, 2, and, 3 are respectively handled by Algorithm~l.\ref{alg:loops:cycler}, l.\ref{alg:loops:tcplus}, and, l.\ref{alg:loops:tcminus}. In Case 2/Case 3, the condition of having tapes be the same to the right/left of $p_0$ and $p_0'$ is handled by making sure the head is at the maximum/minimum seen position of the tape in both cases, ensuring that there are only 0s to the right/left, and therefore satisfying the condition. Hence, we get that $\mathcal{M}$ does not halt.

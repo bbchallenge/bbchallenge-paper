@@ -119,7 +119,7 @@ In both cases, we have reduced to block simulation.
 % \end{figure}
 
 
-\CoqBB implements RepWL (Algorithm~\ref{alg:RepWL}), see function \texttt{RepWL\_ES\_decider}. In the $S(5)$ pipeline (Table~\ref{tab:pipelineBB5}), contrarily to previously presented deciders, RepWL is not applied in bulk using generic parameters. Instead, the ${6,577}$ machines it decides are hardcoded in the proof together with the specific $l$ and $T$ parameters that decide them, see file \texttt{Decider\_RepWL\_Hardcoded\_Parameters.v}. These parameters were found using a grid search in C++. Block length varies between 1 and 38, and repeat threshold between 2 and 4. For all these machines, maximum block simulation parameters and maximum number of graph nodes parameters are set to 320 and ${150,001}$, respectively.
+\CoqBB implements RepWL (Algorithm~\ref{alg:RepWL}), see function \texttt{RepWL\_ES\_decider}. In the $S(5)$ pipeline (Table~\ref{tab:pipelineBB5}), contrarily to previously presented deciders, RepWL is not applied in bulk using generic parameters. Instead, the ${6,577}$ machines it decides are hardcoded in the proof together with the specific $l$ and $T$ parameters that decide them, see file \texttt{Decider\_RepWL\_Hardcoded\_Parameters.v}. These parameters were found using a grid search in C++. Block length varies between 1 and 38, and repeat threshold between 2 and 4. For all these machines, maximum block simulation parameters and maximum number of graph nodes parameters are set to 320 and ${150{,}001}$, respectively.
 
 % Figure~\ref{fig:RepWLpairs} displays the $(l,T)$ pairs used for these ${6,577}$ machines.
 
