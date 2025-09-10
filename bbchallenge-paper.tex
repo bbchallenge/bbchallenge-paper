@@ -3,27 +3,35 @@
 \newcommand{\authorstrut}{\vphantom{$^{*\alpha\dagger}$}} % tall enough for any mark
 \newcommand{\A}[1]{\authorstrut #1}
 
+\makeatletter
+\renewcommand*{\@fnsymbol}[1]{%
+    \ensuremath{%
+        \ifcase#1\or *\or \alpha\or \dagger\or \ddagger\or
+            \mathsection\or \mathparagraph\or \|\or **\or
+            \dagger\dagger \or \ddagger\ddagger \else\@ctrerr\fi}}
+\makeatother
+
 \title{Determination of the fifth Busy Beaver value}
 \author{
-The bbchallenge Collaboration\thanks{\url{https://bbchallenge.org}}\and 
-\A{Justin Blanchard}$^{\alpha}$\and  
-\A{Daniel Briggs}\and  
-\A{Konrad Deka}\and  
-\A{Nathan Fenner}\and 
-\A{Yannick Forster}\and 
-\A{Georgi Georgiev (Skelet)}\and 
-\A{Matthew L. House}\and 
-\A{Rachel Hunter}\and 
-\A{Iijil}\and 
-\A{Maja Kądziołka}\and  
-\A{Pavel Kropitz}\and 
-\A{Shawn Ligocki}\and 
+The bbchallenge Collaboration\thanks{\url{https://bbchallenge.org}}\and
+\A{Justin Blanchard}\thanks{Alphabetical ordering.}\and
+\A{Daniel Briggs}\and
+\A{Konrad Deka}\and
+\A{Nathan Fenner}\and
+\A{Yannick Forster}\and
+\A{Georgi Georgiev (Skelet)}\and
+\A{Matthew L. House}\and
+\A{Rachel Hunter}\and
+\A{Iijil}\and
+\A{Maja Kądziołka}\and
+\A{Pavel Kropitz}\and
+\A{Shawn Ligocki}\and
 \A{mxdys}\and
-\A{Mateusz Na\'{s}ciszewski}\and  
-\A{savask}\and  
+\A{Mateusz Na\'{s}ciszewski}\and
+\A{savask}\and
 \A{Tristan Stérin}\thanks{Corresponding author: \texttt{tristan@prgm.dev}.}\and
-\A{Chris Xu}\and 
-\A{Jason Yuen}\and 
+\A{Chris Xu}\and
+\A{Jason Yuen}\and
 \A{Théo Zimmermann}
 }
 
@@ -64,7 +72,7 @@ The bbchallenge Collaboration\thanks{\url{https://bbchallenge.org}}\and
 \usepackage{graphicx}
 \usepackage{mathtools}
 
-\usepackage{booktabs} 
+\usepackage{booktabs}
 
 \usepackage{amsmath,amsfonts,amssymb,amsthm}
 
@@ -88,8 +96,8 @@ The bbchallenge Collaboration\thanks{\url{https://bbchallenge.org}}\and
 \DeclareCoupledCountersGroup{theorems}
 \DeclareCoupledCounters[name=theorems]{theorem,definition,lemma,proposition,corollary,remark,observation,example}
 
-\usepackage{microtype,xspace,wrapfig,multicol} 
-\usepackage[textsize=tiny,color=lightgray]{todonotes} 
+\usepackage{microtype,xspace,wrapfig,multicol}
+\usepackage[textsize=tiny,color=lightgray]{todonotes}
 \usepackage[normalem]{ulem} % sout
 \usepackage{stmaryrd}
 
@@ -142,8 +150,8 @@ The bbchallenge Collaboration\thanks{\url{https://bbchallenge.org}}\and
 \newcommand{\sone}{\texttt{1}\xspace}
 
 \def\@fnsymbol#1{\ensuremath{\ifcase#1\or *\or \dagger\or \ddagger\or
-   \mathsection\or \mathparagraph\or \|\or **\or \dagger\dagger
-   \or \ddagger\ddagger \else\@ctrerr\fi}}
+            \mathsection\or \mathparagraph\or \|\or **\or \dagger\dagger
+        \or \ddagger\ddagger \else\@ctrerr\fi}}
 \newcommand{\ssymbol}[1]{^{\@fnsymbol{#1}}}
 
 \newcommand{\BBtheSecondTNF}{61}
@@ -154,7 +162,7 @@ The bbchallenge Collaboration\thanks{\url{https://bbchallenge.org}}\and
 \newcommand{\BBtheFourthTNF}{858{,}909}
 
 %used to be \hookrightarrow but savask says its to be mistaken with injection
-\newcommand{\partialto}{\to} 
+\newcommand{\partialto}{\to}
 
 \newcommand{\BBtheFifth}{47{,}176{,}870}
 \newcommand{\BBtheFifthTNF}{181{,}385{,}789}
@@ -207,18 +215,18 @@ The bbchallenge Collaboration\thanks{\url{https://bbchallenge.org}}\and
 \usepackage{makecell}
 
 \newcommand{\topleftsymbolcell}[3]{% color, symbol, content
-  \cellcolor{#1}%
-  \begin{tikzpicture}[overlay, remember picture]
-    \node[anchor=north west, inner sep=1pt] at (0,1.7ex) {\small #2};
-  \end{tikzpicture}%
-  \hspace{1.5ex}#3%
+    \cellcolor{#1}%
+    \begin{tikzpicture}[overlay, remember picture]
+        \node[anchor=north west, inner sep=1pt] at (0,1.7ex) {\small #2};
+    \end{tikzpicture}%
+    \hspace{1.5ex}#3%
 }
 
 \begin{document}
-\begingroup
-\renewcommand\thefootnote{$\alpha$}
-\footnotetext{Alphabetical ordering.}
-\endgroup
+% \begingroup
+% \renewcommand\thefootnote{$\alpha$}
+% \footnotetext{Alphabetical ordering.}
+% \endgroup
 \date{}
 
 \maketitle
