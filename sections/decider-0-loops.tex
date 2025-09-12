@@ -245,7 +245,7 @@ Transcripts as defined in Section~\ref{sec:loops:algo} correspond to sequences o
 
 \begin{definition}[Loops]\label{def:loops}
     Let $M$ be a Turing machine and let $F_M$ and $g$ be the functions defined as above. Let $l \in \N^+$, $t_0 \in \N$.
-    We say that $M$ is a loop of period $l$ and pre-period $t_0$ if for all $t > t_0$, $F_M(t,g(t)) = F_M(t_0 + j,g(t_0 + j))$ where j is the remainder in the division of $t - t_0$ by $l$.
+    We say that $M$ is a loop of period $l$ and pre-period $t_0$ if for all $t > t_0$, $F_M(t,g(t)) = F_M(t_0 + j,g(t_0 + j))$ where $j$ is the remainder in the division of $t - t_0$ by $l$.
 \end{definition}
 
 \begin{lemma}\label{lem:loopdonthalt}
