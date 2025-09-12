@@ -246,7 +246,7 @@ Combining the above, we get FAR:
 
 \CoqBB implements Theorem~\ref{far-main-theorem} in the special case where the FAR NFA is computed from a \textit{precursor} Deterministic Finite State Automaton, as described in \cite{bbchallenge_part1} (``direct FAR algorithm''). Certificates, consisting of such DFAs are hardcoded in the proof for 23 machines (in file \texttt{Verifier\_FAR\_Hardcoded\_Certificates.v}) and then verified using \texttt{dfa\_nfa\_verifier} (see file \texttt{Verifier\_FAR.v}).
 
-These certificates were either found using extensive compute (\eg several weeks of searching DFAs essentially by brute force) or translated from other, undocumented, regular co-CTL methods (see Section~\ref{sec:deciders-overview}); indeed, in \cite{bbchallenge_part1} we show that that FAR is an \textit{universal} regular co-CTL method: any regular co-CTL proof can be shoehorned into the framework of Theorem~\ref{far-main-theorem}.
+These certificates were either found using extensive compute (\eg several weeks of searching DFAs essentially by brute force) or translated from other, undocumented, regular co-CTL methods (see Section~\ref{sec:deciders-overview}); indeed, in \cite{bbchallenge_part1} we show that FAR is an \textit{universal} regular co-CTL method: any regular co-CTL proof can be shoehorned into the framework of Theorem~\ref{far-main-theorem}.
 
 \paragraph{Other implementations.} FAR has several other implementations: in Rust, C++ and Python~\cite{FAR,FAR_Tony,FAR_cosmo}.
 
