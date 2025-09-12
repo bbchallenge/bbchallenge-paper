@@ -15,7 +15,7 @@
 \begin{figure}[h!]
     \centering
     \includegraphics[scale=0.8]{figures/RepWL/RepWL_graph.pdf}
-    \caption{{\small \textbf{RepWL graph.} Closed graph of regex configurations constructed by the Repeated Word List (RepWL) method (Section~\ref{sec:RepWL}) for machine \tm{0RB0LC_1LA1RB_1RD0RE_1LC1LA_---0LD} with block length $l=2$ and repeat threshold $T=3$. Block simulation and regex branching steps (see Section~\ref{sec:RepWL}) are illustrated using respectively green and blue arrows. As illustrated by its 300-step space-time diagram, the machine is a simple Translated Cycler which can be easily handled by Algorithm~\ref{alg:loops}, but, because of its very small graph it is convenient to use this machine for illustrative purposes. Because the graph is closed and contains not halting configuration, the machine does not halt, Theorem~\ref{th:repwl}.}}\label{fig:repWL}
+    \caption{{\small \textbf{RepWL graph.} Closed graph of regex configurations constructed by the Repeated Word List (RepWL) method (Section~\ref{sec:RepWL}) for machine \tm{0RB0LC_1LA1RB_1RD0RE_1LC1LA_---0LD} with block length $l=2$ and repeat threshold $T=3$. Block simulation and regex branching steps (see Section~\ref{sec:RepWL}) are illustrated using respectively green and blue arrows. As illustrated by its 300-step space-time diagram, the machine is a simple Translated Cycler which can be easily handled by Algorithm~\ref{alg:loops}, but, because of its very small graph it is convenient to use this machine for illustrative purposes. Because the graph is closed and contains no halting configuration, the machine does not halt, Theorem~\ref{th:repwl}.}}\label{fig:repWL}
 \end{figure}
 
 \subsection{Repeated Word List (RepWL)}\label{sec:RepWL}
@@ -23,7 +23,7 @@
 \begin{figure}[h!]
     \centering
     \includegraphics[scale=0.48]{figures/RepWL/RepWL_three_machines.pdf}
-    \caption{10,000-step space-time diagrams of three 5-state machines decided by the Repeated Word List (RepWL) decider, Algorithm~\ref{alg:RepWL}. Left: {\small \tm{1RB0RD_0LC0LA_0LD1LC_1RA0LE_0RC---}}. Center: {\small \tm{1RB---_1LB1RC_1RA1RD_1LE0RD_0LB0LC}}. Right: {\small \tm{1RB---_0RC1RD_0LD1RC_1LE0RA_1RA0LE}}. The RepWL graphs of these machines respectively have 42 and $845$ and $143{,}181$ nodes, ranging the entire distribution of RepWL node counts for 5-state machines, see Section~\ref{sec:RepWL:results}. RepWL parameters $(l,T)$ for these machines are respectively: $(5,2)$, $(2,3)$, and, $(20,2)$.
+    \caption{10,000-step space-time diagrams of three 5-state machines decided by the Repeated Word List (RepWL) decider, Algorithm~\ref{alg:RepWL}. Left: {\small \tm{1RB0RD_0LC0LA_0LD1LC_1RA0LE_0RC---}}. Center: {\small \tm{1RB---_1LB1RC_1RA1RD_1LE0RD_0LB0LC}}. Right: {\small \tm{1RB---_0RC1RD_0LD1RC_1LE0RA_1RA0LE}}. The RepWL graphs of these machines respectively have $42$, $845$, and $143{,}181$ nodes, ranging the entire distribution of RepWL node counts for 5-state machines, see Section~\ref{sec:RepWL:results}. RepWL parameters $(l,T)$ for these machines are respectively: $(5,2)$, $(2,3)$, and, $(20,2)$.
     }\label{fig:repWLThree}
 \end{figure}
 
