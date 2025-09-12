@@ -407,7 +407,7 @@ We finally get the WFAR theorem:
 \begin{theorem}[\CoqBB: \texttt{Lemma MITM\_WDFA\_verifier\_spec}]\label{th:WFAR}
     Let $\mathcal{M}$ be a Turing machine and $\mathcal{W}$ be a WFAR automaton with accept set $\mathfrak{A}$ such that:
     \begin{enumerate}
-        \item Leading and trailing zeros are ignored: $\delta_L(p_0,\szero) = p_0$ and $\delta_R(q_0,\szero) = q_0$ with $w_L(p_0,\szero) = w_R(q_0,\szero) = 0$ with $\delta_L$ and $\delta_R$ the transition functions of the left and right weighted automata of $\mathcal{W}$ and $w_L$ and $w_R$ their weighing functions.\label{pt:wfar:top}
+        \item Leading and trailing zeros are ignored: $\delta_L(p_0,\szero) = p_0$ and $\delta_R(q_0,\szero) = q_0$ with $w_L(p_0,\szero) = w_R(q_0,\szero) = 0$ with $\delta_L$ and $\delta_R$ the transition functions of the left and right weighted automata of $\mathcal{W}$ and $w_L$ and $w_R$ their weight functions.\label{pt:wfar:top}
         \item The initial configuration is accepted: \ie $[p_0]\; \texttt{\stateA}\szero\; [q_0];\; W=0;$ is in $\mathfrak{A}$.\label{pt:wfar:ttop}
         \item $\mathfrak{A}$ is weighted forward closed for $\mathcal{M}$.\label{pt:wfar:tttop}
         \item $\mathfrak{A}$ contains no halting configurations.\label{pt:wfar:ttttop}
@@ -416,7 +416,7 @@ We finally get the WFAR theorem:
     Then $\mathcal{M}$ does not halt for any configuration accepted by $\mathcal{W}$, which includes the initial all-0 configuration.
 \end{theorem}
 \begin{proof}
-    Point~\ref{pt:wfar:top} guarantees that all the word-representations (see Section~\ref{sec:FAR}) of the same Turing machine configurations result in the same weighted WFAR configuration when processed by $\mathcal{W}$ (see Section~\ref{sec:WFAR:overview}). Points \ref{pt:wfar:ttop}-\ref{pt:wfar:ttttop} are the WFAR reformulations of the CTL argument (Section~\ref{sec:deciders-overview}). Hence, using the CTL argument, any Turing machine configuration accepted by $\mathcal{W}$ is nonhalting, and, in particular, the initial all-0 configuration.
+    Point~\ref{pt:wfar:top} guarantees that all the word-representations (see Section~\ref{sec:FAR}) of the same Turing machine configuration result in the same weighted WFAR configuration when processed by $\mathcal{W}$ (see Section~\ref{sec:WFAR:overview}). Points \ref{pt:wfar:ttop}-\ref{pt:wfar:ttttop} are the WFAR reformulations of the CTL argument (Section~\ref{sec:deciders-overview}). Hence, using the CTL argument, any Turing machine configuration accepted by $\mathcal{W}$ is nonhalting, and, in particular, the initial all-0 configuration.
 \end{proof}
 
 
