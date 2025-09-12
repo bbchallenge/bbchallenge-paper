@@ -799,7 +799,7 @@ Cryptids are Turing machines whose halting problem from all-zero tape is believe
               \end{array}
           \]
 
-          The machine reaches $A(0,4)$ after 11 steps and halts if and only if it reaches a config $A(0,2k+1)$. This can be reformulated as whether repeatedly applying the Collatz-like \textit{Hydra map}\footnote{\url{https://wiki.bbchallenge.org/wiki/Hydra_function}} $H(n) = \lfloor \frac{3}{2}n\rfloor$ starting from $n=8$ will ever have reached more odd values than twice the number of reached even values \cite{ligocki2024bb6antis}. A probabilistic biased random walk model\footnotemark[\getrefnumber{note:antihydra}] suggests that the chance of Antihydra ever halting are miniscule (less than $10^{-200\,000\,000}$). The rules of a 6-state machine very similar to Antihydra have been proven in \Coq.\footnote{\url{https://github.com/ccz181078/busycoq/blob/BB6/verify/AntiHydra2.v}} A dozen other 6-state Cryptids have been identified to date.\footnote{\url{https://wiki.bbchallenge.org/wiki/BB(6)\#Cryptids}}
+          The machine reaches $A(0,4)$ after 11 steps and halts if and only if it reaches a config $A(0,2k+1)$. This can be reformulated as whether repeatedly applying the Collatz-like \textit{Hydra map}\footnote{\url{https://wiki.bbchallenge.org/wiki/Hydra_function}} $H(n) = \lfloor \frac{3}{2}n\rfloor$ starting from $n=8$ will ever have reached more odd values than twice the number of reached even values \cite{ligocki2024bb6antis}. A probabilistic biased random walk model\footnotemark[\getrefnumber{note:antihydra}] suggests that the chance of Antihydra ever halting are minuscule (less than $10^{-200\,000\,000}$). The rules of a 6-state machine very similar to Antihydra have been proven in \Coq.\footnote{\url{https://github.com/ccz181078/busycoq/blob/BB6/verify/AntiHydra2.v}} A dozen other 6-state Cryptids have been identified to date.\footnote{\url{https://wiki.bbchallenge.org/wiki/BB(6)\#Cryptids}}
 
 
     \item $S(3,3)$: \tm{1RB2RA1LC_2LC1RB2RB_---2LA1LA}; \textbf{Bigfoot}.\footnote{\label{note:bigfoot}\url{https://wiki.bbchallenge.org/wiki/Bigfoot}} Take the following parametrised configuration:
@@ -817,7 +817,7 @@ Cryptids are Turing machines whose halting problem from all-zero tape is believe
               \end{array}
           \]
 
-          The machine enters configuration $B(2,1,2)$ at step 69 and halts if and only if it reaches a config $B(0,6k+2,c)$ \cite{ligocki2023bb33}. A probabilistic model\footnotemark[\getrefnumber{note:bigfoot}] suggests that the chance of Bigfoot ever halting are miniscule (less than $10^{-1\,000\,000}$).
+          The machine enters configuration $B(2,1,2)$ at step 69 and halts if and only if it reaches a config $B(0,6k+2,c)$ \cite{ligocki2023bb33}. A probabilistic model\footnotemark[\getrefnumber{note:bigfoot}] suggests that the chance of Bigfoot ever halting are minuscule (less than $10^{-1\,000\,000}$).
 
     \item $S(2,5)$: \tm{1RB3RB---3LA1RA_2LA3RA4LB0LB0LA}; \textbf{Hydra}.\footnote{\label{note:hydra}\url{https://wiki.bbchallenge.org/wiki/Hydra}} Take the following parametrised configuration:
           $$C(a,b) = \szero^\infty \; \texttt{<B} \; \szero^a \; \texttt{3}^b \; \texttt{2} \; \szero^\infty$$
@@ -831,7 +831,7 @@ Cryptids are Turing machines whose halting problem from all-zero tape is believe
               \end{array}
           \]
 
-          The machine reaches $C(3,0)$ after 19 steps and halts if and only if it reaches a config $C(2k,0)$. This can be reformulated as whether repeatedly applying the \textit{Hydra map} $H(n) = \lfloor \frac{3}{2}n\rfloor$ from $n=3$ will ever have reached more even values than twice the number of reached odd values \cite{ligocki2024bb25}. This is the same Hydra map used for Antihydra above, but with the "opposite" condition (switching the role of even an odd values). A probabilistic model\footnotemark[\getrefnumber{note:hydra}] suggests that the chance of Hydra ever halting are miniscule (less than $10^{-400\,000}$).
+          The machine reaches $C(3,0)$ after 19 steps and halts if and only if it reaches a config $C(2k,0)$. This can be reformulated as whether repeatedly applying the \textit{Hydra map} $H(n) = \lfloor \frac{3}{2}n\rfloor$ from $n=3$ will ever have reached more even values than twice the number of reached odd values \cite{ligocki2024bb25}. This is the same Hydra map used for Antihydra above, but with the "opposite" condition (switching the role of even an odd values). A probabilistic model\footnotemark[\getrefnumber{note:hydra}] suggests that the chance of Hydra ever halting are minuscule (less than $10^{-400\,000}$).
 
 \end{itemize}
 
