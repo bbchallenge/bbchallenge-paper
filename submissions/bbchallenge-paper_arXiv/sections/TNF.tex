@@ -1,0 +1,135 @@
+\section{Enumerating Turing machines in Tree Normal Form (TNF)}\label{sec:enum}
+\vspace{-10pt}
+\begin{figure}[ht]
+    \centering
+    \resizebox{0.8\textwidth}{!}{ %
+        \begin{tikzpicture}[
+                level distance=45mm, %
+                sibling distance=70mm, %
+                every node/.style={align=center},
+                edge from parent/.style={draw, -latex, thick}
+            ]
+
+            \newcommand{\turingTable}[2]{
+                \adjustbox{valign=t}{
+                    \begin{tabular}{ccc}
+                        \toprule
+                                            & \textbf{0} & \textbf{1} \\
+                        \midrule
+                        {\color{red} A}     & #1         & #2         \\
+                        {\color{orange} B}  & ---        & ---        \\
+                        {\color{blue} C}    & ---        & ---        \\
+                        {\color{green} D}   & ---        & ---        \\
+                        {\color{magenta} E} & ---        & ---        \\
+                        \bottomrule
+                    \end{tabular}
+                }
+            }
+
+            \node (root) at (0,0) {\turingTable{---}{---}};
+
+            \node (child1) at (-6,-4) {\turingTable{0R\stateA}{---}};
+            \node (child2) at (-2,-4) {\turingTable{1R\stateA}{---}};
+            \node (child3) at (2,-4) {\turingTable{0R\stateB}{---}};
+            \node (child4) at (6,-4) {\turingTable{1R\stateB}{---}};
+
+            \draw[-latex, thick] (root.south) -- (child1.north);
+            \draw[-latex, thick] (root.south) -- (child2.north);
+            \draw[-latex, thick] (root.south) -- (child3.north);
+            \draw[-latex, thick] (root.south) -- (child4.north);
+
+            \draw[magenta, thick, line width=0.8mm]
+            ($(root.north west) + (0.9cm,-1.25cm)$)
+            rectangle
+            ($(root.north west) + (1.7cm,-0.85cm)$);
+
+            \draw[magenta, thick, line width=0.8mm]
+            ($(child3.north west) + (1.08cm,-1.67cm)$)
+            rectangle
+            ($(child3.north west) + (1.88cm,-1.27cm)$);
+
+            \draw[magenta, thick, line width=0.8mm]
+            ($(child4.north west) + (1.08cm,-1.67cm)$)
+            rectangle
+            ($(child4.north west) + (1.88cm,-1.27cm)$);
+
+            \node at ($(root.north) + (0,0.1cm)$) {\textbf{TNF Root}};
+
+            \node at ($(child1.south) + (0,-0.3cm)$) {\textbf{\textit{Does not halt!}}};
+            \node at ($(child2.south) + (0,-0.3cm)$) {\textbf{\textit{Does not halt!}}};
+
+            \foreach \i in {230.0,237.27,244.55,251.82,259.09,266.36,273.64,280.91,288.18,295.45,302.73,310.0} {
+                    \draw[dashed, thick] ($(child3.south) + (0,0.1cm)$) -- ++(\i:1.5cm);
+                }
+
+            \foreach \i in {230.0,237.27,244.55,251.82,259.09,266.36,273.64,280.91,288.18,295.45,302.73,310.0} {
+                    \draw[dashed, thick] ($(child4.south) + (0,0.1cm)$) -- ++(\i:1.5cm);
+                }
+
+            \node at ($(child3.south) + (0,-1.7cm)$) {\textbf{\textit{12 children}}};
+            \node at ($(child4.south) + (0,-1.7cm)$) {\textbf{\textit{12 children}}};
+
+            \node at ($(child1.south) + (0,-0.9cm)$) {\textbf{\textit{No children}}};
+            \node at ($(child2.south) + (0,-0.9cm)$) {\textbf{\textit{No children}}};
+
+
+
+        \end{tikzpicture}
+    }
+    \caption{First-level children of the Tree Normal Form (TNF) enumeration of 5-state 2-symbol Turing machines: each node is a Turing machine, nonhalting machines are leaves of the tree. Internal nodes are halting machines, \ie machines eventually reaching an undefined transition (highlighted in magenta), and their children correspond to all the ways to define this undefined transition. By symmetry, at the first level of the TNF tree, we can ignore machines taking a left move. The two halting machines at the first level of the tree each have 12 children, corresponding to all the choices in $\{\szero,\sone\}\times\{\text{R},\text{L}\}\times\{\text{\stateA},\text{\stateB},\text{\stateC}\}$ for defining the magenta transition. Note that, in this case, the choice of states is reduced from $\{\text{\stateA},\text{\stateB},\text{\stateC},\text{\stateD},\text{\stateE}\}$ to $\{\text{\stateA},\text{\stateB},\text{\stateC}\}$ in order to prevent constructing machines that are only a permutation of one another.}\label{fig:TNF}
+\end{figure}
+
+
+
+Syntactically, as defined in Section~\ref{sec:TMs}, there are $(2ns + 1)^{ns}$ Turing machines with $n$ states and $s$ symbols. This gives $21^{10} \simeq 1.67\times10^{13} \simeq 16.7 \text{ trillion}$ possible 5-state 2-symbol Turing machines. However, naively counting Turing machines this way does not account for two phenomena:
+\begin{enumerate}
+    \item \textbf{Unreachable transitions.} Take the 5-state 2-symbol machine where only the first transition is defined as \texttt{0RA} -- the leftmost machine in Figure~\ref{fig:TNF}. This machine is the archetypal Turing machine equivalent of a ``while True'' infinite loop: the machine will never leave the transition, indefinitely drifting to the right of the tape. Hence, none of the $21^9$ machines obtained by defining the other 9 transitions are relevant since these transitions are never reached.
+    \item \textbf{State/symbol permutations.} Permuting non-\stateA states and non-zero symbols (\stateA and 0 are special because the initial configuration is the all-0 tape in state \stateA) creates identical machines up to renaming, hence studying the halting of only one of them is enough. State/symbol permutation divides the syntactic space size by a factor of $(n-1)! (s-1)!$.
+\end{enumerate}
+
+Tree Normal Form (TNF) enumeration, introduced by Brady in 1963 in his PhD thesis \cite{Brady64} and illustrated in Figure~\ref{fig:TNF}, solves both of these problems: Turing machines are recursively \textit{discovered} starting from the machine with no transitions defined (TNF root). Each enumerated machine is processed by a \textit{pipeline of deciders} (see Section~\ref{sec:deciders}) which will output either \HALT, \NONHALT or \UNKNOWN for each machine:
+\begin{itemize}
+    \item \HALT. If the machine halts, such as the rightmost machine in Figure~\ref{fig:TNF}, it means that it has met an undefined transition and children of the machine correspond to all the possible ways of defining that undefined transition (highlighted in magenta in Figure~\ref{fig:TNF}). Avoiding redundant state/symbol permutations is dealt with at this point by imposing an order on the yet-to-be-seen states/symbols, \eg children of the rightmost machine in Figure~\ref{fig:TNF} will choose between states $\{\text{\stateA},\text{\stateB},\text{\stateC}\}$ instead of $\{\text{\stateA},\text{\stateB},\text{\stateC},\text{\stateD},\text{\stateE}\}$ since $\text{\stateC}$ is the next unseen state.
+
+    \item  \NONHALT. If the machine does not halt, all its remaining undefined transitions are unreachable and the machine is a leaf of the TNF tree.
+    \item \UNKNOWN. If the halting status of a machine remains unknown, it is put in the basket of \textit{holdouts}, \ie machines that remain to be decided. Having solved $S(5)$ means that there are no more 5-state holdouts.
+\end{itemize}
+
+
+Hence, by design, TNF enumeration avoids machines with unreachable transitions and state/symbol permutations. One further optimization in the TNF algorithm is,
+at the first level of the TNF tree (see Figure~\ref{fig:TNF}), to avoid machines that make a first move to the left, as they can be symmetrised to go to the right instead, \eg for 5-state 2-symbol machines, this makes the TNF root have 4 children instead of 8. It is also known that only considering machines that first write a 1 is enough to conclude the value $S$, but, for simplicity, this is not used in our work \cite{Marxen_1990,busycoq}. In practice, and in the counts of Table~\ref{tab:TNF-numbers}, leaves of the TNF tree, that have all their transitions defined, are not enumerated because they are obviously nonhalting -- hence not relevant for computing $S$.
+
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{|l|r|r|r|r|}
+        \hline
+        $S(n)$ & Nonhalt     & Halt       & Total       & Syntactic/TNF ratio \\
+        \hline
+        $S(2)$ & 42          & 19         & 61          & $107$               \\
+        $S(3)$ & 3,645       & 1,772      & 5,417       & $891$               \\
+        $S(4)$ & 609,216     & 249,693    & 858,909     & $8,121$             \\
+        $S(5)$ & 133,005,895 & 48,379,894 & 181,385,789 & $91{,}958$          \\
+        \hline
+    \end{tabular}
+
+    \caption{TNF metrics for $S(2),\dots,S(5)$: number of nonhalting and halting machines the TNF tree, total number of TNF-enumerated machines and ratio between $(4n+1)^{2n}$, which is the syntactic number of $n$-state 2-symbol machines, and the number of machines in the TNF enumeration.}\label{tab:TNF-numbers}
+\end{table}
+
+TNF is unreasonably effective (Table~\ref{tab:TNF-numbers}): for 5-state 2-symbol machines, it reduces the search-space from 16 trillion to just $\BBtheFifthTNF$ machines. The variant of TNF that only enumerates machines that start by writing a $1$ was implemented (with a step limit instead of deciders) by Marxen and Buntrock in 1989 to find the fifth \BBfull winner (Figure~\ref{fig:bb5win}), taking about 10 days to run at the time \cite{Marxen_1990}. This same variant (using a $\BBtheFifth$-step limit, no deciders) was implemented in 2022 for \url{bbchallenge.org}’s seed database (see Section~\ref{sec:intro:mainresults}), which yielded 88,664,064 holdouts  \cite{sterin_2022_14955828}. This database, which had to be trusted at the time, became obsolete with the release of \CoqBB. %SIA
+
+% TNF is unreasonably effective, as shown in Table~\ref{tab:TNF-numbers}. In the case of 5-state 2-symbol Turing machines, the total number of machines in the TNF enumeration is $\BBtheFifthTNF$, which is $91{,}958$ times smaller than $16$ trillion, the number of synctatically correct machines. The variant of TNF that only enumerates machines that start by writing a $1$ (and with a step limit instead of deciders) was implemented in 1989 by Heiner and Buntrock in order to find the fifth \BBfull winner (Figure~\ref{fig:bb5}); at the time, this enumeration took about 10 days \cite{Marxen_1990}. This same variant (also without deciders, using a simulation limit of $\BBtheFifth$ steps) was implemented in 2022 for the release of \url{bbchallenge.org}'s seed database \cite{sterin_2022_14955828} (see Section~\ref{sec:intro:mainresults}) which provided a set of 88,664,064 holdouts to prove nonhalting -- this database, which had to be trusted, became obsolete with the release of \CoqBB.
+
+\paragraph{\CoqBB TNF implementation.} TNF enumeration, as described here, is implemented in \CoqBB for the proofs of $S(2),\dots,S(5)$; see file \texttt{TNF.v}. A \texttt{SearchQueue} abstraction with DFS capabilities is implemented, see function \texttt{SearchQueue\_upds}. The search queue is initialised with the TNF root (this is most obvious in the proofs of $S(<5)$, see file \texttt{BB4\_TNF\_Enumeration.v}), and deciders (see Section~\ref{sec:deciders}) are run on the enumerated Turing machines. Halting machines' children are added to the queue: the goal of the proof is to empty the queue. Importantly, \texttt{Lemma\ SearchQueue\_upd\_spec} ensures that $S$ can be computed considering only TNF-enumerated machines.
+
+Taking advantage of the tree structure, compilation of the $S(5)$ proof was parallelised by isolating the 12 children of the rightmost machine in Figure~\ref{fig:TNF} in separate, independent files; see folder \texttt{BB5\_TNF\_Enumeration\_Roots/}. Parallelising the compilation made the proof compile in 3 hours (on 13 cores) instead of 13 hours. Switching to \Coq's more powerful \texttt{native\_compute} engine \cite{nativecompute} further brought parallel compilation time down to 45 minutes. This compilation time could be improved further by splitting the tree in even more files with only RAM and number of cores as limiting factors.
+
+\CoqBB's proof of $S(2,4)$ implements TNF almost exactly in the way described here but for the fact that, for simplicity, it does not impose an order on non-0 symbols meaning that identical machines up to symbol renaming are enumerated. In this ``quasi-TNF'' setup, the proof of $S(2,4)$ enumerates 2,154,217 machines of which 1,432,880 are nonhalting.
+
+Being able to perform the TNF enumeration of 5-state 2-symbol Turing machines directly in \Coq came as a surprise for most \url{bbchallenge.org} collaborators when \CoqBB was released. Results of the enumeration (\ie list of machines with halting status and decider) were extracted from the proof and made available at \url{https://docs.bbchallenge.org/CoqBB5_release_v1.0.0/}.
+
+
+
+
+\paragraph{TNF normalisation.} To compute the TNF-equivalent of an arbitrary Turing machine, states are reordered by first-visit order, and all R moves are swapped with L (and vice versa) if the initial move is L. This process is not computable in general, as we cannot determine in advance which states will be visited. However, for $n$-state machines, knowing $S(n-2)$ makes TNF normalisation computable.\footnote{Apart from always being able to remove unreachable transitions from the initial machine; knowing $S(n)$ solves this.} %SIA
+
+% \paragraph{TNF Normalisation.} Given an arbitrary Turing machine, finding its TNF-equivalent machine is done by ordering its state in the order they are visited by the machine and changing all R moves to L and vice versa if the first transition uses L instead of R.  TNF Normalisation is not computable because we don't know if some states will ever be visited, hence we can't always reorder them without additional knowledge on the machine's behaviour. In practice, knowing $S(n-2)$ makes TNF Normalisation computable for $n$-state machines.
