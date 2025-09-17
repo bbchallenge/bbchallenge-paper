@@ -27,7 +27,8 @@ Currently, please use the following two bibtex entries:
       eprint={2509.12337},
       archivePrefix={arXiv},
       primaryClass={cs.LO},
-      url={https://arxiv.org/abs/2509.12337}, 
+      url={https://arxiv.org/abs/2509.12337},
+      note={\url{https://arxiv.org/abs/2509.12337}}
 }
 ```
 
