@@ -1,9 +1,9 @@
 \section{Enumerating Turing machines in Tree Normal Form (TNF)}\label{sec:enum}
-\vspace{-10pt}
+%\vspace{-10pt}
 % Define a macro for the table with coloring
 \begin{figure}[ht]
     \centering
-    \resizebox{0.8\textwidth}{!}{ % Rescale to fit horizontally
+    \resizebox{0.7\textwidth}{!}{ % Rescale to fit horizontally
         \begin{tikzpicture}[
                 level distance=45mm, % Increased vertical spacing
                 sibling distance=70mm, % Slightly increase horizontal spacing
@@ -45,21 +45,21 @@
 
             % Highlight the first transition (0, A) in the root table
             \draw[magenta, thick, line width=0.8mm]
-            ($(root.north west) + (0.9cm,-1.25cm)$)
+            ($(root.north west) + (1cm,-1.35cm)$)
             rectangle
-            ($(root.north west) + (1.7cm,-0.85cm)$);
+            ($(root.north west) + (1.74cm,-0.95cm)$);
 
             % Highlight the B0 transition in the child3 table
             \draw[magenta, thick, line width=0.8mm]
-            ($(child3.north west) + (1.08cm,-1.67cm)$)
+            ($(child3.north west) + (1.1cm,-1.85cm)$)
             rectangle
-            ($(child3.north west) + (1.88cm,-1.27cm)$);
+            ($(child3.north west) + (2cm,-1.45cm)$);
 
             % Highlight the B0 transition in the child4 table
             \draw[magenta, thick, line width=0.8mm]
-            ($(child4.north west) + (1.08cm,-1.67cm)$)
+            ($(child4.north west) + (1.1cm,-1.85cm)$)
             rectangle
-            ($(child4.north west) + (1.88cm,-1.27cm)$);
+            ($(child4.north west) + (2cm,-1.45cm)$);
 
             \node at ($(root.north) + (0,0.1cm)$) {\textbf{TNF Root}};
 
