@@ -1,0 +1,98 @@
+
+\subsection{Pipelines}\label{sec:pipelines}
+
+In this work, we call a \textit{decider} a program that takes as input a Turing machine $\mathcal{M}$ and that returns in finite time either \HALT, \NONHALT, or \UNKNOWN depending on whether it was able to detect the machine's halting status or not.\footnote{Hence, we do not use the word ``decider'' in the traditional sense of theoretical computer science since, although our deciders finish, they are partial.}
+
+A \textit{pipeline} consists of applying different proof techniques in sequence, mostly consisting of deciders: a machine is tested by each decider successively until one of them outputs \HALT or \NONHALT. We call \textit{Sporadic Machines} the \numSporadic machines that were not solved by any decider but using individual proofs of nonhalting instead, see Section~\ref{sec:sporadic}. Table~\ref{tab:pipelineBB5} gives an approximation of the pipeline implemented in \CoqBB in order to prove $S(5) = \BBtheFifth$, see Theorem~\ref{th:BB5}. Similarly, Table~\ref{tab:pipelineBB2x4} and Table~\ref{tab:pipelineBB4} respectively give approximations of the pipelines leading to $S(2,4) = \BBTxF$ and $S(4) = \BBtheFourth$ -- the latter confirming the result for $S(4)$ originally given in \cite{Brady83}.
+
+The exact pipelines are provided in Appendix~\ref{app:pipelines}. They differ mainly in the specific parameters and, occasionally, the algorithmic variants used for each decider. In some cases, deciders are interleaved -- for example, the loop decider is initially invoked with a small step-count parameter, followed by other deciders, and then called again later with a higher step-count. %SIA
+
+% The exact pipelines are give in Appendix~\ref{app:pipelines} and only differ in that the precise parameters and sometimes algorithmic variants are given for each decider which are sometimes interleaved with each other (\eg the decider for loops is first called with a small step-count parameter, then other deciders are applied and later on it is called again with higher step-count parameter).
+
+% \ts{TS: I'm hesitating to say this early that a subtlelty of the S(5) pipeline is that parameters (or, more "concerning" certificates) are given hardocded for approx 8k machines. Also questionning to say (or repeat) here that WFAR is irregular (as well as some sporadic), which makes a distinction between S(5) and S(4)/S(2,4).}
+
+\begin{table}[h!]
+  \centering
+  \resizebox{\textwidth}{!}{%
+    \begin{tabular}{|l|rrr|}
+      \hline
+      $S(5)$ pipeline                                                                      & Nonhalt                         & Halt                           & Total decided \\
+      \hline
+      1. Loops, see \textbf{Section~\ref{sec:loops}}                                       & 126,994,099                     & 48,379,711                     & 175,373,810   \\
+      2. $n$-gram Closed Position Set (NGramCPS), see \textbf{Section~\ref{sec:n-gramCPS}} & 6,005,142                       & 0                              & 6,005,142     \\
+      3. Repeated Word List (RepWL), see \textbf{Section~\ref{sec:RepWL}}                  & 6,577                           & 0                              & 6,577         \\
+      4. Finite Automata Reduction (FAR), see \textbf{Section~\ref{sec:FAR}}               & 23                              & 0                              & 23            \\
+      5. Weighted Finite Automata Reduction (WFAR), see \textbf{Section~\ref{sec:WFAR}}    & 17                              & 0                              & 17            \\
+      6. Long halters (simulation up to $\BBtheFifth$ steps)                               & 0                               & 183                            & 183           \\
+      7. Sporadic machines, individual proofs, see \textbf{Section~\ref{sec:sporadic}}     & 13                              & 0                              & 13            \\
+      8. \texttt{1RB}-reduction, see \textbf{Section~\ref{sec:deciders-overview}}          & 24                              & 0                              & 24            \\ \hline
+      Total                                                                                & \multicolumn{1}{r}{133,005,895} & \multicolumn{1}{r}{48,379,894} & 181,385,789   \\ \hline
+    \end{tabular}
+  }
+  \caption{Approximation of the $S(5)$ pipeline as implemented in \CoqBB. All the $\BBtheFifthTNF$ enumerated 5-state machines are decided by this pipeline, which solves $S(5) = \BBtheFifth$, see Theorem~\ref{th:BB5}. The exact pipeline, with deciders parameters is given in Appendix~\ref{app:pipelines}. }
+  \label{tab:pipelineBB5}
+\end{table}
+
+\begin{table}[h!]
+  \centering
+  \begin{tabular}{|l|rrr|}
+    \hline
+    $S(2,4)$ pipeline                                                                    & Nonhalt   & Halt    & Total decided \\
+    \hline
+    1. Loops, see \textbf{Section~\ref{sec:loops}}                                       & 1,263,302 & 721,313 & 1,984,615     \\
+    2. $n$-gram Closed Position Set (NGramCPS), see \textbf{Section~\ref{sec:n-gramCPS}} & 163,500   & 0       & 163,500       \\
+    3. Repeated Word List (RepWL), see \textbf{Section~\ref{sec:RepWL}}                  & 6,078     & 0       & 6,078         \\
+    4. Long halters (simulation up to $\BBTxF$ steps)                                    & 0         & 24      & 24            \\
+    \hline
+    Total                                                                                & 1,432,880 & 721,337 & 2,154,217     \\ \hline
+  \end{tabular}
+  \caption{Approximation of the $S(2,4)$ pipeline as implemented in \CoqBB. All the $\BBTxFTNF$ enumerated 2-state 4-symbol machines are decided by this pipeline, which solves $S(2,4) = \BBTxF$, see Theorem~\ref{th:BB2x4}. The exact pipeline, with deciders parameters is given in Appendix~\ref{app:pipelines}. }\label{tab:pipelineBB2x4}
+\end{table}
+
+\begin{table}[h!]
+  \centering
+  \begin{tabular}{|l|rrr|}
+    \hline
+    $S(4)$ pipeline                                                                      & Nonhalt & Halt    & Total decided \\
+    \hline
+    1. Loops, see \textbf{Section~\ref{sec:loops}}                                       & 588,373 & 249,693 & 838,066       \\
+    2. $n$-gram Closed Position Set (NGramCPS), see \textbf{Section~\ref{sec:n-gramCPS}} & 20,841  & 0       & 20,841        \\
+    3. Repeated Word List (RepWL), see \textbf{Section~\ref{sec:RepWL}}                  & 2       & 0       & 2             \\
+    \hline
+    Total                                                                                & 609,216 & 249,693 & 858,909       \\
+    \hline
+  \end{tabular}
+  \caption{Approximation of the $S(4)$ pipeline as implemented in \CoqBB. All the $\BBtheFourthTNF$ enumerated 4-state machines are decided by this pipeline, which brings confirmation that $S(4) = \BBtheFourth$ \cite{Brady83}, see Theorem~\ref{th:BB4}. The exact pipeline, with deciders parameters is given in Appendix~\ref{app:pipelines}. }\label{tab:pipelineBB4}
+\end{table}
+
+\newpage
+
+\subsection{Deciders overview}\label{sec:deciders-overview}
+
+Five deciders are used in \CoqBB to solve $S(5)$, see Table~\ref{tab:pipelineBB5}: Loops, $n$-gram Closed Position Set (NGramCPS), Repeated Word List (RepWL), Finite Automata Reduction (FAR) and Weighted Finite Automata Reduction (WFAR). They are individually described in Sections~\ref{sec:loops} to \ref{sec:WFAR}. To the best of our knowledge, all these deciders are original.\footnote{There existed a previous algorithm to decide loops \cite{Lin1963}, but we present a new one.} Solving $S(2,4)$ (and previously known $S(4)$ \cite{Brady83}) only used  a subset of these deciders (Tables~\ref{tab:pipelineBB2x4}~and~\ref{tab:pipelineBB4}) and required a lot less compute and overall effort -- \eg no individual nonhalting proofs, in contrast with 5-state Sporadic Machines, Section~\ref{sec:sporadic}.
+
+All these deciders can be expressed\footnote{In practice, all deciders but Loops (for which the CTL framework is not useful) \textit{are} expressed using the CTL framework.} in the same general framework, known as Closed Tape Language (CTL) which is an abstract interpretation idea attributed to Marxen and Buntrock and was first documented by Ligocki \cite{ShawnCTL}:
+\vspace{-1ex}
+\paragraph{General framework: Closed Tape Language (CTL).} For a given Turing machine, assume there is a set $C$ of configurations such that:
+\begin{enumerate}
+  \item $C$ contains the initial all-0 configuration.
+  \item $C$ is \textit{closed} under transitions: for any $c \in C$, the configuration one step later belongs to $C$.
+  \item $C$ does not contain any halting configuration.
+\end{enumerate}
+
+
+Then, the machine does not halt from any configuration of $C$ and, in particular, from the initial all-0 configuration.
+
+\vspace{-1ex}
+\paragraph{Regularity.} All our deciders but WFAR are instances of \textit{regular} CTL, meaning that set $C$ is a regular language -- \ie $C$ is described using a Finite State Automaton (FSA) or, equivalently, a regular expression. Said otherwise, regular CTL approximates the set of configurations of a Turing machine using a regular language that is larger than the machine's set of configurations but on which it is easier (in practice, trivial) to ensure CTL conditions, \ie (i) membership of the all-0 configuration (ii) closure under Turing machine steps and (iii) absence of halting configurations. NGramCPS and RepWL each focus on specific types of regular languages and are good introductory examples to illustrate this method, while FAR generalises to arbitrary regular languages. We say that a machine is \textit{regular} if it can be proven nonhalting (from all-0 tape) using regular CTL, otherwise we say it is \textit{irregular}. Other regular CTL deciders were developed by The bbchallenge Collaboration, but were not used to solve $S(5)$ \cite{BruteforceCTL, SymbolicTM, regexy, bbchallenge_part1}.
+
+\vspace{-1ex}
+\paragraph{Irregularity.} WFAR is an analogue of FAR, leveraging CTL using \textit{Weighted} FSAs which are a nonregular generalisation of FSAs, see Section~\ref{sec:WFAR}. Not all machines solved by WFAR are necessarily irregular but we strongly suspect that the 17 machines it solves in the $S(5)$ pipeline (Table~\ref{tab:pipelineBB5}) are irregular because intensive search did not allow finding regular CTL solutions for them. Informal irregularity arguments have been given for sporadic machines ``Finned~\#3'' and ``Skelet~\#17'' \cite{irregularFinned3, irregularSk17}, see Section~\ref{sec:sporadic}.
+
+Interestingly, only regular deciders are needed to solve $S(4)$ and $S(2,4)$, see Tables~\ref{tab:pipelineBB2x4}~and~\ref{tab:pipelineBB4}, which, assuming $S(5)$ irregularity arguments are correct, draws a conceptual line separating $S(4)$ from $S(5)$.
+
+\vspace{-1ex}
+\paragraph{Deciders vs. verifiers.} While we put all the methods under the decider umbrella it is worthwhile to mention that, in \CoqBB, only the \textit{verifier} part of FAR and WFAR are implemented. This means that instead of searching for a CTL set $C$ (see above), it is given and verified correct: \CoqBB hardcodes a total of $40$ FAR /
+WFAR certificates which are FSAs / Weighted FSAs describing CTL sets $C$. See files \texttt{Verifier\_FAR\_Hardcoded\_Certificates.v} and \texttt{Verifier\_WFAR\_Hardcoded\_Certificates.v} in \CoqBB's folder \texttt{BB5\_Deciders\_Hardcoded\_Parameters}.
+
+\paragraph{\texttt{1RB}-reduction.} Any TNF-enumerated machine (Section~\ref{sec:enum}) whose initial transition writes a \szero and which has at least one transition writing a \sone (TNF guarantees the transition is reachable), can be transformed into a machine that starts by writing a \sone and visits the same configurations (up to state-renaming) but for the first few that wrote a \szero, see \CoqBB's function \texttt{TM\_to\_NF}. We call this transformation \texttt{1RB}-reduction (\texttt{1RB} is the first transition of the new machine). Hence, any machine whose reduction to \texttt{1RB} already has a proof of nonhalting can be decided using the same argument! This is proven in \CoqBB's \texttt{Lemma TM\_to\_NF\_spec}. For instance, TNF-enumerated machine \texttt{0RB0LD\_1RC1RE\_1LA1RC\_1LC1LD\_---0RB} reduces that way to sporadic machine ``Finned \#3'' (Section~\ref{sec:sporadic}), and is decided using the same proof. In the $S(5)$ pipeline (Table~\ref{tab:pipelineBB5}) this argument is used to decide 24 machines whose \texttt{1RB}-reduction correspond to 23 FAR/WFAR certificates (see above) and one sporadic machine, ``Finned \#3''.
