@@ -428,3 +428,5 @@ We finally get the WFAR theorem:
 \CoqBB implements Theorem~\ref{th:WFAR}, see file \texttt{Verifier\_WFAR.v}. Certificates consist of left and right weighted automaton: accept sets are constructed by the \Coq verifier which computes the closure from $[p_0]\; \texttt{\stateA} \szero\; [q_0]; W=0$ and uses an integer parameter $P$ given in the certificate such that a bound $W \geq P$ is replaced by $W \leq +\infty$. See the 17 certificates in \texttt{Verifier\_WFAR\_Hardcoded\_Certificates.v}.
 
 These certificates were mainly found by the original WFAR decider implementation \cite{iijil1_2025_14914502} which searches the space of WFAs using brute force. Certificates for ``Helices'' (see Section~\ref{sec:WFAR}) were handcrafted and are significantly bigger than the other certificates: about 50 states in the left and right weighted automata each where other certificates have less than 10 in each.
+
+\enlargethispage{\baselineskip}

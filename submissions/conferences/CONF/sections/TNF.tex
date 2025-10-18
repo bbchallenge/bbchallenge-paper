@@ -132,7 +132,10 @@ at the first level of the TNF tree (see Figure~\ref{fig:TNF}), to avoid machines
     \caption{TNF metrics for $S(2),\dots,S(5)$: number of nonhalting and halting machines the TNF tree, total number of TNF-enumerated machines and ratio between $(4n+1)^{2n}$, which is the syntactic number of $n$-state 2-symbol machines, and the number of machines in the TNF enumeration.}\label{tab:TNF-numbers}
 \end{table}
 
-TNF is unreasonably effective (Table~\ref{tab:TNF-numbers}): for 5-state 2-symbol machines, it reduces the search-space from 16 trillion to just $\BBtheFifthTNF$ machines. The variant of TNF that only enumerates machines that start by writing a $1$ was implemented (with a step limit instead of deciders) by Marxen and Buntrock in 1989 to find the fifth \BBfull winner (Figure~\ref{fig:bb5win}), taking about 10 days to run at the time \cite{Marxen_1990}. This same variant (using a $\BBtheFifth$-step limit, no deciders) was implemented in 2022 for \url{bbchallenge.org}’s seed database (see Section~\ref{sec:intro:mainresults}), which yielded 88,664,064 holdouts  \cite{sterin_2022_14955828}. This database, which had to be trusted at the time, became obsolete with the release of \CoqBB. %SIA
+TNF is unreasonably effective (Table~\ref{tab:TNF-numbers}): for 5-state 2-symbol machines, it reduces the search-space from 16 trillion to just $\BBtheFifthTNF$ machines. The variant of TNF that only enumerates machines that start by writing a $1$ was implemented (with a step limit instead of deciders) by Marxen and Buntrock in 1989 to find the fifth \BBfull winner (Figure~\ref{fig:bb5win}), taking about 10 days to run at the time \cite{Marxen_1990}.
+
+%anon
+%This same variant (using a $\BBtheFifth$-step limit, no deciders) was implemented in 2022 for \url{bbchallenge.org}’s seed database (see Section~\ref{sec:intro:mainresults}), which yielded 88,664,064 holdouts  \cite{sterin_2022_14955828}. This database, which had to be trusted at the time, became obsolete with the release of \CoqBB. %SIA
 
 % TNF is unreasonably effective, as shown in Table~\ref{tab:TNF-numbers}. In the case of 5-state 2-symbol Turing machines, the total number of machines in the TNF enumeration is $\BBtheFifthTNF$, which is $91{,}958$ times smaller than $16$ trillion, the number of synctatically correct machines. The variant of TNF that only enumerates machines that start by writing a $1$ (and with a step limit instead of deciders) was implemented in 1989 by Heiner and Buntrock in order to find the fifth \BBfull winner (Figure~\ref{fig:bb5}); at the time, this enumeration took about 10 days \cite{Marxen_1990}. This same variant (also without deciders, using a simulation limit of $\BBtheFifth$ steps) was implemented in 2022 for the release of \url{bbchallenge.org}'s seed database \cite{sterin_2022_14955828} (see Section~\ref{sec:intro:mainresults}) which provided a set of 88,664,064 holdouts to prove nonhalting -- this database, which had to be trusted, became obsolete with the release of \CoqBB.
 
@@ -142,7 +145,8 @@ Taking advantage of the tree structure, compilation of the $S(5)$ proof was para
 
 \CoqBB's proof of $S(2,4)$ implements TNF almost exactly in the way described here but for the fact that, for simplicity, it does not impose an order on non-0 symbols meaning that identical machines up to symbol renaming are enumerated. In this ``quasi-TNF'' setup, the proof of $S(2,4)$ enumerates 2,154,217 machines of which 1,432,880 are nonhalting.
 
-Being able to perform the TNF enumeration of 5-state 2-symbol Turing machines directly in \Coq came as a surprise for most \url{bbchallenge.org} collaborators when \CoqBB was released. Results of the enumeration (\ie list of machines with halting status and decider) were extracted from the proof and made available at \url{https://docs.bbchallenge.org/CoqBB5_release_v1.0.0/}.
+%anon
+% Being able to perform the TNF enumeration of 5-state 2-symbol Turing machines directly in \Coq came as a surprise for most \url{bbchallenge.org} collaborators when \CoqBB was released. Results of the enumeration (\ie list of machines with halting status and decider) were extracted from the proof and made available at \url{https://docs.bbchallenge.org/CoqBB5_release_v1.0.0/}.
 
 
 

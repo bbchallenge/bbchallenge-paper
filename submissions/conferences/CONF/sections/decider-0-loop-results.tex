@@ -17,11 +17,11 @@
 
 The decider for loops, Algorithm~\ref{alg:loops}, is implemented as part of Coq-BB5 (function \texttt{loop1\_decider}). As advertised in the $S(5)$ pipeline (Table~\ref{tab:pipelineBB5}), it decides a very important proportion of the enumerated 5-state Turing machines: 95.48\% of the nonhalting machines and more than 99.99\% of the halting ones and this with fairly low step-limit parameters, see Table~\ref{tab:paramsLoops}. This means, for instance, that 99.99\% of the enumerated 5-state halting machines halt before $4{,}100$ steps.
 
-\begin{figure}
+\begin{figure}[h!]
   \centering
   % \includegraphics[width=0.5\textwidth]{figures/space-time-diagrams/translated_cycler_44394115.pdf}
   % \hspace{2ex}
-  \includegraphics[width=0.35\textwidth]{figures/space-time-diagrams/translated_cycler_59090563.png}
+  \includegraphics[width=0.30\textwidth]{figures/space-time-diagrams/translated_cycler_59090563.png}
 
   \caption{10,000-step space-time diagram of a Translated Cycler not decided by the decider for loops in \CoqBB (it is decided by NGramCPS, see Section~\ref{sec:n-gramCPS}). See \tm{1RB0LE_1LC0RD_---1LD_1RE0LA_1LA0RE}.}\label{fig:translated-cyclers-more}
 \end{figure}
