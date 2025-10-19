@@ -1,3 +1,5 @@
 - tailor Abstract (refer to Aaronson conjecture, remove bbchallenge)
 - look for [?] and Section~?
 - make sure everything is well anon
+- busycoq mention is weird because of the cut, at least at \cite
+- remove bbchallenge footnote
