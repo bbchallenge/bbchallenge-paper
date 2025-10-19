@@ -1,3 +1,3 @@
-- tailor Abstract
+- tailor Abstract (refer to Aaronson conjecture, remove bbchallenge)
 - look for [?] and Section~?
 - make sure everything is well anon
