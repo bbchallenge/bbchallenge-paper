@@ -482,7 +482,7 @@ For instance, in all the unsolved Turing machine classes (orange highlight in Ta
 
 
 \begin{conjecture}[Antihydra does not halt]
-    Consider the Collatz-like map $H: \mathbb{N} \to \mathbb{N}$ defined by $H(x) = 3\frac{x}{2}$ if $x$ is even and $H(x) = 3\frac{x-1}{2}$ if $x$ is odd. Iterating $H$ from $x=8$, there are never (strictly) more than twice as many odd numbers as even numbers.
+    Consider the Collatz-like map $H: \mathbb{N} \to \mathbb{N}$ defined by $H(x) = 3\frac{x}{2}$ if $x$ is even and $H(x) = \frac{3x-1}{2}$ if $x$ is odd. Iterating $H$ from $x=8$, there are never (strictly) more than twice as many odd numbers as even numbers.
 \end{conjecture}
 
 Using Conway's terminology, the conjecture \textit{probviously} (portmanteau of the words probabilistic and obvious) holds because a probabilistic analysis\footnote{See \url{https://wiki.bbchallenge.org/w/index.php?title=Antihydra}.} of the Turing machine suggests that its probability of ever halting is minuscule, namely, $\smash{\left(\frac{\sqrt{5}-1}{2}\right)}^{1073720885}\approx 4.84\times 10^{-224394395}$. However, properly proving that Antihydra does not halt is believed mathematically hard, because of resemblance to the notoriously hard Collatz conjecture \cite{LagariasCollatz}: Antihydra is a Cryptid. Also, the map $H$ was studied before Antihydra was discovered and is known to not generate Sturmian words \cite{DUBICKAS_2009}.
