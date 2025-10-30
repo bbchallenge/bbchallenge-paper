@@ -65,7 +65,7 @@ Algorithm~\ref{alg:loops} first computes $L$ transcript steps, then, starting fr
         \State \For{$l$ \textbf{in} $[1,L/2]$ } \Comment{$l$ is the length of the potential loop}
         \State $K = L-l$
         \State $\text{offset} = 0$ \Comment{Offset in case we need to keep looking for extremal tape position}
-        \State $\text{allequal} = \text{true}$
+
         \State \For{$i$ \textbf{in} $[0,l+\text{offset}[$ }
         \Comment{$\text{Offset}$ and therefore loop bounds may vary between iterations}
         \If{$K-i < 0$}
