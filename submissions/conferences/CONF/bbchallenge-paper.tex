@@ -250,8 +250,10 @@
 
 \vspace{-4em}
 \begin{abstract}
-    We prove that $S(5) = 47,176,870$ using the Coq proof assistant, confirming the conjecture of Aaronson \cite{BusyBeaverFrontier}. The Busy Beaver value $S(n)$ is the maximum~number of steps that an n-state 2-symbol Turing machine can perform from the all-zero tape before halting, and $S$ was historically introduced by \radofull in 1962 as one of the simplest examples of an uncomputable function.  The proof enumerates 181,385,789 Turing machines with 5 states and, for each machine, decides whether it halts or not; making it one of the most compute-intensive formal proof to date.
-    Our result marks the first determination of a new Busy Beaver value in over 40 years and the first Busy Beaver value ever to be formally verified.
+    The Busy Beaver value $S(n)$ is the maximum~number of steps that an n-state 2-symbol Turing machine can perform from the all-zero tape before halting. $S$ was historically introduced by \radofull in 1962 as one of the simplest examples of an uncomputable function.
+
+    We prove that $S(5) = 47,176,870$ using the Coq proof assistant, confirming the conjecture of Aaronson \cite{BusyBeaverFrontier}.   The proof enumerates 181,385,789 Turing machines with 5 states and, for each machine, decides whether it halts or not; making it one of the most compute-intensive formal proof to date.
+    Our result marks the first determination of a new Busy Beaver value in over 40 years and the first Busy Beaver value ever to be formally verified. The goal of this paper is to serve as a ``human readable'' version of the Coq proof.
 \end{abstract}
 
 \newpage
@@ -580,7 +582,8 @@ Concerning $S(6)$, the TNF enumeration of 6-state machines, which contains about
 
 % \rado, who proved the value of $S(2)$ \cite{Rado_1962} was skeptical about the possibility of knowing $S(3)$ and called $S(4)$ hopeless while Brady who proved the value of $S(4)$ (amusingly, Brady opens his article on $S(4)$ with \rado's quote about $S(4)$) predicted that $S(5)$ would never be proved, see quotes in incipit of this paper. 
 
-Hence, in perpetuating a longstanding tradition of hope about Busy Beaver values, we predict that $S(6)$ will never be proved.\footnote{Nonetheless, \texttt{bbchallenge.org} welcomes all new contributors interested in the Busy Beaver game!}
+Hence, in perpetuating a longstanding tradition of hope about Busy Beaver values, we predict that $S(6)$ will never be proved.
+%\footnote{Nonetheless, \texttt{bbchallenge.org} welcomes all new contributors interested in the Busy Beaver game!}
 
 % \caption{\rado, who invented the Busy Beaver game, proved the value of $S(2)$ in 1962 \cite{Rado_1962}, and helped his doctoral student Shen Lin prove $S(3)$ in 1963 \cite{Lin1963}, did not believe that $S(4)$ could be solved in his time. Brady, who proved the value of $S(4)$ in 1983 \cite{Brady83}, did not believe that $S(5)$ could be solved at all. Amusingly, Brady opens his article on $S(4)$ with \rado's above quote \cite{Brady83}. Under that light, the knowledge of a (small) Busy Beaver value seems to be a reflection of the computing technology available at the time it was proved.}\label{fig:hope}
 
