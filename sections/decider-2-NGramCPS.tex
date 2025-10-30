@@ -37,7 +37,7 @@ The method is especially potent when augmenting the binary alphabet of Turing ma
         \EndIf
         \State \If{$d$ is Right}
         \State Insert $c.\text{\leftngram}$ in $L$ \label{alg:NGramCPS:line:insertL}
-        \State Set $c'.\text{\leftngram}$ to the last $r-1$ symbols of $c.\text{\leftngram}$ followed by $w$
+        \State Set $c'.\text{\leftngram}$ to the last $n-1$ symbols of $c.\text{\leftngram}$ followed by $w$
         \State Set $c'.\text{\middlesymbol}$ to the first symbol of $c.\text{\rightngram}$
         \For{each ngram $r\in R$ starting with the last $r-1$ symbols of $c.\text{\rightngram}$}
         \State Set $c'.\text{\rightngram}$ to $r$
@@ -50,7 +50,7 @@ The method is especially potent when augmenting the binary alphabet of Turing ma
         \EndIf
         \State \If{$d$ is Left} \label{alg:NGramCPS:line:moveLeft}
         \State Insert $c.\text{\rightngram}$ in $R$
-        \State Set $c'.\text{\rightngram}$ to the first $r-1$ symbols of $c.\text{\rightngram}$ preceded by $w$
+        \State Set $c'.\text{\rightngram}$ to the first $n-1$ symbols of $c.\text{\rightngram}$ preceded by $w$
         \State Set $c'.\text{\middlesymbol}$ to the last symbol of $c.\text{\leftngram}$
         \For{each ngram $l \in L$ ending with the first $r-1$ symbols of $c.\text{\leftngram}$}
         \State Set $c'.\text{\leftngram}$ to $l$
