@@ -252,7 +252,7 @@
 \begin{abstract}
     The Busy Beaver value $S(n)$ is the maximum~number of steps that an n-state 2-symbol Turing machine can perform from the all-zero tape before halting. $S$ was historically introduced by \radofull in 1962 as one of the simplest examples of an uncomputable function.
 
-    We prove that $S(5) = 47,176,870$ using the Coq proof assistant, confirming the conjecture of Aaronson \cite{BusyBeaverFrontier}.   The proof enumerates 181,385,789 Turing machines with 5 states and, for each machine, decides whether it halts or not; making it one of the most compute-intensive formal proof to date.
+    We prove that $S(5) = 47,176,870$ using the Coq proof assistant, confirming the conjecture of Aaronson \cite{BusyBeaverFrontier}.   The proof enumerates 181,385,789 Turing machines with 5 states and, for each machine, decides whether it halts or not, primarily relying on custom abstract interpretation algorithms; making it one of the most compute-intensive formal proofs to date.
     Our result marks the first determination of a new Busy Beaver value in over 40 years and the first Busy Beaver value ever to be formally verified. The goal of this paper is to serve as a ``human readable'' version of the Coq proof.
 \end{abstract}
 
