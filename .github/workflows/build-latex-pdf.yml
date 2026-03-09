@@ -9,81 +9,28 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      # (Optional but recommended) cache the installed TeX Live tree to speed up subsequent runs
-      - name: Cache TeX Live 2024
-        id: cache
-        uses: actions/cache@v4
         with:
-          path: /opt/texlive/2024
-          key: texlive-2024-ubuntu
-
-      - name: Install TeX Live 2024 (frozen)
-        if: steps.cache.outputs.cache-hit != 'true'
-        run: |
-          set -euxo pipefail
-          sudo apt-get update
-          sudo apt-get install -y perl wget xz-utils
-          cd /tmp
-          # ✅ correct historic path includes tlnet-final
-          wget -q https://ftp.math.utah.edu/pub/tex/historic/systems/texlive/2024/tlnet-final/install-tl-unx.tar.gz
-          tar -xzf install-tl-unx.tar.gz
-          cd install-tl-20250308
-          cat > profile.txt <<'EOF'
-          selected_scheme scheme-full
-          TEXDIR /opt/texlive/2024
-          TEXMFCONFIG ~/.texlive2024/texmf-config
-          TEXMFVAR ~/.texlive2024/texmf-var
-          option_doc 0
-          option_src 0
-          EOF
-          sudo ./install-tl \
-            -profile profile.txt \
-            -repository https://ftp.math.utah.edu/pub/tex/historic/systems/texlive/2024/tlnet-final
-
-      - name: Add TeX Live 2024 to PATH
-        run: echo "/opt/texlive/2024/bin/x86_64-linux" >> $GITHUB_PATH
-
-      - name: Show TeX versions (sanity check)
-        run: |
-          pdftex --version
-          kpsewhich --version
-          latexmk -v
-
-      - name: Warm up TeX filename DB + font maps
-        run: |
-          set -eux
-          mktexlsr
-          # Use user-level updmap if TL is under $HOME; otherwise use -sys
-          if [ -x "$HOME/texlive/2024/bin/x86_64-linux/updmap" ]; then
-            updmap
-          else
-            sudo /opt/texlive/2024/bin/x86_64-linux/updmap-sys
-          fi
-          # sanity check: this must print a path, not be empty
-          kpsewhich pdftex.map
+          fetch-depth: 0
 
       - name: Build bbchallenge-paper.pdf
-        run: |
-          latexmk -pdf -interaction=nonstopmode -halt-on-error -file-line-error \
-            -shell-escape bbchallenge-paper.tex
-      
-      - name: Install latexdiff
-        run: sudo apt-get install latexdiff
+        uses: xu-cheng/latex-action@v3
+        with:
+          root_file: bbchallenge-paper.tex
+          work_in_root_file_dir: true
+          latexmk_shell_escape: true
+          texlive_version: 2024
 
-      - name: Install latexpand/latexdiff
+      - name: Install latexpand and latexdiff
         run: |
           sudo apt-get update
-          sudo apt-get install -y texlive-extra-utils
+          sudo apt-get install -y latexdiff texlive-extra-utils
 
       - name: Materialize old tag into ./old
-        run: |
-          git fetch --tags --force
-          git worktree add --force old arxiv-preprint-v1
+        run: git worktree add --force old arxiv-preprint-v1
 
       - name: Flatten old and new trees
         run: |
-          latexpand --keep-comments bbchallenge-paper.tex     > new-flat.tex
+          latexpand --keep-comments bbchallenge-paper.tex > new-flat.tex
           cd old
           latexpand --keep-comments bbchallenge-paper.tex > old-flat.tex
 
@@ -95,22 +42,19 @@ jobs:
         with:
           root_file: bbchallenge-paper-diff-with-v1.tex
           work_in_root_file_dir: true
+          texlive_version: 2024
 
-      # (Optional) clean up the worktree
       - name: Cleanup old worktree
         if: always()
         run: git worktree remove old --force
 
-       # Commit and push the PDFs to a dedicated branch
       - name: Commit and push both PDFs
         uses: EndBug/add-and-commit@v9
         with:
-          # Add the exact files; -f keeps them even if *.pdf is in .gitignore
           add: |
             -f bbchallenge-paper.pdf
             -f bbchallenge-paper-diff-with-v1.pdf
           message: "chore(ci): update PDFs (main + diff vs v1)"
           default_author: github_actions
           new_branch: build-paper-pdf
-          # You can pass custom push args; this force-updates the branch each run
           push: 'origin build-paper-pdf --set-upstream --force'
