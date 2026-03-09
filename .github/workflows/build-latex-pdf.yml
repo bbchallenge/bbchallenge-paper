@@ -1,4 +1,4 @@
-name: Build LaTeX PDF and diff with Pre-Preprint (v0.9)
+name: Build LaTeX PDF and diff with arXiv Preprint (v1)
 on:
   push:
     branches:
@@ -79,7 +79,7 @@ jobs:
       - name: Materialize old tag into ./old
         run: |
           git fetch --tags --force
-          git worktree add --force old pre-preprint-v0.99
+          git worktree add --force old arxiv-preprint-v1
 
       - name: Flatten old and new trees
         run: |
@@ -88,12 +88,12 @@ jobs:
           latexpand --keep-comments bbchallenge-paper.tex > old-flat.tex
 
       - name: Generate redline diff with latexdiff
-        run: latexdiff old/old-flat.tex new-flat.tex > bbchallenge-paper-diff-with-v0.99.tex
+        run: latexdiff old/old-flat.tex new-flat.tex > bbchallenge-paper-diff-with-v1.tex
 
       - name: Compile diff PDF
         uses: xu-cheng/latex-action@v3
         with:
-          root_file: bbchallenge-paper-diff-with-v0.99.tex
+          root_file: bbchallenge-paper-diff-with-v1.tex
           work_in_root_file_dir: true
 
       # (Optional) clean up the worktree
@@ -108,8 +108,8 @@ jobs:
           # Add the exact files; -f keeps them even if *.pdf is in .gitignore
           add: |
             -f bbchallenge-paper.pdf
-            -f bbchallenge-paper-diff-with-v0.99.pdf
-          message: "chore(ci): update PDFs (main + diff vs v0.99)"
+            -f bbchallenge-paper-diff-with-v1.pdf
+          message: "chore(ci): update PDFs (main + diff vs v1)"
           default_author: github_actions
           new_branch: build-paper-pdf
           # You can pass custom push args; this force-updates the branch each run
