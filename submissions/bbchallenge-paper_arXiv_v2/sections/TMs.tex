@@ -1,0 +1,116 @@
+\newpage
+\section{Turing machines}\label{sec:TMs}
+
+\vspace{-1.4em}
+
+
+\begin{figure}[ht]
+    \centering
+    \renewcommand{\arraystretch}{1.3}
+    \setlength{\tabcolsep}{6pt}
+
+    \begin{subfigure}[b]{0.28\textwidth}
+        \centering
+        \begin{tabular}{ccc}
+            \toprule
+                    & \textbf{0} & \textbf{1} \\
+            \midrule
+            \stateA & 1R\stateB  & 1L\stateC  \\
+            \stateB & 1R\stateC  & 1R\stateB  \\
+            \stateC & 1R\stateD  & 0L\stateE  \\
+            \stateD & 1L\stateA  & 1L\stateD  \\
+            \stateE & ---        & 0L\stateA  \\
+            \bottomrule
+        \end{tabular}
+        \caption{5-state 2-symbol \BBfull winner. This machine was discovered by Marxen and Buntrock in 1989 \cite{Marxen_1990}.}
+        \label{table:bb5}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.31\textwidth}
+        \centering
+        \includegraphics[width=0.60\linewidth]{figures/space-time-diagrams/bb5.pdf}
+        \caption{45-step space-time diagram of the 5-state winner. Head position is coloured to indicate state, see (a).}
+        \label{fig:bb5-diagram}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.3\textwidth}
+        \centering
+        \includegraphics[width=0.8\linewidth]{figures/space-time-diagrams/bb5_20k.png}
+        \caption{20,000-step space-time diagram of the 5-state winner.}\label{fig:bb5-diagram-zoomout}
+    \end{subfigure}
+
+    \caption{Transition table and space-time diagrams of the 5-state 2-symbol \BBfull winner, which halts after 47,176,870 steps. See
+        \tm{1RB1LC_1RC1RB_1RD0LE_1LA1LD_---0LA}.}\label{fig:bb5win}
+\end{figure}
+
+
+In this work, $\N = \{0,1,\dots\}$ and $\N^+ = \{1,2,3\dots\}$.
+
+We consider Turing machines that use a single, discrete, bi-infinite tape, \ie the tape can be thought as a function $\tau: \mathbb{Z} \to \alphabet$, where $\alphabet$ is the alphabet of symbols used by the machine. Machine transitions are either undefined (the machine halts if it ever reaches an undefined transition) or given by (i) a symbol of $\alphabet$ to write; (ii) a direction to move (right or left); and (iii) a state to go to. More precisely, the transition table of a Turing machine is a partially defined function $\delta: \states \times \alphabet \partialto \alphabet \times \{\text{L},\text{R}\} \times \states $, with $\states$ the set of states, \eg $\{\stateA,\stateB,\stateC,\stateD,\stateE\}$ for 5-state machines. Figure~\ref{fig:bb5win}(a) gives the transition table of the 5-state 2-symbol \BBfull winner. The machine halts after 47,176,870 steps (starting from all-0 tape) when it reads a \szero in state \stateE for the first time (undefined transition). Allowing for undefined transitions is a small, consequenceless but useful (see Section~\ref{sec:enum}) deviation from \rado's original setup.
+
+In the \BBfull context, machines are always executed from the all-0 tape and starting in state~\stateA. Execution goes as follows: at each step, the machine which is in state $s$ looks at which symbol $\sigma$ is present on the tape cell the head is currently on and then, if defined, executes the instruction given by its transition table, \eg $\delta(s, \sigma) = \szero\text{L}\text{\stateE}$ means that the machine will write a \szero, move the head one cell to the left and switch to state \stateE. If $\delta(s, \sigma)$ is not defined, the machine halts.
+
+
+
+A \textit{configuration} (also known as \textit{execution state}) of a Turing machine is defined by the 3-tuple: (i) state; (ii) position of the head on the tape; (iii) content of the tape. As mentioned above, here, \textit{the initial configuration} of a machine is always (i) state is A, i.e. the first state to appear in the machine's description; (ii) head's position is 0; (iii) the initial tape is all-0 -- i.e. each tape cell is containing 0. We write $c_1 \TMstep_\mathcal{M} c_2$ if a configuration $c_2$ is obtained from $c_1$ in one computation step of machine $\mathcal{M}$. We omit $\mathcal{M}$ if it is clear from context. We let $c_1 \TMstep^s c_2$ denote a sequence of $s$ computation steps, and let $c_1 \TMstep^* c_2$ denote zero or more computation steps. %
+
+\vspace{-1ex}
+\paragraph{Halting and step count convention.} Halting happens when the machine attempts to run an undefined transition. We write $c \TMstep \bot$ to signify that the machine halts after attempting to run one step from configuration $c$. The number of steps $s\in \N^+$ run by a halting Turing machine includes the final halting step, \eg $s = 1$ for a machine where $\delta(\stateA,\symbolzero)$ is not defined.
+
+
+
+\vspace{-1ex}
+\paragraph*{Turing machine format.} We often communicate Turing machines using the following linear format: \\ \verb|1RB1LC_1RC1RB_1RD0LE_1LA1LD_---0LA| represents the transition table of Figure~\ref{fig:bb5win}(a), where \texttt{\_} is used to separate states and transitions are given in read-symbol order. Note that, historically, the undefined transition reached by a halting machine was represented using \texttt{1RZ}, hence our format allows the use of any letter outside of the state space to represent halting, \eg \texttt{1RB1LC\_1RC1RB\_1RD0LE\_1LA1LD\_1RZ0LA}, the use of \texttt{1RZ} instead of \verb|---| means that \textit{we know} that the transition is reached and, thus, that the machine halts. Multi-symbol machines are represented in the same way, \eg the 2-state 4-symbol \BBfull winner is \verb|1RB2LA1RA1RA_1LB1LA3RB---| (also given by \texttt{1RB2LA1RA1RA\_1LB1LA3RB1RZ}); see Figure~\ref{fig:bb2x4}. This format can be used as URL on \url{bbchallenge.org} to display space-time diagrams and known information about the machine, e.g. \url{https://bbchallenge.org/1RB1LC\_1RC1RB\_1RD0LE\_1LA1LD\_---0LA}.
+
+\vspace{-1ex}
+\paragraph*{Space-time diagrams.} We use space-time diagrams to give a visual representation of the behaviour of a given machine. The space-time diagram of machine $\mathcal{M}$ is an image where the $i^\text{th}$ row of the image gives:
+\begin{enumerate}
+    \item The content of the tape after $i$ steps (for 2-symbol machines, black is 0 and white is 1, while for $n$ symbols, black is 0, white is symbol $n-1$ and linear grey-scaling is used in between, \eg~Figure~\ref{fig:bb2x4}).
+    \item The position of the head is coloured to give state information using the following colours for 5-state machines: \textcolor{colorA}{A},  \textcolor{colorB}{B},  \textcolor{colorC}{C},  \textcolor{colorD}{D},  \textcolor{colorE}{E} (one has to look at the row above to deduce what symbol the head is reading, unless it is the initial row, where a \szero is read).
+\end{enumerate}
+
+Figure~\ref{fig:bb5win}(b) gives a 45-step space-time diagram for the 5-state 2-symbol \BBfull winner. We often use \textit{zoomed-out} space-time diagrams without state-coloring information, such as Figure~\ref{fig:bb5win}(c), which gives the first 20,000 steps of the 5-state 2-symbol \BBfull winner. Zoomed-out space-time diagrams depicted in this work use a tape of 400 cells unless stated otherwise; the initial cell is generally at the center of the tape but sometimes offset to the right or left. Figure~\ref{fig:bb2x4} showcases the 2-state 4-symbol \BBfull winner.
+
+
+\begin{figure}[ht]
+    \centering
+    \renewcommand{\arraystretch}{1.3}
+    \setlength{\tabcolsep}{6pt}
+
+    \begin{subfigure}[b]{0.28\textwidth}
+        \centering
+        \scalebox{0.93}{
+            \begin{tabular}{ccccc}
+                \toprule
+                        & \textbf{0}~\tikz\fill[black, draw=black] (0,0) rectangle (0.20,0.20);     & \textbf{1}~\tikz\fill[graySymb1, draw=black] (0,0) rectangle (0.20,0.20);
+
+
+                        & \textbf{2}~\tikz\fill[graySymb2, draw=black] (0,0) rectangle (0.20,0.20); & \textbf{3}~\tikz\fill[white, draw=black] (0,0) rectangle (0.20,0.20);                             \\
+                \midrule
+                \stateA & 1R\stateB                                                                 & 2L\stateA                                                                 & 1R\stateA & 1R\stateA \\
+                \stateB & 1L\stateB                                                                 & 1L\stateA                                                                 & 3R\stateB & ---       \\
+                \bottomrule
+            \end{tabular}
+        }
+        \caption{Transition table of the 2-state 4-symbol \BBfull winner found by Ligocki and Ligocki in 2005 \cite{PMichel_website}.}
+        \label{table:bb2x4}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.31\textwidth}
+        \centering
+        \includegraphics[width=0.60\linewidth]{figures/space-time-diagrams/bb2x4.pdf}
+        \caption{45-step space-time diagram of the 2-state 4-symbol. Head position is coloured to indicate state, see (a).}
+        \label{fig:bb2x4-diagram}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[width=0.8\linewidth]{figures/space-time-diagrams/bb2x4_20k.png}
+        \caption{20,000-step space-time diagram of the 2-state 4-symbol winner.}
+        \label{fig:bb2x4-diagram-zoomout}
+    \end{subfigure}
+
+    \caption{Transition table and space-time diagrams of the 2-state 4-symbol \BBfull winner, which halts after $\BBTxF$ steps. See
+        \tm{1RB2LA1RA1RA\_1LB1LA3RB---}.}
+    \label{fig:bb2x4}
+\end{figure}

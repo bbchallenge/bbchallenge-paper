@@ -1,0 +1,9 @@
+In file "decider-piplines.tex", I had to add:
+
+\enlargethispage{\baselineskip}
+
+Before
+
+\paragraph{\texttt{1RB}-reduction.}
+
+In order to get correct page breaks for arxiv's 2025 texlive (different behavior with my 2024).
