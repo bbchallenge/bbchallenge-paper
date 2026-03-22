@@ -240,9 +240,11 @@ The bbchallenge Collaboration\thanks{\url{https://bbchallenge.org}}\and
 
 \newpage
 
+
 \begin{center}
 
 \end{center}
+\vspace{-20pt}
 \setlength{\epigraphwidth}{0.7\textwidth}
 \epigraph{In any case, even though skilled mathematicians and experienced programmers attempted to evaluate $\Sigma(3)$ and S(3), there is no evidence that any presently known approach will yield the answer, even if we avail ourselves of high-speed computers and elaborate programs. As regards $\Sigma(4)$, $S(4)$ the situation seems to be entirely hopeless at present.}{\radofull, 1963 \cite{Rado_1963}}
 \vspace{-1em}
@@ -251,7 +253,7 @@ The bbchallenge Collaboration\thanks{\url{https://bbchallenge.org}}\and
 
 
 
-\vspace{-40pt}
+\vspace{-30pt}
 
 \section{Introduction}\label{sec:intro}
 
@@ -296,25 +298,25 @@ As a result of our work, we now have a clearer view of the landscape of small Bu
     \setlength{\tabcolsep}{5pt}  %
     \begin{tabular}{c|ccccc}
         \hline
-        \textbf{Symbols} & \textbf{2-State}                                                           & \textbf{3-State} & \textbf{4-State} & \textbf{5-State} & \textbf{6-State} \\
+        \textbf{Symbols} & \textbf{2-State}                                               & \textbf{3-State} & \textbf{4-State} & \textbf{5-State} & \textbf{6-State} \\
         \hline
         2                & \cellcolor{green!20}$S(2) = 6$ \cite{Rado_1962}
                          & \cellcolor{green!20}$S(3) = 21$ \cite{Lin1963}
                          & \cellcolor{green!20}$S(4) = 107$ \cite{Brady83}
                          & \cellcolor{green!50}{$S(5) = \BBtheFifth$}
-                         & \cellcolor{orange!50}{$S(6) > 2 \uparrow \uparrow \uparrow 5$}                                                                                         \\
+                         & \cellcolor{orange!50}{$S(6) > 2 \uparrow \uparrow \uparrow 5$}                                                                             \\
         \hline
         3                & \cellcolor{green!20}$S(2,3) = 38$ \cite{LafittePapazian2007}
                          & \cellcolor{orange!50}{$S(3,3) > 10^{17}$}
-                         & \cellcolor{orange!20}$S(4,3) > 2 \uparrow \uparrow \uparrow 2^{2^{{32}}} $
-                         & --                                                                         & --                                                                        \\
+                         & \cellcolor{orange!20}$S(4,3) > 10 \uparrow^4 4 $
+                         & --                                                             & --                                                                        \\
         \hline
         4                & \cellcolor{green!50}{$S(2,4) = \BBTxF$}
                          & \cellcolor{orange!20}$S(3,4) > 2 \uparrow^{15} 5 $
-                         & --                                                                         & --               & --                                                     \\
+                         & --                                                             & --               & --                                                     \\
         \hline
         5                & \cellcolor{orange!50}{$S(2,5) > 10 \uparrow \uparrow 4$}
-                         & --                                                                         & --               & --               & --                                  \\
+                         & --                                                             & --               & --               & --                                  \\
         \hline
     \end{tabular}
     \caption{Landscape of small Busy Beaver values.
@@ -333,7 +335,7 @@ As a result of our work, we now have a clearer view of the landscape of small Bu
 Dauntingly, any $\Pi_1^0$ mathematical statement\footnote{A $\Pi_1^0$ statement is a statement of first-order logic of the form ``$\forall x, \phi(x)$'' where $\phi$ is a sentence using only bounded quantifiers, implying that for a given $x$, $\phi(x)$ can always be verified by a computer in finite time.} can be encoded as the halting problem of a Turing machine (from all-zero tape). Such statements are common in mathematics and include famous open problems such as Goldbach's conjecture and the Riemann hypothesis \cite{Davis-Matiyasevich-Robinson-1976}. Goldbach's conjecture, formulated in 1742, is one of the oldest open problems in mathematics and states that ``every even positive integer greater than 2 is the sum of two prime numbers''. We can build a Turing machine that halts iff the conjecture is false: by enumerating all even positive integers, and for each, testing all pairwise sums of smaller primes and halting iff we cannot express it as such a sum. A machine performing this procedure has been built using only 25 states, and the construction was formally verified using the Lean theorem prover \cite{GoldbachTM27, GoldbachTM25, DeMouraKongAvigadVanDoornvonRaumer}.
 
 
-This means that proving the value of $S(25)$ is at least as hard as solving Goldbach's conjecture for two reasons: (i) assuming $S(25)$ is known, we could, impractically, simulate the machine for $S(25)$ steps to see if it has halted to settle the conjecture -- this is unrealistic because $S(25) > f^2_{\omega^2}(4 \uparrow \uparrow 341)$, where $f$ refers to the \textit{Fast Growing Hierarchy} \cite{wikiChampions,wainer1970classification} and (ii) intuitively, determining $S(25)$ requires arguments justifying the halting status of each 25-state machine, including this particular one. Similarly, the Riemann hypothesis has been encoded in a 744-state machine \cite{RiemannTM,Yedidia2016,BusyBeaverFrontier}. As few as 15 states are enough to encode a hard conjecture in number theory by Erd\H{o}s \cite{BB15}. Worse, the consistency of common axiomatic systems such as Peano Arithmetic (PA) or Zermelo–Fraenkel set theory (ZF) is also $\Pi_1^0$ since one can enumerate proofs in these systems until the proof of a contradiction is found. This has been done in practice for ZF, using $748$ states \cite{BB748Thesis,Yedidia2016,BusyBeaverFrontier}. By G\"odel's second incompleteness theorem, this means that proving the value of $S(748)$ cannot be done using ZF. This result has known further improvements to 636 states \cite{RidenourZF636}, and even 549 states \cite{wade2025alignment}, pending verification. Aaronson conjectures that as low as $S(20)$ cannot be proved in ZF and $S(10)$ cannot be proved in PA \cite{BusyBeaverFrontier}.
+This means that proving the value of $S(25)$ is at least as hard as solving Goldbach's conjecture for two reasons: (i) assuming $S(25)$ is known, we could, impractically, simulate the machine for $S(25)$ steps to see if it has halted to settle the conjecture -- this is unrealistic because $S(25) > f^2_{\omega^2}(4 \uparrow \uparrow 341)$, where $f$ refers to the \textit{Fast Growing Hierarchy} \cite{wikiChampions,wainer1970classification} and (ii) intuitively, determining $S(25)$ requires arguments justifying the halting status of each 25-state machine, including this particular one. Similarly, the Riemann hypothesis has been encoded in a 744-state machine \cite{RiemannTM,Yedidia2016,BusyBeaverFrontier}. As few as 15 states are enough to encode a hard conjecture in number theory by Erd\H{o}s \cite{BB15}. Worse, the consistency of common axiomatic systems such as Peano Arithmetic (PA) or Zermelo–Fraenkel set theory (ZF) is also $\Pi_1^0$ since one can enumerate proofs in these systems until the proof of a contradiction is found. This has been done in practice for ZF, using $748$ states \cite{BB748Thesis,Yedidia2016,BusyBeaverFrontier}. By G\"odel's second incompleteness theorem, this means that proving the value of $S(748)$ cannot be done using ZF. This result has known further improvements to 636 states \cite{RidenourZF636}, and even 432 states \cite{wade2025alignment}, pending verification. Aaronson conjectures that as low as $S(20)$ cannot be proved in ZF and $S(10)$ cannot be proved in PA \cite{BusyBeaverFrontier}.
 
 \enlargethispage{\baselineskip}
 Hence, while 5-state halting machines were not feared, it remained unknown how hard proving 5-state machines nonhalting could get. This article settles the question: the smallest open problem in mathematics (on the Busy Beaver scale) does not arise from 5-state machines -- but we have good contenders among 6-state machines; see Section~\ref{sec:intro:discuss} and Cryptids (Appendix~\ref{app:cryptids}).
@@ -645,33 +647,35 @@ Although useful for talking about Turing machines, these families, especially wh
 \section{Author Contributions}\label{app:contribs}
 
 \paragraph{The bbchallenge Collaboration: $S(5)$ credits.} The following contributions resulted in the determination of the fifth Busy Beaver value and in the better understanding of the landscape of small Busy Beaver values (Table~\ref{table:landscape}): mxdys (\CoqBB, Loops, RepWL); Nathan Fenner, Georgi Georgiev a.k.a~Skelet, savask, mxdys (NGramCPS); Justin Blanchard, Mateusz Naściszewski, Konrad Deka (FAR); Iijil (WFAR); Maja Kądziołka (\texttt{busycoq}); Shawn Ligocki, Jason Yuen, Maja Kądziołka (Sporadic Machines ``Shift Overflow Counters''); Shawn Ligocki, Pavel Kropitz, Maja Kądziołka (Sporadic Machine ``Skelet \#1''); savask, Chris Xu, mxdys (Sporadic Machine ``Skelet \#17''); Shawn Ligocki, Dan Briggs, Maja Kądziołka (Sporadic Machine ``Skelet \#10''); Justin Blanchard, Maja Kądziołka (Sporadic Machines ``Finned Machines''); Shawn Ligocki, Daniel Yuan, mxdys, Matthew L. House, Rachel Hunter, Jason Yuen (``Cryptids''); Yannick Forster, Théo Zimmermann (Coq review); Yannick Forster (Coq optimisation); Tristan Stérin (bbchallenge.org); Tristan Stérin, Justin Blanchard (paper writing).
-    {\small\raggedright
-        \begin{multicols}{2}
-            \begin{itemize}\setlength{\itemsep}{1pt}\setlength{\parskip}{0pt}
-                \item The bbchallenge Collaboration,\\ \url{bbchallenge.org},\\ \texttt{bbchallenge@bbchallenge.org}
-                \item Justin Blanchard,\\ \texttt{UncombedCoconut@gmail.com}
-                \item Daniel Briggs, \texttt{dbriggs@alum.mit.edu}
-                \item Konrad Deka, \texttt{deka.konrad@gmail.com}
-                \item Nathan Fenner,\\ \texttt{nfenneremail@gmail.com}
-                \item Yannick Forster, INRIA Paris,\\ \texttt{yannick.forster@inria.fr}
-                \item Georgi Georgiev (Skelet),\\ Sofia University, Faculty of Mathematics and Informatics,\\ \texttt{skeleta@gmail.com}
-                \item Rachel Hunter,\\ \texttt{racheline@bbchallenge.org}
-                \item Matthew L. House,\\ \texttt{mattlloydhouse@gmail.com}
-                \item Iijil, \texttt{hheussen@web.de}
-                \item Maja Kądziołka, University of Warsaw,\\ \texttt{bb@compilercrim.es}
-                \item Pavel Kropitz, \texttt{uni@bbchallenge.org}
-                \item Shawn Ligocki, \texttt{sligocki@gmail.com}
-                \item mxdys, \texttt{mxdys@bbchallenge.org}
-                \item Mateusz Na\'{s}ciszewski,\\ \texttt{mateusz.nasciszewski@gmail.com}
-                \item savask
-                \item Tristan Stérin$^{\ast}$, PRGM DEV,\\ \texttt{tristan@prgm.dev}
-                \item Chris Xu, UC San Diego,\\ \texttt{chx007@ucsd.edu}
-                \item Jason Yuen,\\ \texttt{jason\_yuen2007@hotmail.com}
-                \item Théo Zimmermann, LTCI, Télécom Paris, Institut Polytechnique de Paris, France,\\ \texttt{theo.zimmermann@telecom-paris.fr}
-            \end{itemize}
-        \end{multicols}
-    }
-\paragraph{Acknowledgement.} The bbchallenge Collaboration is not limited to the above contributors but regroups all those who participated in the bbchallenge's discussions through all our channels (Discord chat, forum, wiki, GitHub, emails) and in particular we thank:  Nick Drozd, Andrew Ducharme, Frans Faase, Tony Guilfoyle, Johannes Hostert, Nick Howell, Jeffrey Huang, Alexandre Jouandin, Carl Kadie, Frank S. Lin, Dawid Loranc, Terry J. Ligocki, Heiner Marxen, Pascal Michel, Milo Mighdoll (milomg), Seraphina Nix, Sébastien Ohleyer, Peacemaker II, Andrés Sancho, tomtom2357, Valentin, Daniel Yuan.
+\vspace{-1ex}
+{\small\raggedright
+    \begin{multicols}{2}
+        \begin{itemize}\setlength{\itemsep}{1pt}\setlength{\parskip}{0pt}
+            \item The bbchallenge Collaboration,\\ \url{bbchallenge.org},\\ \texttt{bbchallenge@bbchallenge.org}
+            \item Justin Blanchard,\\ \texttt{UncombedCoconut@gmail.com}
+            \item Daniel Briggs, \texttt{dbriggs@alum.mit.edu}
+            \item Konrad Deka, \texttt{deka.konrad@gmail.com}
+            \item Nathan Fenner,\\ \texttt{nfenneremail@gmail.com}
+            \item Yannick Forster, INRIA Paris,\\ \texttt{yannick.forster@inria.fr}
+            \item Georgi Georgiev (Skelet),\\ Sofia University, Faculty of Mathematics and Informatics,\\ \texttt{skeleta@gmail.com}
+            \item Rachel Hunter,\\ \texttt{racheline@bbchallenge.org}
+            \item Matthew L. House,\\ \texttt{mattlloydhouse@gmail.com}
+            \item Iijil, \texttt{hheussen@web.de}
+            \item Maja Kądziołka, University of Warsaw,\\ \texttt{bb@compilercrim.es}
+            \item Pavel Kropitz, \texttt{uni@bbchallenge.org}
+            \item Shawn Ligocki, \texttt{sligocki@gmail.com}
+            \item mxdys, \texttt{mxdys@bbchallenge.org}
+            \item Mateusz Na\'{s}ciszewski,\\ \texttt{mateusz.nasciszewski@gmail.com}
+            \item savask
+            \item Tristan Stérin$^{\ast}$, PRGM DEV,\\ \texttt{tristan@prgm.dev}
+            \item Chris Xu, UC San Diego,\\ \texttt{chx007@ucsd.edu}
+            \item Jason Yuen,\\ \texttt{jason\_yuen2007@hotmail.com}
+            \item Théo Zimmermann, LTCI, Télécom Paris, Institut Polytechnique de Paris, France,\\ \texttt{theo.zimmermann@telecom-paris.fr}
+        \end{itemize}
+    \end{multicols}
+}
+\vspace{-4ex}
+\paragraph{Acknowledgement.} The bbchallenge Collaboration is not limited to the above contributors but regroups all those who participated in the bbchallenge's discussions through all our channels (Discord chat, forum, wiki, GitHub, emails) and in particular we thank:  Nick Drozd, Andrew Ducharme, Frans Faase, Tony Guilfoyle, Johannes Hostert, Nick Howell, Jeffrey Huang, Alexandre Jouandin, Carl Kadie, Frank S. Lin, Dawid Loranc, Terry J. Ligocki, Heiner Marxen, Pascal Michel, Milo Mighdoll (milomg), Seraphina Nix, Sébastien Ohleyer, Peacemaker II, Andrés Sancho, tomtom2357, Valentin, Daniel Yuan, Polygon.
 
 
 We'd like to thank \texttt{bbchallenge.org} sponsor \texttt{prgm.dev}. We'd also like to thank those who gave feedback on early versions of this paper, including the following GitHub and Discord users: desseim, frank-s-lin, Lysxia, Nitrome, RobinCodes, XnoobSpeakable, ZhiqiuCao.
@@ -705,7 +709,7 @@ All these values have been verified in \CoqBB, see Section~\ref{sec:intro:discus
     \item $S(6) > 2 \uparrow \uparrow \uparrow 5$; this bound comes from \tm{1RB1RA_1RC1RZ_1LD0RF_1RA0LE_0LD1RC_1RA0RE} which has been proved to halt in Coq\footnote{\url{https://github.com/ccz181078/busycoq/blob/3f302b87f5fb933c46e97672ffbb6907f373fb6e/verify/SOBCv5.v\#L10210-L11283}} and whose number of steps was then manually estimated using the machine's \Coq-verified abstracted rules of evolution.\footnote{\url{https://wiki.bbchallenge.org/wiki/1RB1RA_1RC1RZ_1LD0RF_1RA0LE_0LD1RC_1RA0RE}}
     \item $S(7) > 2 \uparrow^{11} 2 \uparrow^{11} 3$; this bound comes from \tm{1RB0RA_1LC1LF_1RD0LB_1RA1LE_1RZ0LC_1RG1LD_0RG0RF}, see analysis.\footnote{\url{https://wiki.bbchallenge.org/wiki/1RB0RA_1LC1LF_1RD0LB_1RA1LE_1RZ0LC_1RG1LD_0RG0RF}}
     \item $S(3,3) \geq 119{,}112{,}334{,}170{,}342{,}541$; this bound is the exact number of steps performed by \tm{0RB2LA1RA_1LA2RB1RC_1RZ1LB1LC}, yielding the simplified bound $S(3,3) > 10^{17}$. Only 6 unsolved 3-state 3-symbol Turing machines currently remain, including \tm{1RB2LC1RC_2LC---2RB_2LA0LB0RA} which is believed to halt and which number of steps would significantly surpass the current bound, see Section~\ref{sec:fw}.\footnote{\url{https://wiki.bbchallenge.org/wiki/BB(3,3)}}
-    \item $S(4,3) > 2 \uparrow \uparrow \uparrow 2^{2^{32}}$; this bound comes from \tm{0RB1RZ0RB_1RC1LB2LB_1LB2RD1LC_1RA2RC0LD}, see analysis.\footnote{\url{https://wiki.bbchallenge.org/wiki/0RB1RZ0RB_1RC1LB2LB_1LB2RD1LC_1RA2RC0LD}}
+    \item $S(4,3) > 10 \uparrow^4 4$; this bound comes from \tm{1RB1RD1LC_2LB1RB1LC_1RZ1LA1LD_0RB2RA2RD}, see analysis.\footnote{\url{https://wiki.bbchallenge.org/wiki/1RB1RD1LC_2LB1RB1LC_1RZ1LA1LD_0RB2RA2RD}}
     \item $S(3,4) > 2 \uparrow^{15} 5$; this bound comes from \tm{1RB3LB1RZ2RA_2LC3RB1LC2RA_3RB1LB3LC2RC}. For this machine it is possible to prove that the number of \sone symbols on the final tape is \textit{exactly} $(2 \uparrow^{15} 5) + 14$, see \cite{ligocki2024bb34ack14}.
     \item $S(2,5) > 10 \uparrow \uparrow 4$; this bound comes from \tm{1RB3LA4RB0RB2LA_1LB2LA3LA1RA1RZ}, see analysis.\footnote{\url{https://wiki.bbchallenge.org/wiki/1RB3LA4RB0RB2LA_1LB2LA3LA1RA1RZ}}
 \end{itemize}
