@@ -177,13 +177,8 @@
 \title{Determination of the fifth Busy Beaver value}
 
 %%
-%% Authors - TODO: Add affiliations and emails for each author.
-%% Each author gets their own \author{} block in acmart.
+%% Authors
 %%
-%% TODO: Fill in correct affiliations, emails, and countries for all authors.
-% \author{The bbchallenge Collaboration}
-% \affiliation{\institution{bbchallenge.org}\country{}}
-
 \author{Justin Blanchard}
 \authornote{Alphabetical ordering.}
 \affiliation{\institution{}\country{USA}}
@@ -206,12 +201,6 @@
 \author{Matthew L. House}
 \affiliation{\institution{}\country{USA}}
 
-% \author{Rachel Hunter}
-% \affiliation{\institution{}\country{}}
-
-% \author{Iijil}
-% \affiliation{\institution{}\country{}}
-
 \author{Maja K\k{a}dzio{\l}ka}
 \affiliation{\institution{University of Warsaw}\country{Poland}}
 
@@ -221,14 +210,8 @@
 \author{Shawn Ligocki}
 \affiliation{\institution{}\country{USA}}
 
-% \author{mxdys}
-% \affiliation{\institution{}\country{}}
-
 \author{Mateusz Na\'{s}ciszewski}
 \affiliation{\institution{}\country{Poland}}
-
-% \author{savask}
-% \affiliation{\institution{}\country{}}
 
 \author{Tristan St\'erin}
 \authornote{Corresponding author.}
@@ -256,21 +239,345 @@
 
 \maketitle
 
+% Highlighting: \NV{text} marks text NOT taken verbatim from the arXiv version.
+% Remove this command (and all \NV wrappers) before final submission.
+\newcommand{\NV}[1]{\textcolor{teal}{#1}}
 
-We refer the reader to the arXiv version of the paper, which contains the proof and full author list \cite{BB5}.
+\newcommand{\noncomput}{uncomputable\xspace}
+\newcommand{\BBfull}{Busy Beaver\xspace}
+\newcommand{\Coq}{Coq\xspace}
+\newcommand{\ie}{i.e.~}
+\newcommand{\eg}{e.g.~}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introduction}\label{sec:intro}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\noindent \NV{This paper is a condensed version of the arXiv paper~\cite{BB5}, which contains the complete proofs, figures, appendices, and full author list. We invite the reader to consult~\cite{BB5} for additional details.}
+
+\paragraph{The bbchallenge Collaboration: $S(5)$ credits.} The following contributions resulted in the determination of the fifth Busy Beaver value and in the better understanding of the landscape of small Busy Beaver values (Table~\ref{table:landscape}): mxdys (\CoqBB, Loops, RepWL); Nathan Fenner, Georgi Georgiev a.k.a~Skelet, savask, mxdys (NGramCPS); Justin Blanchard, Mateusz Na\'{s}ciszewski, Konrad Deka (FAR); Iijil (WFAR); Maja K\k{a}dzio{\l}ka (\texttt{busycoq}); Shawn Ligocki, Jason Yuen, Maja K\k{a}dzio{\l}ka (Sporadic Machines ``Shift Overflow Counters''); Shawn Ligocki, Pavel Kropitz, Maja K\k{a}dzio{\l}ka (Sporadic Machine ``Skelet \#1''); savask, Chris Xu, mxdys (Sporadic Machine ``Skelet \#17''); Shawn Ligocki, Dan Briggs, Maja K\k{a}dzio{\l}ka (Sporadic Machine ``Skelet \#10''); Justin Blanchard, Maja K\k{a}dzio{\l}ka (Sporadic Machines ``Finned Machines''); Shawn Ligocki, Daniel Yuan, mxdys, Matthew L. House, Rachel Hunter, Jason Yuen (``Cryptids''); Yannick Forster, Th\'eo Zimmermann (Coq review); Yannick Forster (Coq optimisation); Tristan St\'erin (bbchallenge.org); Tristan St\'erin, Justin Blanchard (paper writing).
+
+\paragraph{Acknowledgement.} The bbchallenge Collaboration is not limited to the above contributors but regroups all those who participated in the bbchallenge's discussions through all our channels (Discord chat, forum, wiki, GitHub, emails) and in particular we thank:  Nick Drozd, Andrew Ducharme, Frans Faase, Tony Guilfoyle, Johannes Hostert, Nick Howell, Jeffrey Huang, Alexandre Jouandin, Carl Kadie, Frank S. Lin, Dawid Loranc, Terry J. Ligocki, Heiner Marxen, Pascal Michel, Milo Mighdoll (milomg), Seraphina Nix, S\'ebastien Ohleyer, Peacemaker II, Andr\'es Sancho, tomtom2357, Valentin, Daniel Yuan, Polygon. We'd like to thank \texttt{bbchallenge.org} sponsor \texttt{prgm.dev}. We'd also like to thank those who helped disseminate the bbchallenge project, including Scott Aaronson, Timothy Gowers, Ben Brubaker, Damien Woods, Dave Doty, and L\'eo Rama\"en. \NV{We thank the reviewers and the Automated Pre-Submission Feedback for helpful comments.}
+
+\subsection{Main Result}\label{sec:intro:mainresults}
+
+Are there simple \noncomput functions? What is the \textit{smallest} open problem in mathematics? What do algorithms look like, \textit{in the wild}?
+
+Introduced by \radofull in 1962, \textit{the \BBfull game} gives a framework to answer these seemingly independent questions, starting with the first one: \rado's original goal was to ``present some very simple instances of non-computable functions''~\cite{Rado_1962}. The game is as such: (i) run all $n$-state 2-symbol Turing machines from the all-zero tape; (ii) consider the set of machines that eventually halt; (iii) the winner of the game is the halting machine that has the most \sone symbols on its tape when it halts. This maximum number of \sone symbols on final tape among $n$-state halting machines is called $\Sigma(n)$. \rado also introduced $S(n)$, the maximum number of steps made by a halting $n$-state Turing machine from the all-zero tape. Both functions $\Sigma$ and $S$ are \noncomput and this is most obvious in the case of $S$: if an $n$-state machine runs for more than $S(n)+1$ steps, we know it will never halt, giving an algorithm to decide the halting problem if $S$ were computable. Because of this tight link between $S$ and the halting problem, we take the liberty to focus our work on $S$.
+
+While there is no algorithm to compute $S$ for \textit{all} $n$, we can certainly try to compute $S$ for \textit{some} $n$. Prior to this work, only the first four values of $S$ had been proved: $S(1)=1$, $S(2)=6$~\cite{Rado_1962}, $S(3) = 21$~\cite{Lin1963}, and $S(4) = 107$~\cite{Brady83}. In 1989, Marxen and Buntrock found a new champion\footnote{\tm{1RB1LC\_1RC1RB\_1RD0LE\_1LA1LD\_---0LA}} achieving $\BBtheFifth$ steps~\cite{Marxen_1990}, showing $S(5) \geq \BBtheFifth$. However, it remained unknown if no other machine could beat it\NV{.} In 2020, based on the lack of a new 5-state champion in 30 years, Aaronson conjectured that $S(5) = \BBtheFifth$~\cite{BusyBeaverFrontier}.
+
+Our main result is to prove this conjecture, using the \Coq proof assistant~\cite{the_coq_development_team_2024_14542673}. The \Coq proof is called \CoqBB and is available at \href{https://github.com/ccz181078/Coq-BB5}{\texttt{github.com/ccz181078/Coq-BB5}}~\cite{mxdys_2025_17061968}. We also prove $\Sigma(5) = \SigmaTheFifth$; see \S\ref{sec:results}.
+
+\begin{theorem}[\CoqBB: \texttt{Lemma BB5\_value}]\label{th:BB5}
+    $S(5) = \BBtheFifth$.
+\end{theorem}
+
+The function $S$ can naturally be extended to Turing machines using more than two alphabet symbols~\cite{BradyMeaningOfLife}; for instance, $S(2,3) = 38$ is the value of $S$ for 2-state, 3-symbol machines~\cite{LafittePapazian2007}. We prove, using \Coq, that $S(2,4) = \BBTxF$:
+
+\begin{theorem}[\CoqBB: \texttt{Lemma BB2x4\_value}]\label{th:BB2x4}
+    $S(2,4) = \BBTxF$.
+\end{theorem}
+
+\CoqBB provides formal proofs for $S(5)$ and $S(2,4)$ --- as well as for previously known $S(2),\,S(3),\,S(4)$ and $S(2,3)$. The lists of all the Turing machines enumerated by these proofs, together with their Coq-verified halting status, are available at \url{https://docs.bbchallenge.org/CoqBB5_release_v1.0.0/}.
+
+As a result of our work, we now have a clearer view of the landscape of small \BBfull values; see Table~\ref{table:landscape}.
+
+\begin{table}[h]
+    \centering
+    \small
+    \renewcommand{\arraystretch}{1.3}
+    \setlength{\tabcolsep}{3pt}
+    \begin{tabular}{c|cccc}
+        \hline
+        \textbf{Sym.} & \textbf{2-State}           & \textbf{3-State}   & \textbf{4-State} & \textbf{5-State}              \\
+        \hline
+        2             & $S(2) = 6$                 & $S(3) = 21$        & $S(4) = 107$     & $\mathbf{S(5) = \BBtheFifth}$ \\
+        3             & $S(2,3) = 38$              & $S(3,3) > 10^{17}$ &                  &                               \\
+        4             & $\mathbf{S(2,4) = \BBTxF}$ &                    &                  &                               \\
+        \hline
+    \end{tabular}
+    \caption{\NV{Landscape of small \BBfull values. Values in \textbf{bold} are original to this work. Our \Coq proofs cover all values listed without a $>$ sign. Lower bounds come from exhibiting machines achieving at least the given step-counts. With 6 states, we have $S(6) > 2\uparrow\uparrow\uparrow 5$ (Knuth's up-arrow notation is defined in~\cite{Knuth1976Coping}). See~\cite{BB5} for the full landscape.}}\label{table:landscape}
+\end{table}
+
+\subsection{Challenges}\label{sec:intro:challenges}
+
+Proving $S(5) = \BBtheFifth$ required analysing the behaviour of $\BBtheFifthTNF$ Turing machines -- evidently requiring computer assistance. The challenge for analysing a halting machine occurs when it halts after a number of steps that is too enormous to be simulated step-by-step; this challenge was not encountered for 5-state machines since they halt in at most $\BBtheFifth$ steps -- this could not have been known for certain in advance but was believed -- which is easy to simulate on modern computers. The challenge for analysing a nonhalting machine is that proving that it does not halt can be hard. How hard?
+
+Dauntingly, any $\Pi_1^0$ mathematical statement\footnote{A $\Pi_1^0$ statement is a statement of first-order logic of the form ``$\forall x, \phi(x)$'' where $\phi$ is a sentence using only bounded quantifiers, implying that for a given $x$, $\phi(x)$ can always be verified by a computer in finite time.} can be encoded as the halting problem of a Turing machine (from all-zero tape). Such statements are common in mathematics and include famous open problems such as Goldbach's conjecture and the Riemann hypothesis~\cite{Davis-Matiyasevich-Robinson-1976}. Goldbach's conjecture, formulated in 1742, is one of the oldest open problems in mathematics and states that ``every even positive integer greater than 2 is the sum of two prime numbers''. We can build a Turing machine that halts iff the conjecture is false: by enumerating all even positive integers, and for each, testing all pairwise sums of smaller primes and halting iff we cannot express it as such a sum. A machine performing this procedure has been built using only 25~states, and the construction was formally verified using the Lean theorem prover~\cite{GoldbachTM25,DeMouraKongAvigadVanDoornvonRaumer}.
+
+\NV{This means that proving the value of $S(25)$ is at least as hard as solving Goldbach's conjecture.} Similarly, the Riemann hypothesis has been encoded in a 744-state machine~\cite{RiemannTM,Yedidia2016}. As few as 15~states are enough to encode a hard conjecture in number theory by Erd\H{o}s~\cite{BB15}. Worse, the consistency of common axiomatic systems such as Peano Arithmetic~(PA) or Zermelo--Fraenkel set theory~(ZF) is also $\Pi_1^0$ since one can enumerate proofs in these systems until the proof of a contradiction is found. This has been done in practice for ZF, using $748$~states~\cite{BB748Thesis,Yedidia2016}. By G\"odel's second incompleteness theorem, this means that proving the value of $S(748)$ cannot be done using ZF. Aaronson conjectures that as low as $S(20)$ cannot be proved in ZF and $S(10)$ cannot be proved in PA~\cite{BusyBeaverFrontier}.
+
+Hence, while 5-state halting machines were not feared, it remained unknown how hard proving 5-state machines nonhalting could get. This article settles the question: the smallest open problem in mathematics (on the \BBfull scale) does not arise from 5-state machines -- but we have good contenders among 6-state machines; see \S\ref{sec:intro:discuss}.
+
+\subsection{Related Work}\label{sec:intro:rw}
+
+In 1983, Brady published the proof of $S(4) = \BBtheFourth$~\cite{Brady83}. A caveat of the proof resides in the following quote from the paper: ``All of the remaining holdouts were examined by means of voluminous printouts of their histories along with some program extracted features. It was determined to the author's satisfaction that none of these machines will ever stop.'' A \textit{holdout} is a machine still needing a proof of halting/nonhalting. Using \Coq, we bring additional confirmation that $S(4) = \BBtheFourth$; see Theorem~\ref{th:BB4}.
+
+We know of two attempts at solving $S(5)$: in 2003, Georgiev (Skelet) published the program \texttt{bbfind}~\cite{Skelet_bbfind} which enumerates and decides the halting behaviour of 5-state Turing machines, claiming to leave unsolved 43~holdouts. However, attesting to the validity of these results is difficult as Skelet's program consisted of about $6{,}000$ lines of undocumented Pascal code. That said, it turned out to be instrumental to solving $S(5)$, as \texttt{bbfind}'s ``Closed Position Set'' technique (see \S\ref{sec:deciders}) was used, simplified, and improved in order to decide slightly more than 99.87\% of the 5-state Turing machines excluding loops. Also, all of our \numSporadic \textit{Sporadic Machines}, \ie machines for which we needed individual proofs of nonhalting, were either among Skelet's 43 holdouts or claimed to have been manually solved by him -- \S\ref{sec:sporadic} is dedicated to these longstanding holdouts. Some of Skelet's 43 holdouts were analysed by hand by Briggs starting in 2010~\cite{DanBriggs}. The second known attempt at solving $S(5)$ was in 2008 with Hertel's ``Symbolic induction prover'', which claimed to leave only $1{,}000$ holdouts, $900$ of which were manually proved not to halt, allegedly leaving only $100$ proper holdouts~\cite{Hertel}. In contrast to Skelet's work, the method is documented but, to the best of our knowledge, neither the code nor the 900 claimed manual proofs are made available, making verification of the result difficult apart from attempting to reproduce it from scratch.
+
+The \BBfull problem was also studied in models of computation other than \rado's, including (i) the \textit{quadruple} variation of Turing machines where each transition may move or write a new symbol, but not both~\cite{Ross2003,Ross2005}; (ii) \textit{turmites}, which are Turing machines that operate in 2D~\cite{BradyMeaningOfLife}; and (iii) lambda calculus~\cite{tromp_oeis}. For additional historical perspective on the \BBfull problem, we refer the reader to Pascal Michel's survey and website~\cite{michel2019busy,PMichel_website}.
+
+\subsection{Structure of the proof}\label{sec:intro:structure}
+
+The structure of the proof of our main result, Theorem~\ref{th:BB5}, is as follows: machines are enumerated arborescently in \textit{Tree Normal Form} (TNF)~\cite{Brady64} -- which drastically reduces the search space's size: from $16{,}679{,}880{,}978{,}201$ 5-state machines to ``only'' $\BBtheFifthTNF$; see \S\ref{sec:enum}. Each enumerated machine is fed through a \textit{pipeline} of proof techniques, mostly consisting of \textit{deciders}, which are algorithms trying to decide whether the machine halts or not. Because of the uncomputability of the halting problem, there is no \textit{universal} decider and all the craft resides in creating deciders able to decide large families of machines in reasonable time. Almost all of our deciders are instances of an abstract interpretation framework that we call \textit{Closed Tape Language} (CTL), which consists in approximating the set of configurations visited by a Turing machine with a more convenient superset, one that contains no halting configurations and is closed under Turing machine transitions (see \S\ref{sec:deciders}). The $S(5)$ pipeline is given in Table~\ref{tab:pipelineBB5}. All the deciders in this work were crafted by The bbchallenge Collaboration; see \S\ref{sec:deciders}.
+
+In the case of 5-state machines, \numSporadic \textit{Sporadic Machines} were not solved by deciders and required individual proofs of nonhalting, see \S\ref{sec:sporadic}. These machines include surprising behaviours, such as eventually reaching an infinite loop after more than $5.41\times10^{51}$ steps of chaos (machine ``Skelet~\#1''), base-Fibonacci double counter (machine ``Skelet~\#10''), or obfuscated Gray code (machine ``Skelet~\#17''~\cite{xu2024skelet17fifthbusy}) and they are beautiful examples of \textit{algorithms in the wild}: non-human-engineered algorithms that, like deep sea life, were only found by means of exploration. \NV{The proof of Theorem~\ref{th:BB5} is given in \S\ref{sec:results}; algorithms, correctness proofs, and detailed results for all deciders and sporadic machines are given in~\cite{BB5}.}
+
+\paragraph{Collaboratively solving the problem: bbchallenge.org.} In 2022, St\'erin created ``The Busy Beaver Challenge'', \url{bbchallenge.org}, an online platform dedicated to collaboratively solving ``$S(5)=\BBtheFifth$''~\cite{sterin_2022_14955828}. Collaboration was motivated by the great amount of Turing machines to study in order to solve the problem. With the surprise release of \CoqBB in the spring of 2024, almost all the collaborative work performed on \url{bbchallenge.org} during these 2~years was embedded in the \Coq proof -- \CoqBB also contains many original innovations. The bbchallenge Collaboration roughly comprises all who participated in the discussions across all our channels (Discord chat, forum, wiki, GitHub, emails), who total hundreds of people. Some of them are anonymous. Most contributors have no academic affiliation. Our research happened in public with no withholding of information, enabling full reproducibility of the results. \NV{We invite the reader to consult~\cite{BB5} for a detailed account of the collaboration.}
+
+\paragraph{Proof assistants and \CoqBB.} \CoqBB is written in \Coq~\cite{the_coq_development_team_2024_14542673}, which is a proof assistant and programming language based on the Calculus of Inductive Constructions~\cite{CoC} whose development started in 1989. With hundreds of millions of Turing machines to study, the use of a proof assistant immensely facilitates scientific consensus on the correctness of the proof: for instance, we are assured that no Turing machine was forgotten in the study and that our proofs of nonhalting are correct. Also, the 13 individual proofs for Sporadic Machines contain technical and error-prone arguments that would be harder to verify and trust if not formalised -- \eg a standalone article was dedicated to machine ``Skelet~\#17''~\cite{xu2024skelet17fifthbusy} and its \Coq proof is almost $7{,}000$ lines long.
+
+\CoqBB was released in the spring of 2024 by contributor mxdys who embedded two years of work done by the bbchallenge collaboration as well as improving and introducing new deciders to finish the proof: \CoqBB is not an \textit{a~posteriori} formalisation of existing work and contains many original innovations without which even a nonformalised $S(5)$ proof would have been a lot more complex. \CoqBB totals $27{,}274$ lines of \Coq and $638$ lemmas; plus an additional $10{,}553$ lines of \Coq and $319$ lemmas including imported \texttt{busycoq} proofs~\cite{busycoq}. \CoqBB is one of the most compute-intensive formal proofs to date as it implements both the TNF enumeration of the $\BBtheFifthTNF$ Turing machines and the deciders directly in \Coq. Proofs such as \CoqBB, which rely on computing algorithmic outputs, are known as ``proofs by reflection''~\cite{boutin1997using}. \CoqBB initially compiled in about 13 hours on a standard laptop, but the use of \Coq's faster computing engine \texttt{native\_compute}~\cite{nativecompute} and parallelisation of the proof (see \S\ref{sec:enum}) brought compile time down to about 45 minutes on 13~cores. The proof only relies on \Coq's standard library axiom \texttt{functional\_extensionality\_dep}, which claims that two functions are equal if they are equal at all points. This axiom is widely accepted, consistent in \Coq, and true in common set-theoretic foundations of mathematics.
+
+\subsection{Discussion}\label{sec:intro:discuss}
+
+\paragraph{Cryptids.} The \BBfull game is a concrete attempt at identifying the frontier between the knowable and the unknowable: what is the highest $n$ for which we can prove the value of $S(n)$? Knowing that for $n > 5$, the proof may involve solving arbitrarily difficult problems or worse, simply be outside of PA or ZF. The \BBfull game is great at generating open problems in mathematics!
+
+For instance, in all the unsolved Turing machine classes, we have found what we call ``Cryptids'', which are loosely defined as Turing machines whose halting problem from the all-zero tape is believed to be mathematically hard. With 6 states, Antihydra (\tm{1RB1RA\_0LC1LE\_1LD1LC\_1LA0LB\_1LF1RE\_---0RA}) is a machine that does not halt from the all-zero tape if and only if the following Collatz-reminiscent conjecture holds:
+
+\begin{conjecture}[Antihydra does not halt]
+    Consider the Collatz-like map $H: \mathbb{N} \to \mathbb{N}$ defined by $H(x) = 3\frac{x}{2}$ if $x$ is even and $H(x) = \frac{3x-1}{2}$ if $x$ is odd. Iterating $H$ from $x=8$, there are never (strictly) more than twice as many odd numbers as even numbers.
+\end{conjecture}
+
+Using Conway's terminology, the conjecture \textit{probviously} (portmanteau of the words probabilistic and obvious) holds because a probabilistic analysis of the Turing machine suggests that its probability of ever halting is minuscule, namely, $\smash{\left(\frac{\sqrt{5}-1}{2}\right)}^{1073720885}\!\!\approx 4.84\times 10^{-224394395}$. However, properly proving that Antihydra does not halt is believed mathematically hard, because of resemblance to the notoriously hard Collatz conjecture~\cite{LagariasCollatz}: Antihydra is a Cryptid. Antihydra is the \textit{smallest} open problem in mathematics, on the \BBfull scale. Or, to be exact, one of the smallest, since a dozen other 6-state Cryptids have been identified to date, such as the following, jokingly called, Beaver Math Olympiad (BMO) problem:
+
+\begin{problem}[BMO Problem 1]
+Let $(a_n)_{n \ge 1}$ and $(b_n)_{n \ge 1}$ be two sequences such that $(a_1, b_1) = (1, 2)$ and
+$$(a_{n+1}, b_{n+1}) = \begin{cases}
+        (a_n-b_n, 4b_n+2) & \text{if }a_n \ge b_n \\
+        (2a_n+1, b_n-a_n) & \text{if }a_n < b_n
+    \end{cases}$$
+\noindent for all positive integers $n$. Does there exist a positive integer $i$ such that $a_i = b_i$?
+\end{problem}
+
+This problem is a reformulation of ``does \tm{1RB1RE\_1LC0RA\_0RD1LB\_---1RC\_1LF1RE\_0LB0LE} halt?'' In hindsight, it is surprising (and lucky!) that there are no 5-state Cryptids. Cryptids illustrate the ease with which the \BBfull game generates small, non-trivial, open mathematical problems, challenging our intelligence and the limits of mathematical knowledge. \NV{We invite the reader to consult~\cite{BB5} for a detailed account of Cryptids.}
+
+\paragraph{Trends in collaborative research.} Massively collaborative online research in mathematics and theoretical computer science is a relatively new phenomenon, pioneered by the Polymath Project, which collaboratively solved several problems in mathematics~\cite{Gowers2009}. In many ways, \texttt{bbchallenge}'s effort is closer to experimental open-source software project development than to traditional research in mathematics or theoretical computer science: we mainly develop algorithms (deciders), and as a consequence, \CoqBB itself is essentially a collection of algorithms, proved correct.
+
+The current increasing popularity of proof assistants such as \Coq or Lean within the mathematical and computer science communities naturally accelerates this convergence between collaborative research and open source software development: researchers can now leverage the same tools and processes as developers (version control, \textit{pull requests}, \textit{issues}, etc.) to massively collaborate on proofs in a scalable way -- \ie not requiring humans to check or trust proofs. As a concrete example, shortly after we announced our $S(5)$ result, Terence Tao launched a collaborative pilot project in universal algebra, called the ``Equational Theories Project'' (ETP), \NV{leveraging} GitHub and Lean as their means of collaboration~\cite{TaoBlog,ETPpaper}. The project was extremely successful, attracted more than 50 contributors, and was completed in only a few months.
+
+\paragraph{Future Work.} Solving $S(5)$ does not solve all questions about $5$-state Turing machines, for instance we are interested in the following problems: (i) characterising all 5-state counters (see \S\ref{sec:zoo}); (ii) finding the biggest loop among 5-state machines with no halting transitions -- we already know of some that are way bigger than Sporadic Machine ``Skelet~\#1''~\cite{ligocki2022motherofgiants}; (iii) is there a universal Turing machine with 5 states?
+
+Progress is ongoing in all unsolved Turing machine classes (Table~\ref{table:landscape}): new deciders are being developed to tackle $S(3,3)$, $S(2,5)$ and $S(6)$, including a generalisation of all the regular CTL deciders presented in this paper. Most of these new deciders have been formalised using \Coq. There currently remain only $4$ holdouts for $S(3,3)$, including a probviously halting suspected new champion, and only $60$ holdouts for $S(2,5)$.
+
+Concerning $S(6)$, the TNF enumeration of 6-state machines, which contains about 33 billion machines, has also been partially implemented in \Coq, and, together with the deciders and about $2{,}000$ individual proofs of nonhalting, ``only'' about $\numBBsholdouts$ holdouts remain to date. Importantly, among these holdouts we have:
+\begin{itemize}[label=--]
+    \item Antihydra and other Cryptids, which are, most likely, extremely hard problems to solve.
+    \item The possible existence of a halting machine that exceeds the current $2\uparrow\uparrow\uparrow5$ champion, which could require significant analysis or accelerated simulator improvements to be detected.
+\end{itemize}
+
+The open problems generated by our work have been included in a dataset of Lean-formalised conjectures, designed to serve as future challenges for AI reasoning tools~\cite{google-deepmind-formal-conjectures}. More generally, given the sheer amount of problems, with broad variety of difficulty (from very easy to near-impossible), that the \BBfull game can generate, the ability to prove known \BBfull values or to make progress on unknown ones would be an ambitious benchmark for machine intelligence. \CoqBB has already started being used with that goal in mind: AI systems have been tested on proving its first 100 lemmas of the $S(4)$ proof, with 58\% success so far~\cite{teodorescu2024nlir}.
+
+Hence, in perpetuating a longstanding tradition of hope about \BBfull values \cite{BB5}, we predict that $S(6)$ will never be proved.
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Enumerating Turing machines in Tree Normal Form (TNF)}\label{sec:enum}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+Syntactically, there are $(2ns + 1)^{ns}$ Turing machines with $n$ states and $s$ symbols. This gives $21^{10} \simeq 16.7 \text{ trillion}$ possible 5-state 2-symbol Turing machines. However, naively counting \NV{this way} does not account for two phenomena: (i) \textbf{unreachable transitions} and (ii) \textbf{state/symbol permutations} \NV{(permuting non-\stateA states and non-\szero symbols creates identical machines up to renaming)}.
+
+Tree Normal Form (TNF) enumeration, introduced by Brady in 1963 in his PhD thesis~\cite{Brady64}, solves both of these problems: Turing machines are recursively \textit{discovered} starting from the machine with no transitions defined (TNF root). Each enumerated machine is processed by a pipeline of deciders (\S\ref{sec:deciders}) which will output either \HALT, \NONHALT or \UNKNOWN for each machine:
+\begin{itemize}
+    \item \HALT. If the machine halts, it means that it has met an undefined transition and children of the machine correspond to all the possible ways of defining that undefined transition. Avoiding redundant state/symbol permutations is dealt with at this point by imposing an order on the yet-to-be-seen states/symbols.
+    \item \NONHALT. If the machine does not halt, all its remaining undefined transitions are unreachable and the machine is a leaf of the TNF tree.
+    \item \UNKNOWN. If the halting status of a machine remains unknown, it is put in the basket of \textit{holdouts}. Having solved $S(5)$ means that there are no more 5-state holdouts.
+\end{itemize}
+
+\NV{One further optimization: at the first level of the TNF tree,} machines that make a first move to the left \NV{are avoided}, as they can be symmetrised to go to the right instead. \NV{Leaves of the TNF tree that have all their transitions defined are not enumerated because they are obviously nonhalting.}
+
+\begin{table}[h!]
+    \centering
+    \small
+    \begin{tabular}{|l|r|r|r|r|}
+        \hline
+        $S(n)$ & Nonhalt     & Halt       & Total       & Ratio      \\
+        \hline
+        $S(2)$ & 42          & 19         & 61          & $107$      \\
+        $S(3)$ & 3,645       & 1,772      & 5,417       & $891$      \\
+        $S(4)$ & 609,216     & 249,693    & 858,909     & $8{,}121$  \\
+        $S(5)$ & 133,005,895 & 48,379,894 & 181,385,789 & $91{,}958$ \\
+        \hline
+    \end{tabular}
+    \caption{TNF metrics for $S(2),\dots,S(5)$: number of nonhalting and halting machines in the TNF tree, total number of TNF-enumerated machines and ratio between $(4n+1)^{2n}$ (syntactic count) and TNF count.}\label{tab:TNF-numbers}
+\end{table}
+
+TNF is unreasonably effective (Table~\ref{tab:TNF-numbers}): for 5-state 2-symbol machines, it reduces the search-space from 16 trillion to just $\BBtheFifthTNF$ machines.
+
+\paragraph{\CoqBB TNF implementation.} TNF enumeration is implemented in \CoqBB for the proofs of $S(2),\dots,S(5)$; see file \texttt{TNF.v}. A \texttt{SearchQueue} abstraction with DFS capabilities is implemented; the search queue is initialised with the TNF root, and deciders (\S\ref{sec:deciders}) are run on the enumerated Turing machines. Halting machines' children are added to the queue: the goal of the proof is to empty the queue. Importantly, \texttt{Lemma\ SearchQueue\_upd\_spec} ensures that $S$ can be computed considering only TNF-enumerated machines.
+
+Taking advantage of the tree structure, compilation of the $S(5)$ proof was parallelised by isolating the 12 children of the second level of the TNF tree in separate, independent files; see folder \texttt{BB5\_TNF\_Enumeration\_Roots/}. Parallelising the compilation made the proof compile in about 45 minutes (on 13 cores) instead of 13 hours. \CoqBB's proof of $S(2,4)$ implements TNF almost exactly as described but does not impose an order on non-\szero symbols (``quasi-TNF'').
+
+\paragraph{TNF normalisation.} To compute the TNF-equivalent of an arbitrary Turing machine, states are reordered by first-visit order, and all R moves are swapped with L (and vice versa) if the initial move is L. This process is not computable in general, as we cannot determine in advance which states will be visited. However, for $n$-state machines, knowing $S(n-2)$ makes TNF normalisation computable.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Deciders}\label{sec:deciders}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+In this work, we call a \textit{decider} a program that takes as input a Turing machine $\mathcal{M}$ and that returns in finite time either \HALT, \NONHALT, or \UNKNOWN depending on whether it was able to detect the machine's halting status or not. A \textit{pipeline} consists of applying different proof techniques in sequence: a machine is tested by each decider successively until one of them outputs \HALT or \NONHALT. We call \textit{Sporadic Machines} the \numSporadic machines that were not solved by any decider but using individual proofs of nonhalting instead, see \S\ref{sec:sporadic}. Table~\ref{tab:pipelineBB5} gives an approximation of the pipeline implemented in \CoqBB in order to prove $S(5) = \BBtheFifth$.
+
+\begin{table}[h!]
+    \centering
+    \small
+    \resizebox{\columnwidth}{!}{%
+        \begin{tabular}{|l|rrr|}
+            \hline
+            $S(5)$ pipeline                                        & Nonhalt                         & Halt                           & Total decided \\
+            \hline
+            1. Loops                                               & 126,994,099                     & 48,379,711                     & 175,373,810   \\
+            2. $n$-gram Closed Position Set (NGramCPS)             & 6,005,142                       & 0                              & 6,005,142     \\
+            3. Repeated Word List (RepWL)                          & 6,577                           & 0                              & 6,577         \\
+            4. Finite Automata Reduction (FAR)                     & 23                              & 0                              & 23            \\
+            5. Weighted FAR (WFAR)                                 & 17                              & 0                              & 17            \\
+            6. Long halters (simulation up to $\BBtheFifth$ steps) & 0                               & 183                            & 183           \\
+            7. Sporadic machines, individual proofs                & 13                              & 0                              & 13            \\
+            8. \texttt{1RB}-reduction                              & 24                              & 0                              & 24            \\ \hline
+            Total                                                  & \multicolumn{1}{r}{133,005,895} & \multicolumn{1}{r}{48,379,894} & 181,385,789   \\ \hline
+        \end{tabular}
+    }
+    \caption{Approximation of the $S(5)$ pipeline as implemented in \CoqBB. All the $\BBtheFifthTNF$ enumerated 5-state machines are decided by this pipeline. \NV{The exact pipeline with deciders parameters as well as the $S(2,4)$ and $S(4)$ pipelines are given in~\cite{BB5}.}}\label{tab:pipelineBB5}
+\end{table}
+
+Five deciders are used in \CoqBB to solve $S(5)$, see Table~\ref{tab:pipelineBB5}: Loops, $n$-gram Closed Position Set (NGramCPS), Repeated Word List (RepWL), Finite Automata Reduction (FAR) and Weighted Finite Automata Reduction (WFAR). To the best of our knowledge, all these deciders are original. Solving $S(2,4)$ and previously known $S(4)$~\cite{Brady83} only used a subset of these deciders and required a lot less effort -- \eg no individual nonhalting proofs.
+
+All these deciders can be expressed in the same general framework, known as Closed Tape Language (CTL) which is an abstract interpretation idea attributed to Marxen and Buntrock and was first documented by Ligocki~\cite{ShawnCTL}:
+
+\paragraph{General framework: Closed Tape Language (CTL).} For a given Turing machine, assume there is a set $C$ of configurations such that:
+\begin{enumerate}
+    \item $C$ contains the initial all-\szero configuration.
+    \item $C$ is \textit{closed} under transitions: for any $c \in C$, the configuration one step later belongs to $C$.
+    \item $C$ does not contain any halting configuration.
+\end{enumerate}
+Then, the machine does not halt from any configuration of $C$ and, in particular, from the initial all-\szero configuration.
+
+\paragraph{Regularity.} All our deciders but WFAR are instances of \textit{regular} CTL, meaning that set $C$ is a regular language -- \ie $C$ is described using a Finite State Automaton or, equivalently, a regular expression. We say that a machine is \textit{regular} if it can be proven nonhalting using regular CTL, otherwise we say it is \textit{irregular}. Interestingly, only regular deciders are needed to solve $S(4)$ and $S(2,4)$, which, assuming $S(5)$ irregularity arguments are correct, draws a conceptual line separating $S(4)$ from $S(5)$.
+
+\paragraph{Deciders vs.~verifiers.} While we put all the methods under the decider umbrella it is worthwhile to mention that, in \CoqBB, only the \textit{verifier} part of FAR and WFAR are implemented. This means that instead of searching for a CTL set $C$, it is given and verified correct: \CoqBB hardcodes a total of $40$ FAR/WFAR certificates.
+
+\paragraph{\texttt{1RB}-reduction.} Any TNF-enumerated machine whose initial transition writes a \szero and which has at least one transition writing a \sone (TNF guarantees the transition is reachable), can be transformed into a machine that starts by writing a \sone and visits the same configurations (up to state-renaming), see \CoqBB's function \texttt{TM\_to\_NF}. Hence, any machine whose reduction to \texttt{1RB} already has a proof of nonhalting can be decided using the same argument. In the $S(5)$ pipeline this argument is used to decide 24 machines.
+
+\NV{We now briefly describe each decider. Algorithms, correctness proofs, and detailed results are given in~\cite{BB5}.}
+
+\paragraph{Loops.} Arguably, one of the most elementary arguments to prove that a Turing machine does not halt on a given input is to show that it enters a \textit{loop} by eventually repeating the same configuration, \ie same tape content, head position, and state. Slightly less obvious, but extremely common, is the case where a configuration is repeated but translated in space (analogously to \textit{gliders} in cellular automata), also leading to nonhalting. We respectively call these types of machines: (i)~\textit{\cyclers} and (ii)~\textit{\TCs}, which we regroup under the umbrella term of loops.
+
+Here, we develop a completely different algorithm for deciding both \cyclers and \TCs. The particularity of this algorithm is that it detects loops only by analysing the history of state, read-symbol and \headposs visited by the machine, instead of considering entire configurations (\ie with full tape content information). Hence, in theory, this algorithm can be implemented to use less memory than previously-known algorithms. This algorithm was introduced with \CoqBB.
+
+Let us call the \textit{transcript} of a machine the list of successive \ssps visited by the machine from the all-\szero tape. Surprisingly, it turns out that in order to detect loops, we only have to track when a transcript repeats the same sequence twice back-to-back. When such a repetition occurs, we use the extra information of \headpos to conclude:
+
+\begin{enumerate}
+    \item If when entering the second repetition the head is at the same position it was at the beginning of the first repetition, then we have detected a \cycler.
+    \item If, at the beginning of both repetitions, the head is at the same extremity of the tape (\ie both positions are either both a local maximum or both a local minimum) then we have detected a \TC.
+\end{enumerate}
+
+\NV{The decider for loops handles} 95.48\% of nonhalting and more than 99.99\% of halting 5-state machines. In this sample of nonhalting loops we find approximately 86\% \TCs and 14\% \cyclers which suggests that, in general, \TCs are much more common than \cyclers.
+
+\paragraph{$n$-gram Closed Position Set (NGramCPS).} The $n$-gram Closed Position Set (NGramCPS) decider which we introduce here is a simplification of an earlier technique, Closed Position Set (CPS), itself introduced in \texttt{bbfind}~\cite{Skelet_bbfind}. Surprisingly, NGramCPS is a relatively simple technique which makes a potent decider as it decides 99.89\% of all nonhalting enumerated 5-state machines excluding loops, see Table~\ref{tab:pipelineBB5}.
+
+The method is especially potent when augmenting the binary alphabet of Turing machines to record extra information on the tape, such as a fixed-length history of previously seen (state,symbol) pairs. NGramCPS was first developed without augmentations~\cite{ngramcps_fenner} which were later introduced with \CoqBB.
+
+The decider considers finite, \textit{local configurations} of a Turing machine consisting of: (i) the \textit{$n$-grams} (\ie sequences of $n > 0$ symbols from the tape alphabet) respectively to the left and to the right of the head; (ii) the state the machine is in; (iii) the symbol currently read by the head, referred to as \textit{middle} symbol. By \textit{$n$-gram}, we mean a sequence of $n > 0$ symbols from the tape alphabet (for instance, the binary alphabet $\alphabet=\{\szero,\sone\}$).
+
+The algorithm builds a set of local configurations \textit{potentially} reachable by the machine until either an undefined transition is met or no new configurations are added to the set, \ie the set is closed under Turing machine operations. In the first case, the decider cannot conclude and the machine is left undecided. In the second case, the decider concludes that the machine does not halt as no undefined transition (\ie where the machine could be asked to halt) can be reached; this is a CTL argument, see above.
+
+\paragraph{Tape alphabet augmentations.} The NGramCPS decider becomes particularly powerful for deciding 5-state 2-symbol Turing machines when augmenting the 2-symbol alphabet to store more information on the tape. Two augmentations are used in \CoqBB:
+\begin{enumerate}
+    \item \textbf{Fixed-length history.} In this variant, tape symbols encode the current binary symbol on a cell as well as a fixed-length list of (state, binary symbol) pairs previously seen on the cell.
+    \item \textbf{Least Recent Usage history (LRU).} In this variant, tape symbols encode the set of state-symbol pairs seen at that cell, in order of when it was seen last, the most recent first. One fundamental difference with the fixed-length history augmentation is that here, the history is not of fixed length but is bounded by number of states times number of symbols, \ie 10 in the case of $S(5)$.
+\end{enumerate}
+Furthermore, it is easy to verify that if the decider returns \NONHALT for an augmented machine, then the non-augmented machine does not halt.
+
+\paragraph{Repeated Word List (RepWL).} The Repeated Word List (RepWL) technique, introduced in \CoqBB, is based on the following simple idea: if a word (or \textit{block}) of length $l > 0$ appears consecutively on the tape more than $T > 0$ times (with $l, T \in \mathbb{N}$ fixed) then, we assume it may repeat an unbounded number of times in the future. In practice, it means we represent configurations as regular expressions and call them \textit{regex configurations}. For instance, consider the following configuration:
+$$ \texttt{0}^\infty \; \texttt{11100 A> 111101010111111111} \; \texttt{0}^\infty$$
+Using block length $l=2$, by grouping symbols from the head outwards, we get:
+$$ \texttt{0}^\infty \; (\texttt{01}) \; (\texttt{11}) \; (\texttt{00}) \; \texttt{A>} \; (\texttt{11})^2 \; (\texttt{01})^{3} \; (\texttt{11})^{4} \; \texttt{0}^\infty $$
+And, using \textit{repeat threshold} $T=3$ we get the following regex configuration:
+$$ \texttt{0}^\infty \; (\texttt{01}) \; (\texttt{11}) \; (\texttt{00}) \; \texttt{A>} \; (\texttt{11})^2 \; (\texttt{01})^{3+} \; (\texttt{11})^{3+} \; \texttt{0}^\infty $$
+Any repetition of more than $T$ times the same word $w$ is replaced by the regular expression $(w)^{T+}$ meaning that word $w$ is repeated at least $T$ times. \NV{Using the rules of} \textit{block simulation} \NV{(when the head faces a constant block, simulate the machine until the head leaves the block)} and \textit{regex branching} \NV{(when the head faces a block with $^+$, branch into two configurations)}, RepWL creates a graph of regex configurations to explore. If this graph is eventually closed and contains no halting configuration, the machine does not halt; this is a CTL argument. \NV{In the $S(5)$ pipeline, RepWL decides $6{,}577$ machines with per-machine parameters $(l,T)$ found by grid search ($1 \leq l \leq 38$, $2 \leq T \leq 4$). RepWL graph sizes range from 42 to $143{,}181$ nodes.}
+
+\paragraph{Finite Automata Reduction (FAR).} Finite Automata Reduction (FAR) is a \textit{co-CTL} technique, \ie it is dual to the Closed Tape Language (CTL) framework given above: for a given Turing machine, we are looking for a regular language that contains the set of the machine's eventually-halting configurations and, provided that the all-\szero configuration is not in the regular language, we know that the machine does not halt.
+
+The specificity of FAR is to restrict regular languages to a class of Nondeterministic Finite Automata (NFA) -- those satisfying \NV{an algebraic theorem (see~\cite{BB5})} -- for which it is computationally simple to verify that they have the co-CTL properties: (i) reject the all-\szero initial configuration, (ii) closed under Turing machine transitions, (iii) accept all eventually-halting configurations. \NV{Configurations are represented as finite words by concatenating} the tape content (from left to right, making sure to include all the \sone{}s) and adding the state just before the position of the head. For instance, two word-representations of $\texttt{0}^\infty \; \texttt{A> 0011} \; \texttt{0}^\infty$, are $\hat{c} = \texttt{A0011}$ and $\hat{c}' = \texttt{000A00110000}$. The initial all-\szero configuration can be encoded as \texttt{A0} or even just \texttt{A}. FAR is a \textit{universal} regular co-CTL method: any regular co-CTL proof can be expressed in FAR's framework~\cite{bbchallenge_part1}. In \CoqBB, 23~FAR certificates are hardcoded. FAR was originally developed as a fully-fledged decider -- \ie the verifier together with search algorithms for NFAs~\cite{bbchallenge_part1}.
+
+\paragraph{Weighted FAR (WFAR).} Weighted automata are an extension of usual finite state automata where each transition is given a weight in $\Z$: when a word is processed, total weight $W \in \Z$ is computed by summing the weights of all the encountered transitions. Weighted Finite Automata Reduction (WFAR) is an extension of FAR using deterministic weighted finite automata~\cite{iijil1_2025_14914502}. A WFAR automaton consists of (i)~a \textit{left deterministic weighted automaton} (ii)~a \textit{right deterministic weighted automaton} and (iii)~a set of accepted \textit{weighted configurations}. WFAR is a CTL technique (instead of co-CTL for FAR). The method was initially developed as a decider~\cite{iijil1_2025_14914502} and integrated to \CoqBB as a verifier: 17 WFAR certificates are directly hardcoded in the \Coq proof.
+
+Not all machines solved by WFAR are necessarily irregular but we strongly suspect that the 17 machines it solves in the $S(5)$ pipeline (Table~\ref{tab:pipelineBB5}) are irregular because intensive search did not allow finding regular CTL solutions for them. Informal irregularity arguments have been given for sporadic machines ``Finned~\#3'' and ``Skelet~\#17''~\cite{irregularFinned3,irregularSk17}, see \S\ref{sec:sporadic}.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{5-state Sporadic Machines}\label{sec:sporadic}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Sporadic Machines are \numSporadic nonhalting 5-state Turing machines that were not captured by deciders (\S\ref{sec:deciders}) and required individual \Coq proofs of nonhalting. Twelve of these machines, \ie all but ``Skelet~\#17'' (see below), were proved nonhalting in \texttt{busycoq}~\cite{busycoq}, and then integrated into \CoqBB. Machine ``Skelet~\#17'' was the last 5-state machine to be formally proven nonhalting in \Coq, as part of \CoqBB, achieving the proof of $S(5) = \BBtheFifth$ -- a different proof also had been released as a standalone paper~\cite{xu2024skelet17fifthbusy}.
+
+Interestingly all Sporadic Machines had been identified by Georgiev (``Skelet'', see \S\ref{sec:intro:rw}) in 2003: either as part of his 43 unsolved machines, or, in the case of ``Finned Machines'', marked by him as ``easily provable by hand''~\cite{Skelet_bbfind_list}. Sporadic Machines can be arranged in three buckets:
+\begin{itemize}
+    \item \textbf{Finned Machines.} These are five similar machines (\href{https://bbchallenge.org/1RB0LE_1RC1RB_1RD1LC_0LE0RB_---1LA}{\#1}, \href{https://bbchallenge.org/1RB1RA_1RC1LB_0LD0RA_1RA1LE_---0LD}{\#2}, \href{https://bbchallenge.org/1RB1RE_1LC1RB_0RA0LD_1LB1LD_---0RA}{\#3}, \href{https://bbchallenge.org/1RB1LA_0LC0RE_---1LD_1RA0LC_1RA1RE}{\#4}, \href{https://bbchallenge.org/1RB1LA_0LC0RE_---1LD_1LA0LC_1RA1RE}{\#5}) that hold 3 unary numbers on the tape (and can merge the middle one into its neighbour), vary them while maintaining a linear relation, and in the process ensure any deviation from this linear relation would be detected and cause a halt. These machines were solved by handcrafting nonhalting certificates similar in flavor to WFAR certificates (\S\ref{sec:deciders}). The certificates were crafted by Blanchard, translated in \Coq by K\k{a}dzio{\l}ka. An argument of irregularity (\S\ref{sec:deciders}) was given for machine ``Finned~\#3''~\cite{irregularFinned3}. A later-developed irregular extension of RepWL has been reported to solve these machines.
+    \item \textbf{Shift Overflow Counters.} This family concerns Skelet's machines \href{https://bbchallenge.org/1RB---_1RC1LB_1LD1RE_1LB0LD_1RA0RC}{\#15}, \href{https://bbchallenge.org/1RB1LD_1RC0RB_1LA1RC_1LE0LA_1LC---}{\#26}, \href{https://bbchallenge.org/1RB1LC_0RC0RB_1LD0LA_1LE---_1LA1RE}{\#33}, \href{https://bbchallenge.org/1RB1LC_0RC0RB_1LD0LA_1LE---_1LA1RA}{\#34} and \href{https://bbchallenge.org/1RB1LC_0RC0RB_1LD0LA_1LE---_1LA0LA}{\#35}. These machines are similar: they implement two independent binary counters, one to the left of the tape and the other to the right. Their behaviour can be described by two distinct phases: an orderly ``Counter Phase'' where each counter is simply incremented and a more complex ``Reset Phase'' triggered by one of the counters overflowing. If the counter were to overflow again during a ``Reset Phase'', the machines would halt. Therefore, the proof of nonhalting depends upon demonstrating that the machine maintains a ``Reset Invariant'' throughout the ``Reset Phase'' which does not allow another overflow. These machines were first analysed and described by Ligocki, who provided an informal proof of ``Skelet~\#34'' as well as conjectures about the others~\cite{ShawnSOC}. They were then proved in \Coq by Yuen and K\k{a}dzio{\l}ka as part of \texttt{busycoq}~\cite{busycoq}.
+    \item \textbf{Skelet~\#1, Skelet~\#10, and Skelet~\#17.} These three machines each have unique behaviours which we detail below.
+\end{itemize}
+
+\paragraph{Skelet~\#1} (\tm{1RB1RD\_1LC0RC\_1RA1LD\_0RE0LB\_---1RC}). This machine is a \TC, but with enormous parameters: its pre-period (number of steps to wait before the pattern first appears) is about $5.42 \times 10^{51}$ and its period is $8{,}468{,}569{,}863$. This was discovered by means of accelerated simulation by Kropitz and Ligocki~\cite{uniSk1} and thorough analysis by Ligocki~\cite{ShawnSkelet1Before,ShawnSkelet1}. The result was confirmed correct after K\k{a}dzio{\l}ka formalised it in \Coq as part of \texttt{busycoq}~\cite{busycoq}. No reasonable step-limit would allow any simulation-based decider to solve this machine.
+
+\paragraph{Skelet~\#10 (Double Fibonacci Counter)} (\tm{1RB0RA\_0LC1RA\_1RE1LD\_1LC0LD\_---0RB}). This machine implements two independent \textit{base Fibonacci} counters, one to the left of the tape and the other to the right. Counting in base Fibonacci means exploiting Zeckendorf's theorem~\cite{wiki:Zeckendorf's_theorem}: any natural number can be expressed as a sum of Fibonacci numbers in exactly one way, excluding using numbers immediately adjacent in the Fibonacci sequence, where the Fibonacci sequence is $F = 1,2,3,5,8,13,21,34\dots$ For instance, $17 = 1 + 3 + 13$ and this decomposition would be represented as \texttt{100101} in big-endian binary: the $i^\text{th}$ bit from the right is $1$ if we use $F_i$ in the sum. Each of the two counters of Skelet~\#10 enumerates natural numbers in base Fibonacci, using slightly different encodings and the machine halts iff the counters ever get out of sync -- which, does not happen. The machine was analysed independently by Briggs and Ligocki~\cite{DanBriggs,ShawnSkelet10} and Ligocki's proof was formalised in \Coq by K\k{a}dzio{\l}ka as part of \texttt{busycoq}~\cite{busycoq}. Skelet~\#10 is the only known 5-state \textit{double} Fibonacci counter, but there are several known \textit{single} Fibonacci counters, such as \tm{1RB0RA\_0LC1RA\_1LD0LC\_1RE1LC\_---0RB}, solved by \CoqBB's NGramCPS (\S\ref{sec:deciders}).
+
+\paragraph{Skelet~\#17} (\tm{1RB---\_0LC1RE\_0LD1LC\_1RA1LB\_0RB0RA}). \textit{The final boss.} This machine manages a list of integers $n_1, \dots, n_k \in \mathbb{N}$ represented in unary on the tape. The list can only increase and undergoes a set of complex transformations related to Gray code, and, the machine halts iff $n_1 = n_2 = 0$ and $n_3,\, \dots,\, n_k$ are all even, which, never happens. This description was first drafted by savask~\cite{savaskSk17}, proven in a standalone paper by Xu~\cite{xu2024skelet17fifthbusy} and, finally, formalised (using a different proof) in \Coq by mxdys as part of \CoqBB. Skelet~\#17 was the last 5-state machine to be solved. An argument of irregularity was given in~\cite{irregularSk17}.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Zoology}\label{sec:zoo}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+As we were \textit{computing in the wild}, we identified several \textit{zoological families} among 5-state Turing machines. \NV{We invite the reader to consult~\cite{BB5} for space-time diagrams illustrating each family.}
+
+\begin{enumerate}
+    \item \textbf{\cyclers and \TCs}; \S\ref{sec:deciders}. \TCs are the most common \textit{species} among 5-state machines -- estimated to be about 80\% of TNF-enumerated machines.
+    \item \textbf{Bouncers.} This family consists of machines that populate the tape with linearly-expanding patterns while bouncing back and forth from tape extremities. Bouncers have been formally defined and efficient deciders (not used in \CoqBB) have been crafted to detect them~\cite{bbchallenge_part1}.
+    \item \textbf{Counters.} Counters are machines that enumerate numbers in a basis bigger than $1$. There is a rich variety of 5-state counters, counting in all sorts of bases: base~2, base~3, base~3/2, base Fibonacci (\S\ref{sec:sporadic}) and Fibonacci variants $A(n) = A(n-1) + A(n-3)$, etc.
+    \item \textbf{Double Counters.} Double Counters implement two independent counters, Skelet~\#10 is an example (\S\ref{sec:sporadic}).
+    \item \textbf{Fractals.} Fractal machines are loosely defined as machines whose space-time diagrams draw a fractal, self-similar, pattern when ``zooming-out'' (\ie simulating more steps).
+    \item \textbf{Helices.} Helices are loosely defined as Turing machines whose space-time diagrams resemble a double helix. Helices require big nonregular certificates of nonhalting, see WFAR in \S\ref{sec:deciders}.
+    \item \textbf{Bells.} Bells are loosely defined as Turing machines whose space-time diagrams resemble a succession of bells. The 5-state winner and the 6-state Cryptid Antihydra (\S\ref{sec:intro:discuss}) fit this category.
+\end{enumerate}
+
+Although useful for talking about Turing machines, these families, especially when they are loosely defined, are not to be taken too seriously: (i) widely different behaviours can be implemented while maintaining a similar space-time diagram \textit{silhouette} and (ii) the zoological effort can quickly become vain given all the possible hybrids (\eg bouncer-counter) and variations within the same family, especially as the number of states increases. Attesting to the limits of a zoological effort, there exist eccentric 5-state machines such as \href{https://bbchallenge.org/1RB0RA_1LC0LD_1RE1RD_1LA1LB_---1RC}{translated counters}, \href{https://bbchallenge.org/1RB0RD_1LC1LB_1RA0LB_0RE1RD_---1RA}{``fountains''}, and, \href{https://bbchallenge.org/1RB0RC_0LC---_1RD1RC_0LE1RA_1RD1LE}{``toboggans''}. \NV{Space-time diagrams of all families are given in~\cite{BB5}.}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Results}\label{sec:results}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\CoqBB is available at \url{https://github.com/ccz181078/Coq-BB5}~\cite{mxdys_2025_17061968} and contains extensive instructions for how to compile the proof.
+
+\begin{proof}[Proof of Theorem~\ref{th:BB5}]
+    The \Coq proof enumerates 5-state Turing machines in Tree Normal Form, \S\ref{sec:enum} and Table~\ref{tab:TNF-numbers}. Each enumerated machine goes through the $S(5)$ pipeline, Table~\ref{tab:pipelineBB5}, where the halting problem from all-zero tape of each machine is solved using a decider (or verifier), \S\ref{sec:deciders}, unless the machine is one of the \numSporadic Sporadic Machines, \S\ref{sec:sporadic}, for which individual \Coq proofs of nonhalting are provided.
+    When encountering a halting machine, the proof checks that it halts before $47{,}176{,}870$ steps, giving $S(5) \leq 47{,}176{,}870$, see \texttt{Lemma BB5\_upperbound}, and, using the 5-state champion, see \texttt{Lemma BB5\_lowerbound}, the proof concludes $S(5) = 47{,}176{,}870$.
+\end{proof}
+
+\begin{proof}[Proof of Theorem~\ref{th:BB2x4}]
+    Similarly to Theorem~\ref{th:BB5}, the \Coq proof enumerates 2-state 4-symbol machines in (almost) Tree Normal Form, see \S\ref{sec:enum}. Then the $S(2,4)$ pipeline, which consists only of deciders (Loops, NGramCPS, RepWL), is applied to solve the halting problem from all-zero tape of all the enumerated machines. The proof concludes $S(2,4) = \BBTxF$.
+\end{proof}
+
+Additionally, \CoqBB also provides \Coq proofs for previously known values of $S$, including $S(4)$ of which original proof~\cite{Brady83} had slight uncertainties -- see \S\ref{sec:intro:rw}:
+
+\begin{theorem}[Confirmation of Brady's result~\cite{Brady83}]\label{th:BB4}
+    $S(4) = \BBtheFourth$.
+\end{theorem}
+
+\paragraph{Extracting machines.} The essential output of The Busy Beaver Challenge is the list of all $\BBtheFifthTNF$ TNF-enumerated 5-state machines together with their halting status and method used to determine it. Find the list at \url{https://docs.bbchallenge.org/CoqBB5_release_v1.0.0/}. This list was computed by \textit{extracting} the \Coq proof to OCaml, which means that all the \Coq-implemented algorithms were automatically transcribed in a trusted way to OCaml by the \Coq engine. If given an arbitrary 5-state Turing machine, computing TNF normalisation (see \S\ref{sec:enum}) and then performing lookup in the list allows to determine the halting status of the machine from all-zero tape.
+
+Using this Coq-verified list, any ``observable'' metric on 5-state Turing machines such as \rado's $\Sigma$ can be computed:
+
+\begin{theorem}\label{th:Sigma5}
+    $\Sigma(5) = \SigmaTheFifth$.
+\end{theorem}
+
+The winning machine for $\Sigma(5)$ is the same as for $S(5)$. Similarly, $\text{space}(5) = 12{,}289$~\cite{Ben-Amram1996}.
 
 
 \bibliographystyle{ACM-Reference-Format}
-%\newpage
 \bibliography{bbchallenge-paper}
-
-
-
-
-
 
 
 \end{document}
