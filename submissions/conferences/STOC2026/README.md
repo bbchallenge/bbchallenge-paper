@@ -1,1 +1,0 @@
-Please copy `../../../figures` and `../../../.vscode` (gitignored) in this folder if you want to compile.

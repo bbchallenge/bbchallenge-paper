@@ -7,13 +7,15 @@
 \setcopyright{acmlicensed}
 \copyrightyear{2026}
 \acmYear{2026}
-\acmDOI{XXXXXXX.XXXXXXX}
-\settopmatter{authorsperrow=4}
-
-%% STOC 2026 conference information
+\setcopyright{cc}
+\setcctype{by}
 \acmConference[STOC '26]{Proceedings of the 58th Annual ACM Symposium on Theory of Computing}{June 22--26, 2026}{Salt Lake City, UT, USA}
-\acmISBN{978-1-4503-XXXX-X/26/06}
+\acmBooktitle{Proceedings of the 58th Annual ACM Symposium on Theory of Computing (STOC '26), June 22--26, 2026, Salt Lake City, UT, USA}
+\acmDOI{10.1145/3798129.3806376}
+\acmISBN{979-8-4007-2536-4/2026/06}
 
+
+\usepackage{microtype}
 \usepackage{floatpag}
 \usepackage{subcaption}
 \usepackage{tikz}
@@ -170,6 +172,50 @@
     \hspace{1.5ex}#3%
 }
 
+\begin{CCSXML}                                                                                 
+  <ccs2012>                                                                                    
+     <concept>                                                                                   
+         <concept_id>10003752.10003790.10003795</concept_id>                                     
+         <concept_desc>Theory of computation~Computability</concept_desc>                        
+         <concept_significance>500</concept_significance>                                        
+     </concept>                                                                                  
+     <concept>                                                                                   
+         <concept_id>10003752.10003790.10011740</concept_id>                                     
+         <concept_desc>Theory of computation~Turing machines</concept_desc>                      
+         <concept_significance>500</concept_significance>                                        
+     </concept>                                                                                
+     <concept>                                                                                   
+         <concept_id>10003752.10003790.10003794</concept_id>                                   
+         <concept_desc>Theory of computation~Automated reasoning</concept_desc>                  
+         <concept_significance>300</concept_significance>                                      
+     </concept>                                                                                  
+     <concept>
+         <concept_id>10003752.10003790.10003793</concept_id>
+         <concept_desc>Theory of computation~Abstract machines</concept_desc>
+         <concept_significance>300</concept_significance>
+     </concept>
+     <concept>
+         <concept_id>10003752.10003816</concept_id>
+         <concept_desc>Theory of computation~Formal languages and automata theory</concept_desc>
+         <concept_significance>300</concept_significance>
+     </concept>
+     <concept>
+         <concept_id>10011007.10011074.10011099.10011102</concept_id>
+         <concept_desc>Software and its engineering~Formal software verification</concept_desc>
+         <concept_significance>300</concept_significance>
+     </concept>
+  </ccs2012>
+\end{CCSXML}
+
+  \ccsdesc[500]{Theory of computation~Computability}
+  \ccsdesc[500]{Theory of computation~Turing machines}
+  \ccsdesc[300]{Theory of computation~Automated reasoning}
+  \ccsdesc[300]{Theory of computation~Abstract machines}
+  \ccsdesc[300]{Theory of computation~Formal languages and automata theory}
+  \ccsdesc[300]{Software and its engineering~Formal software verification}
+                                                                                               
+  \keywords{Busy Beaver, Turing machines, computability, formal verification, Coq} 
+
 \begin{document}
 
 %%
@@ -231,6 +277,8 @@
 \author{Th\'eo Zimmermann}
 \affiliation{\institution{LTCI, T\'el\'ecom Paris, Institut Polytechnique de Paris}\country{France}}
 
+\renewcommand{\shortauthors}{{\small Blanchard, Briggs, Deka, Fenner, Forster, Georgiev, House, K\k{a}dzio{\l}ka, Kropitz, Ligocki, mxdys, Na\'{s}ciszewski, St\'erin, Xu, Yuen, Zimmermann\ \\}}
+
 %%
 %% Abstract
 %%
@@ -245,7 +293,8 @@
 
 % Highlighting: \NV{text} marks text NOT taken verbatim from the arXiv version.
 % Remove this command (and all \NV wrappers) before final submission.
-\newcommand{\NV}[1]{\textcolor{teal}{#1}}
+%\newcommand{\NV}[1]{\textcolor{teal}{#1}}
+\newcommand{\NV}[1]{#1}
 
 \newcommand{\noncomput}{uncomputable\xspace}
 \newcommand{\BBfull}{Busy Beaver\xspace}
@@ -259,9 +308,9 @@
 
 \noindent \NV{This paper is a condensed version of the arXiv paper~\cite{BB5}, which contains additional results, the complete proofs, figures, appendices, and full author list; we invite the reader to consult it.}
 
-\paragraph{The bbchallenge Collaboration: $S(5)$ credits.} The following contributions resulted in the determination of the fifth Busy Beaver value and in the better understanding of the landscape of small Busy Beaver values (Table~\ref{table:landscape}): mxdys (\CoqBB, Loops, RepWL); Nathan Fenner, Georgi Georgiev a.k.a~Skelet, savask, mxdys (NGramCPS); Justin Blanchard, Mateusz Na\'{s}ciszewski, Konrad Deka (FAR); Iijil (WFAR); Maja K\k{a}dzio{\l}ka (\texttt{busycoq}); Shawn Ligocki, Jason Yuen, Maja K\k{a}dzio{\l}ka (Sporadic Machines ``Shift Overflow Counters''); Shawn Ligocki, Pavel Kropitz, Maja K\k{a}dzio{\l}ka (Sporadic Machine ``Skelet \#1''); savask, Chris Xu, mxdys (Sporadic Machine ``Skelet \#17''); Shawn Ligocki, Dan Briggs, Maja K\k{a}dzio{\l}ka (Sporadic Machine ``Skelet \#10''); Justin Blanchard, Maja K\k{a}dzio{\l}ka (Sporadic Machines ``Finned Machines''); Shawn Ligocki, Daniel Yuan, mxdys, Matthew L. House, Rachel Hunter, Jason Yuen (``Cryptids''); Yannick Forster, Th\'eo Zimmermann (Coq review); Yannick Forster (Coq optimisation); Tristan St\'erin (bbchallenge.org); Tristan St\'erin, Justin Blanchard (paper writing).
+\paragraph{The bbchallenge Collaboration: $S(5)$ credits.} The following contributions resulted in the determination of the fifth Busy Beaver value and in the better understanding of the landscape of small Busy Beaver values (Table~\ref{table:landscape}): mxdys (\CoqBB, Loops, RepWL); Nathan Fenner, Georgi Georgiev a.k.a~Skelet, savask, mxdys (NGramCPS); Justin Blanchard, Mateusz Na\'{s}ciszewski, Konrad Deka (FAR); Iijil (WFAR); Maja K\k{a}dzio{\l}ka (\texttt{busycoq}); Shawn Ligocki, Jason Yuen, Maja K\k{a}dzio{\l}ka (Sporadic Machines ``Shift Overflow Counters''); Shawn Ligocki, Pavel Kropitz, Maja K\k{a}dzio{\l}ka (Sporadic Machine ``Skelet \#1''); savask, Chris Xu, mxdys (Sporadic Machine ``Skelet \#17''); Shawn Ligocki, Dan Briggs, Maja K\k{a}dzio{\l}ka (Sporadic Machine ``Skelet \#10''); Justin Blanchard, Maja K\k{a}dzio{\l}ka (Sporadic Machines ``Finned Machines''); Shawn Ligocki, Daniel Yuan, mxdys, Matthew L. House, Rachel Hunter, Jason Yuen (``Cryptids''); Yannick Forster, Th\'eo Zimmermann (Coq review); Yannick Forster (Coq optimisation); Tristan St\'erin (bbchallenge.org); Tristan St\'erin, Justin Blanchard (FAR writeup); Tristan St\'erin (paper writing).
 
-\paragraph{Acknowledgement.} \NV{We gratefully acknowledge Rachel Hunter, Iijil, and savask, anonymous contributors who contributed to this work as much as any co-author of this paper but could not be listed as such in this version under the ACM Authorship Policy.} The bbchallenge Collaboration is not limited to the above contributors but regroups all those who participated in the bbchallenge's discussions through all our channels (Discord chat, forum, wiki, GitHub, emails) and in particular we thank:  Nick Drozd, Andrew Ducharme, Frans Faase, Tony Guilfoyle, Johannes Hostert, Nick Howell, Jeffrey Huang, Alexandre Jouandin, Carl Kadie, Frank S. Lin, Dawid Loranc, Terry J. Ligocki, Heiner Marxen, Pascal Michel, Milo Mighdoll (milomg), Seraphina Nix, S\'ebastien Ohleyer, Peacemaker II, Andr\'es Sancho, tomtom2357, Valentin, Daniel Yuan, Polygon. We'd like to thank \texttt{bbchallenge.org} sponsor \texttt{prgm.dev}. We'd also like to thank those who helped disseminate the bbchallenge project, including Scott Aaronson, Timothy Gowers, Ben Brubaker, Damien Woods, Dave Doty, and L\'eo Rama\"en. \NV{We thank the reviewers and the Automated Pre-Submission Feedback for helpful comments.}
+\paragraph{Acknowledgement.} \NV{We gratefully acknowledge Rachel Hunter, Iijil, and savask, anonymous contributors who contributed to this work as much as any co-author of this paper but could not be listed as such in this version under the ACM Authorship Policy.} The main source of funding for this work was the company \texttt{prgm.dev} through the French state (\textit{Crédit Impôt Recherche} and \textit{Jeune Entreprise Innovante} programs). The bbchallenge Collaboration is not limited to the above contributors but regroups all those who participated in the bbchallenge's discussions through all our channels (Discord chat, forum, wiki, GitHub, emails) and in particular we thank:  Nick Drozd, Andrew Ducharme, Frans Faase, Tony Guilfoyle, Johannes Hostert, Nick Howell, Jeffrey Huang, Alexandre Jouandin, Carl Kadie, Frank S. Lin, Dawid Loranc, Terry J. Ligocki, Heiner Marxen, Pascal Michel, Milo Mighdoll (milomg), Seraphina Nix, S\'ebastien Ohleyer, Peacemaker II, Andr\'es Sancho, tomtom2357, Valentin, Daniel Yuan, Polygon. We'd like to thank \texttt{bbchallenge.org} sponsor \texttt{prgm.dev}. We'd also like to thank those who helped disseminate the bbchallenge project, including Scott Aaronson, Timothy Gowers, Ben Brubaker, Damien Woods, Dave Doty, and L\'eo Rama\"en. \NV{We thank the reviewers and the Automated Pre-Submission Feedback for helpful comments.}
 
 \subsection{Main Result}\label{sec:intro:mainresults}
 
@@ -360,7 +409,7 @@ This problem is a reformulation of ``does \tm{1RB1RE\_1LC0RA\_0RD1LB\_---1RC\_1L
 
 The current increasing popularity of proof assistants such as \Coq or Lean within the mathematical and computer science communities naturally accelerates this convergence between collaborative research and open source software development: researchers can now leverage the same tools and processes as developers (version control, \textit{pull requests}, \textit{issues}, etc.) to massively collaborate on proofs in a scalable way -- \ie not requiring humans to check or trust proofs. As a concrete example, shortly after we announced our $S(5)$ result, Terence Tao launched a collaborative pilot project in universal algebra, called the ``Equational Theories Project'' (ETP), \NV{leveraging} GitHub and Lean as their means of collaboration~\cite{TaoBlog,swh-dir-426b52b,ETPpaper}. The project was extremely successful, attracted more than 50 contributors, and was completed in only a few months.
 
-\paragraph{Future Work.} Solving $S(5)$ does not solve all questions about $5$-state Turing machines, for instance we are interested in the following problems: (i) characterising all 5-state counters (see \S\ref{sec:zoo}); (ii) finding the biggest loop among 5-state machines with no halting transitions -- we already know of some that are way bigger than Sporadic Machine ``Skelet~\#1''~\cite{ligocki2022motherofgiants}; (iii) is there a universal Turing machine with 5 states?
+\paragraph{Future Work.} Solving $S(5)$ does not solve all questions about $5$-state Turing machines, for instance we are interested in the following problems: (i) characterising all 5-state counters (see \cite{BB5}); (ii) finding the biggest loop among 5-state machines with no halting transitions -- we already know of some that are way bigger than Sporadic Machine ``Skelet~\#1''~\cite{ligocki2022motherofgiants}; (iii) is there a universal Turing machine with 5 states?
 
 Progress is ongoing in all unsolved Turing machine classes (Table~\ref{table:landscape}): new deciders are being developed to tackle $S(3,3)$~\cite{ligocki2023bb33}, $S(3,4)$~\cite{ligocki2024bb34ack14}, $S(2,5)$~\cite{ligocki2024bb25} and $S(6)$~\cite{ligocki2024bb6antis}, including a generalisation of all the regular CTL deciders presented in this paper. Most of these new deciders have been formalised using \Coq. There currently remain only $4$ holdouts for $S(3,3)$, including a probviously halting suspected new champion, and only $60$ holdouts for $S(2,5)$.
 
@@ -388,7 +437,7 @@ Tree Normal Form (TNF) enumeration, introduced by Brady in 1963 in his PhD thesi
     \item \UNKNOWN. If the halting status of a machine remains unknown, it is put in the basket of \textit{holdouts}. Having solved $S(5)$ means that there are no more 5-state holdouts.
 \end{itemize}
 
-\NV{One further optimization: at the first level of the TNF tree,} machines that make a first move to the left \NV{are avoided}, as they can be symmetrised to go to the right instead. \NV{Leaves of the TNF tree that have all their transitions defined are not enumerated because they are obviously nonhalting.}
+\NV{One further optimisation: at the first level of the TNF tree,} machines that make a first move to the left \NV{are avoided}, as they can be symmetrised to go to the right instead. \NV{Leaves of the TNF tree that have all their transitions defined are not enumerated because they are obviously nonhalting.}
 
 \begin{table}[h!]
     \centering
@@ -501,7 +550,7 @@ Any repetition of more than $T$ times the same word $w$ is replaced by the regul
 
 \paragraph{Finite Automata Reduction (FAR)} Finite Automata Reduction (FAR) is a \textit{co-CTL} technique, \ie it is dual to the Closed Tape Language (CTL) framework given above: for a given Turing machine, we are looking for a regular language that contains the set of the machine's eventually-halting configurations and, provided that the all-\szero configuration is not in the regular language, we know that the machine does not halt.
 
-The specificity of FAR is to restrict regular languages to a class of Nondeterministic Finite Automata (NFA) -- \NV{described algebraically using the Boolean semiring $\{0,1\}$~\cite{CUNINGHAMEGREEN1991251} (see~\cite{BB5})} -- for which it is computationally simple to verify that they have the co-CTL properties: (i) reject the all-\szero initial configuration, (ii) closed under Turing machine transitions, (iii) accept all eventually-halting configurations. \NV{Configurations are represented as finite words by concatenating} the tape content (from left to right, making sure to include all the \sone{}s) and adding the state just before the position of the head. For instance, two word-representations of $\texttt{0}^\infty \; \texttt{A> 0011} \; \texttt{0}^\infty$, are $\hat{c} = \texttt{A0011}$ and $\hat{c}' = \texttt{000A00110000}$. The initial all-\szero configuration can be encoded as \texttt{A0} or even just \texttt{A}. FAR is a \textit{universal} regular co-CTL method: any regular co-CTL proof can be expressed in FAR's framework~\cite{bbchallenge_part1}. In \CoqBB, 23~FAR certificates are hardcoded. FAR was originally developed as a fully-fledged decider -- \ie the verifier together with search algorithms for NFAs~\cite{FAR,bbchallenge_part1}, . FAR has several other implementations~\cite{FAR_Tony,FAR_cosmo}.
+The specificity of FAR is to restrict regular languages to a class of Nondeterministic Finite Automata (NFA) -- \NV{described algebraically using the Boolean semiring $\{0,1\}$~\cite{CUNINGHAMEGREEN1991251} (see~\cite{BB5})} -- for which it is computationally simple to verify that they have the co-CTL properties: (i) reject the all-\szero initial configuration, (ii) closed under Turing machine transitions, (iii) accept all eventually-halting configurations. \NV{Configurations are represented as finite words by concatenating} the tape content (from left to right, making sure to include all the \sone{}s) and adding the state just before the position of the head. For instance, two word-representations of $\texttt{0}^\infty \; \texttt{A> 0011} \; \texttt{0}^\infty$, are $\hat{c} = \texttt{A0011}$ and $\hat{c}' = \texttt{000A00110000}$. The initial all-\szero configuration can be encoded as \texttt{A0} or even just \texttt{A}. FAR is a \textit{universal} regular co-CTL method: any regular co-CTL proof can be expressed in FAR's framework~\cite{bbchallenge_part1}. In \CoqBB, 23~FAR certificates are hardcoded. FAR was originally developed as a fully-fledged decider -- \ie the verifier together with search algorithms for NFAs~\cite{FAR,bbchallenge_part1}. FAR has several other implementations~\cite{FAR_Tony,FAR_cosmo}.
 
 \paragraph{Weighted FAR (WFAR)} Weighted automata are an extension of usual finite state automata where each transition is given a weight in $\Z$: when a word is processed, total weight $W \in \Z$ is computed by summing the weights of all the encountered transitions. Weighted Finite Automata Reduction (WFAR) is an extension of FAR using deterministic weighted finite automata~\cite{iijil1_2025_14914502}. A WFAR automaton consists of (i)~a \textit{left deterministic weighted automaton} (ii)~a \textit{right deterministic weighted automaton} and (iii)~a set of accepted \textit{weighted configurations}. WFAR is a CTL technique (instead of co-CTL for FAR). The method was initially developed as a decider~\cite{iijil1_2025_14914502} and integrated to \CoqBB as a verifier: 17 WFAR certificates are directly hardcoded in the \Coq proof.
 
@@ -526,26 +575,6 @@ Interestingly all Sporadic Machines had been identified by Georgiev (``Skelet'',
 \paragraph{Skelet~\#10 (Double Fibonacci Counter)} (\tm{1RB0RA\_0LC1RA\_1RE1LD\_1LC0LD\_---0RB}). This machine implements two independent \textit{base Fibonacci} counters, one to the left of the tape and the other to the right. Counting in base Fibonacci means exploiting Zeckendorf's theorem~\cite{wiki:Zeckendorf's_theorem}: any natural number can be expressed as a sum of Fibonacci numbers in exactly one way, excluding using numbers immediately adjacent in the Fibonacci sequence, where the Fibonacci sequence is $F = 1,2,3,5,8,13,21,34\dots$ For instance, $17 = 1 + 3 + 13$ and this decomposition would be represented as \texttt{100101} in big-endian binary: the $i^\text{th}$ bit from the right is $1$ if we use $F_i$ in the sum. Each of the two counters of Skelet~\#10 enumerates natural numbers in base Fibonacci, using slightly different encodings and the machine halts iff the counters ever get out of sync -- which, does not happen. The machine was analysed independently by Briggs and Ligocki~\cite{DanBriggs,ShawnSkelet10} and Ligocki's proof was formalised in \Coq by K\k{a}dzio{\l}ka as part of \texttt{busycoq}~\cite{busycoq}. Skelet~\#10 is the only known 5-state \textit{double} Fibonacci counter, but there are several known \textit{single} Fibonacci counters, such as \tm{1RB0RA\_0LC1RA\_1LD0LC\_1RE1LC\_---0RB}, solved by \CoqBB's NGramCPS (\S\ref{sec:deciders}).
 
 \paragraph{Skelet~\#17} (\tm{1RB---\_0LC1RE\_0LD1LC\_1RA1LB\_0RB0RA}). \textit{The final boss.} This machine manages a list of integers $n_1, \dots, n_k \in \mathbb{N}$ represented in unary on the tape. The list can only increase and undergoes a set of complex transformations related to Gray code, and, the machine halts iff $n_1 = n_2 = 0$ and $n_3,\, \dots,\, n_k$ are all even, which, never happens. This description was first drafted by savask~\cite{savaskSk17}, proven in a standalone paper by Xu~\cite{xu2024skelet17fifthbusy} and, finally, formalised (using a different proof) in \Coq by mxdys as part of \CoqBB. Skelet~\#17 was the last 5-state machine to be solved. An argument of irregularity was given in~\cite{irregularSk17}. \NV{Space-time diagrams for each Sporadic Machine are given in the arXiv version of this paper~\cite{BB5}, which also includes a \textit{zoology} of 5-state Turing machines.}
-
-
-% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \section{Zoology}\label{sec:zoo}
-% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-% As we were \textit{computing in the wild}, we identified several \textit{zoological families} among 5-state Turing machines. \NV{We invite the reader to consult~\cite{BB5} for space-time diagrams illustrating each family.}
-
-% \begin{enumerate}
-%     \item \textbf{\cyclers and \TCs}; \S\ref{sec:deciders}. \TCs are the most common \textit{species} among 5-state machines -- estimated to be about 80\% of TNF-enumerated machines.
-%     \item \textbf{Bouncers.} This family consists of machines that populate the tape with linearly-expanding patterns while bouncing back and forth from tape extremities. Bouncers have been formally defined and efficient deciders (not used in \CoqBB) have been crafted to detect them~\cite{bbchallenge_part1}.
-%     \item \textbf{Counters.} Counters are machines that enumerate numbers in a basis bigger than $1$. There is a rich variety of 5-state counters, counting in all sorts of bases: base~2, base~3, base~3/2, base Fibonacci (\S\ref{sec:sporadic}) and Fibonacci variants $A(n) = A(n-1) + A(n-3)$, etc.
-%     \item \textbf{Double Counters.} Double Counters implement two independent counters, Skelet~\#10 is an example (\S\ref{sec:sporadic}).
-%     \item \textbf{Fractals.} Fractal machines are loosely defined as machines whose space-time diagrams draw a fractal, self-similar, pattern when ``zooming-out'' (\ie simulating more steps).
-%     \item \textbf{Helices.} Helices are loosely defined as Turing machines whose space-time diagrams resemble a double helix. Helices require big nonregular certificates of nonhalting, see WFAR in \S\ref{sec:deciders}.
-%     \item \textbf{Bells.} Bells are loosely defined as Turing machines whose space-time diagrams resemble a succession of bells. The 5-state winner and the 6-state Cryptid Antihydra (\S\ref{sec:intro:discuss}) fit this category.
-% \end{enumerate}
-
-% Although useful for talking about Turing machines, these families, especially when they are loosely defined, are not to be taken too seriously: (i) widely different behaviours can be implemented while maintaining a similar space-time diagram \textit{silhouette} and (ii) the zoological effort can quickly become vain given all the possible hybrids (\eg bouncer-counter) and variations within the same family, especially as the number of states increases. Attesting to the limits of a zoological effort, there exist eccentric 5-state machines such as \href{https://bbchallenge.org/1RB0RA_1LC0LD_1RE1RD_1LA1LB_---1RC}{translated counters}, \href{https://bbchallenge.org/1RB0RD_1LC1LB_1RA0LB_0RE1RD_---1RA}{``fountains''}, and, \href{https://bbchallenge.org/1RB0RC_0LC---_1RD1RC_0LE1RA_1RD1LE}{``toboggans''}. \NV{Illustrative space-time diagrams for each family are given in the arXiv version of this paper~\cite{BB5}.}
-
 
 \bibliographystyle{ACM-Reference-Format}
 \bibliography{bbchallenge-paper}
